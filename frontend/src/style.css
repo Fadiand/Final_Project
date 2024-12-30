@@ -12,49 +12,64 @@ body {
   overflow-x: hidden;
   line-height: 1.6;
 }
-
-/* עיצוב ה-Navbar */
 .navbar {
+  list-style: none;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.7); /* רקע כהה שקוף */
-  padding: 0.5rem 1rem;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 70px; /* גובה קבוע ל-Navbar */
+  align-items: center; /* מוודא שכל האלמנטים מיושרים במרכז השורה */
+  background-color: #333;
+  padding: 10px 20px;
 }
 
-/* עיצוב הלוגו */
-.navbar-logo img {
-  height: 50px; /* גודל הלוגו */
-  width: auto;
+.navbar .logo {
+  margin-right: 15px; /* רווח בין הלוגו לטקסט */
+}
+
+.navbar-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* עיגול התמונה */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar li {
+  padding: 0 15px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar a:hover,
+.navbar a.active {
+  background-color: #555; /* שינוי צבע רקע בזמן ריחוף */
+}
+
+.navbar .button {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* רווח בין הכפתורים */
+  margin-left: auto; /* דוחף את הכפתורים לסוף השורה */
+}
+
+.navbar .button button {
+  padding: 8px 13px;
+  border-radius: 8px;
+  border: 1px solid rgb(94, 94, 94);
   cursor: pointer;
 }
 
-/* עיצוב הקישורים */
-.navbar-links {
-  list-style: none;
-  display: flex;
-  gap: 2rem; /* מרווחים גדולים יותר בין הקישורים */
-  margin: 0;
-}
-
-.navbar-links a {
-  text-decoration: none;
+.navbar .button button:hover {
+  background-color: #555;
   color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
-  transition: color 0.3s, transform 0.2s;
 }
 
-.navbar-links a:hover {
-  color: #80ed99; /* ירוק עדין */
-  transform: scale(1.1);
-}
 
 /* עיצוב הדפים */
 .page-container {
