@@ -1,8 +1,102 @@
-/* Start style*/
+/* Start style */
 * {
-    margin: 0;
-    padding: 0;
-  }
-  body {
-    overflow-x: hidden;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* להבטיח עיצוב אחיד */
+}
+
+body {
+  font-family: 'Arial', sans-serif; /* גופן נעים לקריאה */
+  background-color: #f5f5f5; /* רקע ניטרלי */
+  color: #333; /* צבע טקסט כהה */
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* NavBar style */
+.navbar {
+  background-color: #2a6f97; /* כחול כהה */
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל עדין */
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.navbar-links a:hover {
+  color: #80ed99; /* ירוק עדין */
+  transform: scale(1.1);
+}
+
+/* עיצוב דפים */
+.page-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.page-container h1 {
+  font-size: 2.5rem;
+  color: #386641; /* ירוק כהה */
+  margin-bottom: 1rem;
+}
+
+.page-container p {
+  font-size: 1.2rem;
+  color: #555; /* טקסט כהה בינוני */
+  margin-bottom: 2rem;
+}
+
+.page-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px; /* פינות מעוגלות */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+/* כפתור התחברות לאינסטגרם */
+.instagram-login-button {
+  background-color: #2a6f97; /* כחול כהה */
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 20px;
+}
+
+.instagram-login-button:hover {
+  background-color: #80ed99; /* ירוק עדין */
+  transform: translateY(-3px);
+}
+
+.instagram-login-button:active {
+  background-color: #386641; /* ירוק כהה */
+  transform: translateY(1px);
+}
+
+/* Footer */
+.footer {
+  background-color: #1e3d58; /* כחול כהה מאוד */
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
