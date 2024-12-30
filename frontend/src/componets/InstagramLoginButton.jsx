@@ -13,7 +13,7 @@ function InstagramLoginButton() {
     };
 
     return <>
-          <button onClick={handleInstagramLogin}>התחבר לאינסטגרם</button>;
+          <button className="instagram-login-button " onClick={handleInstagramLogin}>התחבר לאינסטגרם</button>
            </>
 }
 
