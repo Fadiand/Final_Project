@@ -9,7 +9,6 @@ import Contact from "./componets/Contact";
 import Fidbek from "./componets/Fidbek";
 import TryMeOnGallery from "./componets/TryMeOnGallery"; 
 
-
 function App() {
     return (
         <div className="App">
