@@ -7,6 +7,7 @@ function InstagramLoginButton() {
         const scope = "user_profile,user_media"; // הרשאות
         const instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
 
+        // IGAAIoTJ6vZAJ5BZAFAzNnpiOHBZANy0zUG40YXFBOFNLZAkhPeWZA1ZA0E3RVFVUTVkOGZArTm9raTRVN2M1RWxTUGR2WUoxWXRUbUxSSTlsS05UZAnd0V0xCb0xjdEcxYUFzUjhFYjNIeG5SOW5ydHI1emlyOXZABUU12Y1R3alVaTGFrQQZDZD
         // הפניה לכתובת של אינסטגרם
         window.open(instagramAuthUrl, "_blank", "width=500,height=600");
     };
