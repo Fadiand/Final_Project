@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../images/logo.png"
-
+import logo from "../images/logo.png"; // עדכני את הנתיב לתמונה
 
 function Navbar() {
     return (
         <nav className="navbar">
-            <div className="navbar-logo">
+            <Link to="/" className="navbar-logo">
                 <img src={logo} alt="Vista Logo" />
-            </div>
+            </Link>
             <ul className="navbar-links">
                 <li><Link to="/">VISTA</Link></li>
                 <li><Link to="/About">About</Link></li>
