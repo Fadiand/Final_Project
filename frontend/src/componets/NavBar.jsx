@@ -20,8 +20,7 @@ export default function NavBar() {
             <NavLink to="/model_test">Model Test</NavLink>
           </li>
           <li className="button">
-            <button>Log In</button>
-            <button>Sign Up</button>
+            
           </li>
         </ul>
       </nav>
