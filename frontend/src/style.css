@@ -13,6 +13,15 @@ body {
   line-height: 1.6;
 }
 
+/* Utility Classes */
+.shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shadow:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
 /* עיצוב ה-Navbar */
 .navbar {
   display: flex;
@@ -24,13 +33,12 @@ body {
   width: 100%;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 70px; /* גובה קבוע ל-Navbar */
+  height: 70px;
 }
 
 /* עיצוב הלוגו */
 .navbar-logo img {
-  height: 50px; /* גודל הלוגו */
+  height: 50px;
   width: auto;
   cursor: pointer;
 }
@@ -39,7 +47,7 @@ body {
 .navbar-links {
   list-style: none;
   display: flex;
-  gap: 2rem; /* מרווחים גדולים יותר בין הקישורים */
+  gap: 2rem;
   margin: 0;
 }
 
@@ -52,25 +60,25 @@ body {
 }
 
 .navbar-links a:hover {
-  color: #80ed99; /* ירוק עדין */
+  color: #80ed99;
   transform: scale(1.1);
 }
 
 /* עיצוב הדפים */
 .page-container {
-  padding-top: 100px; /* רווח מוגדל כדי לאפשר מספיק מרווח מתחת ל-Navbar */
+  padding-top: 100px;
   padding: 2rem 1rem;
   text-align: center;
-  background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed; /* רקע נוף */
+  background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
   background-size: cover;
   color: white;
 }
 
 .page-container h1 {
   font-size: 2.5rem;
-  color: #80ed99; /* ירוק עדין */
+  color: #80ed99;
   margin-bottom: 1.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* צל לטקסט */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .page-container p {
@@ -82,38 +90,35 @@ body {
 .page-container img {
   max-width: 100%;
   height: auto;
-  border-radius: 10px; /* פינות מעוגלות */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל עדין */
+  border-radius: 10px;
   margin-top: 1.5rem;
 }
 
 /* כפתור התחברות לאינסטגרם */
 .instagram-login-button {
-  background-color: #2a6f97; /* כחול כהה */
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   color: white;
   border: none;
   padding: 15px 30px;
   font-size: 16px;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background 0.3s, transform 0.2s;
   margin-top: 20px;
 }
 
 .instagram-login-button:hover {
-  background-color: #80ed99; /* ירוק עדין */
-  transform: translateY(-3px); /* הזזה קלה למעלה */
+  transform: translateY(-3px);
 }
 
 .instagram-login-button:active {
-  background-color: #386641; /* ירוק כהה */
-  transform: translateY(1px); /* הזזה קלה למטה */
+  transform: translateY(1px);
 }
 
 /* עיצוב ה-Footer */
 .footer {
-  background-color: rgba(0, 0, 0, 0.7); /* כהה שקוף */
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   text-align: center;
   padding: 1rem 0;
@@ -121,4 +126,118 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+.contact-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.contact-box {
+  display: flex;
+  flex-direction: row;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: calc(33.33% - 20px); /* Adjust width based on your design */
+  box-sizing: border-box;
+  width: 1800px;
+}
+
+.contact-box > div {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.contact-box-open-days {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.contact-box-open-days h3,
+h5,
+h4 {
+  text-align: center;
+}
+
+.contact-box h3 {
+  color: #3a3535;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.Heading-mail,
+.Heading-phone,
+.Heading-location {
+  display: flex;
+  flex-direction: row-reverse; /* Change to row-reverse */
+  align-items: center; /* Center items vertically */
+}
+.Heading-phone button {
+  color: rgb(39, 39, 202);
+  border: none;
+  background-color: #f9f9f9;
+}
+
+.Heading-mail svg,
+.Heading-phone svg,
+.Heading-opening-days svg {
+  margin-left: 10px; /* Add margin-left for spacing between icon and text */
+}
+.Heading-mail a {
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.email-link,
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: rgb(62, 62, 188);
+}
+.Heading-phone {
+  margin-bottom: 5px;
+}
+.Heading-phone h5 {
+  font-size: 15px;
+  margin-left: 8px;
+  font-weight: bolder;
+}
+.contact-image h1,
+h3 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+.contact-image h3 {
+  text-align: center;
+  font-weight: bold;
+  color: rgb(59, 57, 57);
+  padding-top: 20px;
+}
+.contact-image a {
+  margin-right: 620px;
+  text-decoration: underline;
+  color: rgb(65, 65, 184);
+}
+.contact-image img {
+  width: 1499px;
+  height: 700px;
+}
+.conact-box-phone h5 {
+  margin-top: 8px;
 }
