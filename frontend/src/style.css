@@ -1,31 +1,46 @@
-/* Start style */
+/* Reset בסיסי */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* להבטיח עיצוב אחיד */
+  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Arial', sans-serif; /* גופן נעים לקריאה */
-  background-color: #f5f5f5; /* רקע ניטרלי */
-  color: #333; /* צבע טקסט כהה */
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
   overflow-x: hidden;
   line-height: 1.6;
 }
 
-/* NavBar style */
+/* עיצוב ה-Navbar */
 .navbar {
-  background-color: #2a6f97; /* כחול כהה */
-  padding: 1rem;
   display: flex;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל עדין */
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.7); /* רקע כהה שקוף */
+  padding: 0.5rem 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 70px; /* גובה קבוע ל-Navbar */
 }
 
+/* עיצוב הלוגו */
+.navbar-logo img {
+  height: 50px; /* גודל הלוגו */
+  width: auto;
+  cursor: pointer;
+}
+
+/* עיצוב הקישורים */
 .navbar-links {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem; /* מרווחים גדולים יותר בין הקישורים */
+  margin: 0;
 }
 
 .navbar-links a {
@@ -41,30 +56,35 @@ body {
   transform: scale(1.1);
 }
 
-/* עיצוב דפים */
+/* עיצוב הדפים */
 .page-container {
-  padding: 2rem;
+  padding-top: 100px; /* רווח מוגדל כדי לאפשר מספיק מרווח מתחת ל-Navbar */
+  padding: 2rem 1rem;
   text-align: center;
+  background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed; /* רקע נוף */
+  background-size: cover;
+  color: white;
 }
 
 .page-container h1 {
   font-size: 2.5rem;
-  color: #386641; /* ירוק כהה */
-  margin-bottom: 1rem;
+  color: #80ed99; /* ירוק עדין */
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* צל לטקסט */
 }
 
 .page-container p {
   font-size: 1.2rem;
-  color: #555; /* טקסט כהה בינוני */
   margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .page-container img {
   max-width: 100%;
   height: auto;
   border-radius: 10px; /* פינות מעוגלות */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל עדין */
+  margin-top: 1.5rem;
 }
 
 /* כפתור התחברות לאינסטגרם */
@@ -83,20 +103,22 @@ body {
 
 .instagram-login-button:hover {
   background-color: #80ed99; /* ירוק עדין */
-  transform: translateY(-3px);
+  transform: translateY(-3px); /* הזזה קלה למעלה */
 }
 
 .instagram-login-button:active {
   background-color: #386641; /* ירוק כהה */
-  transform: translateY(1px);
+  transform: translateY(1px); /* הזזה קלה למטה */
 }
 
-/* Footer */
+/* עיצוב ה-Footer */
 .footer {
-  background-color: #1e3d58; /* כחול כהה מאוד */
+  background-color: rgba(0, 0, 0, 0.7); /* כהה שקוף */
   color: white;
   text-align: center;
   padding: 1rem 0;
-  margin-top: 2rem;
   font-size: 0.9rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
