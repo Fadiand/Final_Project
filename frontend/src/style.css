@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Gish', sans-serif;
   background-color: #f5f5f5;
   color: #333;
   overflow-x: hidden;
@@ -133,17 +133,7 @@ body {
   transform: translateY(1px);
 }
 
-/* עיצוב ה-Footer */
-.footer {
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  text-align: center;
-  padding: 1rem 0;
-  font-size: 0.9rem;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
+/* עיצוב רכיב - conect */
 
 .contact-container {
   display: flex;
@@ -184,21 +174,16 @@ body {
   justify-content: center;
   flex-direction: column;
 }
-.contact-box-open-days h3,
-h5,
-h4 {
+.contact-box-open-days h3,h5,h4 {
   text-align: center;
 }
-
 .contact-box h3 {
   color: #3a3535;
   font-size: 20px;
   font-weight: bold;
 }
 
-.Heading-mail,
-.Heading-phone,
-.Heading-location {
+.Heading-mail,.Heading-phone,.Heading-location {
   display: flex;
   flex-direction: row-reverse; /* Change to row-reverse */
   align-items: center; /* Center items vertically */
@@ -209,9 +194,7 @@ h4 {
   background-color: #f9f9f9;
 }
 
-.Heading-mail svg,
-.Heading-phone svg,
-.Heading-opening-days svg {
+.Heading-mail svg,.Heading-phone svg,.Heading-opening-days svg {
   margin-left: 10px; /* Add margin-left for spacing between icon and text */
 }
 .Heading-mail a {
@@ -219,8 +202,7 @@ h4 {
   margin-bottom: 5px;
 }
 
-.email-link,
-a {
+.email-link,a {
   text-decoration: none;
   font-weight: bold;
   color: rgb(62, 62, 188);
@@ -233,28 +215,222 @@ a {
   margin-left: 8px;
   font-weight: bolder;
 }
-.contact-image h1,
-h3 {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  font-weight: bold;
-}
-.contact-image h3 {
-  text-align: center;
-  font-weight: bold;
-  color: rgb(59, 57, 57);
-  padding-top: 20px;
-}
-.contact-image a {
-  margin-right: 620px;
-  text-decoration: underline;
-  color: rgb(65, 65, 184);
-}
-.contact-image img {
-  width: 1499px;
-  height: 700px;
-}
+
 .conact-box-phone h5 {
   margin-top: 8px;
+}
+
+/* עיצוב המפה ברכיב contact*/
+.contact-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ממרכז את המפה אופקית */
+  justify-content: center; /* ממרכז את המפה אנכית */
+  margin: 40px auto; /* מוסיף מרווחים מעל ומתחת */
+  width: 80%; /* רוחב רספונסיבי */
+}
+
+.contact-image iframe {
+  width: 100%; /* משתמש ב-100% מהרוחב של הקונטיינר */
+  max-width: 1200px; /* מקסימום רוחב */
+  height: 450px; /* גובה קבוע */
+  border: none;
+  border-radius: 10px; /* פינות מעוגלות */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל עדין */
+}
+
+.contact-image h1 {
+  margin: 20px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.contact-image a {
+  margin-top: 15px;
+  color: #0073e6;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+}
+
+.contact-image a:hover {
+  text-decoration: underline;
+}
+
+/*עיצוב רכיב about*/
+.about-section {
+  background: linear-gradient(to right, #eef2f3, #8e9eab);
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  overflow: hidden;
+}
+
+.about-content {
+  max-width: 900px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  animation: fadeIn 1.5s ease-in-out;
+  position: relative;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  color: #0073e6;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  animation: slideIn 1s ease-in-out;
+}
+
+.about-intro,
+.about-details p,
+.about-performance p,
+.about-summary {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  position: relative;
+  animation: fadeInUp 1.2s ease-in-out;
+}
+
+.about-details,
+.about-performance,
+.about-highlights {
+  margin-bottom: 25px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.about-details:hover,
+.about-performance:hover,
+.about-highlights:hover {
+  transform: scale(1.05);
+  background-color: #f0f8ff;
+}
+
+.highlighted {
+  background-color: #d3e6ff;
+  transform: scale(1.08);
+}
+
+.about-details h2,
+.about-performance h2,
+.about-highlights h2 {
+  font-size: 1.8rem;
+  color: #0056b3;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #0073e6;
+  display: inline-block;
+}
+
+.about-highlights ul {
+  margin-left: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.about-highlights li {
+  margin-bottom: 10px;
+  list-style-type: disc;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.about-summary {
+  font-size: 1.5rem;
+  line-height: 2;
+  color: #fff;
+  background: #0066cc;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  margin: 30px auto;
+  max-width: 800px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.about-summary::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  z-index: 0;
+}
+
+.about-summary:hover::before {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 80%);
+}
+
+.about-summary:hover {
+  transform: scale(1.05) rotate(1deg);
+  background: #005bb5;
+}
+
+.about-summary span {
+  font-weight: bold;
+  color: #ffcc00;
+  display: inline-block;
+  margin: 5px 0;
+}
+
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-summary {
+  animation: fadeSlide 1s ease-in-out;
 }
