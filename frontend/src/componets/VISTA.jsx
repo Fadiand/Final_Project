@@ -1,5 +1,4 @@
 import React from "react";
-import InstagramLoginButton from "./InstagramLoginButton"; // עדכני את הנתיב בהתאם למיקום הקובץ
 
 function VISTA() {
     return (
@@ -9,7 +8,6 @@ function VISTA() {
                 <p className="hero-description">
                     Automated photo filtering for tourism using <span>deep</span> and <span>active learning</span>.
                 </p>
-                <InstagramLoginButton />
             </div>
         </div>
     );
