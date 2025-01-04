@@ -8,8 +8,7 @@ body {
   font-family: 'Gish', sans-serif;
 }
 
-/*NavBar Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-
+/*NavBar Change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111111*/
 .navbar {
   list-style: none; /* מוחק את הנקודות מהרשימה */
   display: flex;
@@ -89,8 +88,9 @@ body {
   border-radius: 4px;
 }
 
-/*LogIn Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
+
+/*LogIn Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 /* עיצוב לרשימת הלוגין/סינגאפ */
 .login_Signup {
@@ -241,7 +241,6 @@ body {
 }
 
 
-
 /* עיצוב הדפים */
 .page-container {
   padding-top: 100px;
@@ -272,27 +271,6 @@ body {
   margin-top: 1.5rem;
 }
 
-/* כפתור התחברות לאינסטגרם */
-.instagram-login-button {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  margin-top: 20px;
-}
-
-.instagram-login-button:hover {
-  transform: translateY(-3px);
-}
-
-.instagram-login-button:active {
-  transform: translateY(1px);
-}
 
 /* עיצוב רכיב - conect */
 

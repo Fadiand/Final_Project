@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LogIn from "./componets/Login";
+import Login from "./componets/Login";
 import VISTA from "./componets/VISTA";
 import About from "./componets/About";
 import Gallery from "./componets/Gallery";
@@ -22,7 +22,7 @@ function App() {
                 { path: '/Model_Test', element: <ModelTest /> },
                 { path: '/Contact', element: <Contact /> },
                 { path: '/Fidbek', element: <Fidbek /> },
-                {path: '/LogIn', element: <LogIn />},
+                {path: '/LogIn', element: <Login />},
             ],
         },
     ]);

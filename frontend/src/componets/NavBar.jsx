@@ -1,12 +1,13 @@
+
 import { NavLink , Link, useNavigate  } from "react-router-dom";
 import logo from "../images/logo.png";
 
 export default function NavBar() {
+
   const navigate = useNavigate();
   function navigateToLogin() {
     navigate("/login");
   }
-
   return (
     <>
       <nav>
@@ -33,6 +34,8 @@ export default function NavBar() {
           </li>
           <li className="button">
             <button onClick={navigateToLogin}>Log In</button>
+            <button>Log In</button>
+
             <button>Sign Up</button>
           </li>
         </ul>
