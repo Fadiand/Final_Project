@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['21ac-207-232-14-60.ngrok-free.app', '127.0.0.1', 'localhost']
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,9 +40,33 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-      # אפליקציה חדשה
+    
+    # אפליקציות מובנות של Django
+    'django.contrib.sites',  # חובה עבור django-allauth
+
+    # אפליקציות של django-allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    # אפליקציות צד שלישי
+    'rest_framework',  # נדרש עבור dj-rest-auth
+    'dj_rest_auth',    # נדרש לניהול אימות
+    'rest_framework.authtoken',  # נדרש עבור טוקנים
+    
+    'corsheaders',
+
+    # אפליקציה חדשה
     'instagram',
 ]
+
+# הגדרות נוספות עבור אימות משתמשים
+REST_USE_JWT = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -56,6 +81,16 @@ SOCIALACCOUNT_PROVIDERS = {
 SITE_ID = 1
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+
+    ],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,8 +100,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
+
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -140,3 +177,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
+
+
+

@@ -24,4 +24,9 @@ urlpatterns = [
     path('webhook/', include('instagram.urls')),  # הוסף את זה אם ה-Webhook באפליקציית "instagram"
     path('instagram/', include('instagram.urls')),  # חיבור לנתיבים של האפליקציה
     path('', views.home, name='home'),  # דף הבית
+    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/google/', views.google_auth, name='google-auth'),
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
+
+

@@ -6,7 +6,7 @@ export default function NavBar() {
 
   const navigate = useNavigate();
   function navigateToLogin() {
-    navigate("/login");
+    navigate("/GoogleLogin");
   }
   return (
     <>
@@ -34,8 +34,6 @@ export default function NavBar() {
           </li>
           <li className="button">
             <button onClick={navigateToLogin}>Log In</button>
-            <button>Log In</button>
-
             <button>Sign Up</button>
           </li>
         </ul>

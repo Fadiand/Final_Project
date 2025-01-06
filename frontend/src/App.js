@@ -1,6 +1,5 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./componets/Login";
 import VISTA from "./componets/VISTA";
 import About from "./componets/About";
 import Gallery from "./componets/Gallery";
@@ -8,6 +7,7 @@ import Contact from "./componets/Contact";
 import Fidbek from "./componets/Fidbek";
 import ModelTest from "./componets/ModelTest"; 
 import RootLayout from "./componets/Root";
+import GoogleLoginButton from "./componets/GoogleLoginButton";
 
 function App() {
     const router = createBrowserRouter([
@@ -22,7 +22,7 @@ function App() {
                 { path: '/Model_Test', element: <ModelTest /> },
                 { path: '/Contact', element: <Contact /> },
                 { path: '/Fidbek', element: <Fidbek /> },
-                {path: '/LogIn', element: <Login />},
+                {path: '/GoogleLogin', element: <GoogleLoginButton />}
             ],
         },
     ]);
