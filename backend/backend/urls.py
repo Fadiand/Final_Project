@@ -21,6 +21,7 @@ from instagram import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('webhook/', include('instagram.urls')),  # הוסף את זה אם ה-Webhook באפליקציית "instagram"
     path('instagram/', include('instagram.urls')),  # חיבור לנתיבים של האפליקציה
     path('', views.home, name='home'),  # דף הבית
 ]

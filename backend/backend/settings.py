@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-l0apg_hs809w*k+a5_f7hjm#2a&mmg0d0p_zouo6y$kt4kf%=j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['21ac-207-232-14-60.ngrok-free.app', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -40,6 +42,18 @@ INSTALLED_APPS = [
       # אפליקציה חדשה
     'instagram',
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
+
+SITE_ID = 1
 
 
 
