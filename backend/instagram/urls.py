@@ -7,6 +7,6 @@ urlpatterns = [
     path('callback/', views.instagram_callback, name='instagram_callback'),
     path('', webhook, name='webhook'),
     path('api/auth/google/', google_auth, name='google-auth'),
-     path('google/', google_auth, name='google-auth'),  # הוספת הנתיב ל-View של Google
+    path('google/', google_auth, name='google-auth'),  # הוספת הנתיב ל-View של Google
 
 ]
