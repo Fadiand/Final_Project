@@ -16,14 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from instagram import views
+from connectgmail import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('webhook/', include('instagram.urls')),  # הוסף את זה אם ה-Webhook באפליקציית "instagram"
-    path('instagram/', include('instagram.urls')),  # חיבור לנתיבים של האפליקציה
-    path('', views.home, name='home'),  # דף הבית
+    path('', views.home, name='home'),  # הוספת הנתיב ל-View של Home
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/google/', views.google_auth, name='google-auth'),
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),

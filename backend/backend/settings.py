@@ -59,6 +59,7 @@ INSTALLED_APPS = [
 
     # אפליקציה חדשה
     'instagram',
+    'connectgmail',
 ]
 
 # הגדרות נוספות עבור אימות משתמשים
