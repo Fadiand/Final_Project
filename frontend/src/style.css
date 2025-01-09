@@ -401,7 +401,7 @@ body {
 
 /*עיצוב רכיב about*/
 .about-section {
-  background: linear-gradient(to right, #eef2f3, #8e9eab);
+  background: linear-gradient(135deg, #00ff44, #3157ca);
   padding: 40px 20px;
   display: flex;
   justify-content: center;
@@ -414,7 +414,7 @@ body {
 
 .about-content {
   max-width: 900px;
-  background-color: #fff;
+  background-color: #ddf7df;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -688,4 +688,112 @@ body {
   to {
       text-shadow: 0px 0px 30px rgba(255, 255, 255, 1);
   }
+}
+
+/*עיצוב דף גלריההה!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/* עיצוב קונטיינר העלאת קבצים */
+.upload-container {
+  max-width: 600px;
+  margin: 50px auto; /* מרכז את הקונטיינר */
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff, #d7f2dc); /* מעבר צבע עדין */
+  padding: 30px;
+  border-radius: 15px; /* פינות מעוגלות */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל עמוק יותר */
+  border: 1px solid #c8e6c9; /* גבול רך */
+}
+
+/* כותרת */
+.upload-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #3157ca;
+}
+
+/* כפתור העלאת קבצים מהמחשב */
+.upload-box {
+  display: inline-block;
+  width: 560px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #00ff44, #3157ca);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.upload-box:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* כפתור העלאת קבצים מהגלריה */
+.gallery-button {
+  width: 590px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #00ff44, #3157ca);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.gallery-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* עיצוב גרור ושחרר */
+.drag-and-drop-box {
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.drag-and-drop-box:hover {
+  background-color: #f0f8ff;
+  border-color: #007bff;
+}
+
+/* גלריית תמונות */
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap; /* עטיפת שורות */
+  gap: 10px; /* מרווח בין התמונות */
+  justify-content: flex-start; /* משמאל לימין */
+  padding: 20px; /* ריווח פנימי */
+  margin-top: 20px; /* מרווח מעל הגלריה */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* עיצוב תמונות בגלריה */
+.gallery-image {
+  width: 150px; /* גודל קטן */
+  height: 150px;
+  object-fit: cover; /* התאמה לגבולות */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.gallery-image:hover {
+  transform: scale(1.05); /* הגדלה בהובר */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
