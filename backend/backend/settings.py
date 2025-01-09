@@ -55,11 +55,14 @@ INSTALLED_APPS = [
     'dj_rest_auth',    # נדרש לניהול אימות
     'rest_framework.authtoken',  # נדרש עבור טוקנים
     
+    
     'corsheaders',
 
     # אפליקציה חדשה
     'instagram',
     'connectgmail',
+    'signup_app',
+    
 ]
 
 # הגדרות נוספות עבור אימות משתמשים

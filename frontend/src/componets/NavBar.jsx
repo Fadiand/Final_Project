@@ -5,8 +5,13 @@ import logo from "../images/logo.png";
 export default function NavBar() {
 
   const navigate = useNavigate();
+
   function navigateToLogin() {
     navigate("/GoogleLogin");
+  }
+
+  function navigateToSignUp() {
+    navigate("/signup");
   }
   return (
     <>
@@ -34,7 +39,7 @@ export default function NavBar() {
           </li>
           <li className="button">
             <button onClick={navigateToLogin}>Log In</button>
-            <button>Sign Up</button>
+            <button onClick={navigateToSignUp}>Sign Up</button>
           </li>
         </ul>
       </nav>

@@ -88,6 +88,72 @@ body {
   border-radius: 4px;
 }
 
+/*SignUp Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+.signup-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #2d3706, #3d236b); /* מעבר כחול לשחור */
+  padding: 20px;
+}
+.signup-container h2{
+  margin-left: 145px;
+  margin-bottom: 50px;
+}
+.signup-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  height: 420px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  color: white;
+  background: linear-gradient(135deg, #5b6d12, #3e269e); /* מעבר כחול לשחור */
+
+}
+ .form-group{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+ }
+ .form-group input {
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 5px 0; /* רווח עליון ותחתון */
+  box-sizing: border-box; /* מבטיח שהרוחב כולל את הרווח הפנימי והגבול */
+  width: 100%; /* רוחב מלא */
+  font-size: 16px; /* גודל גופן */
+}
+.form-group input:focus {
+  border-color: #192598; /* צבע גבול בזמן פוקוס */
+  outline: none; /* הסרת קו פוקוס ברירת מחדל */
+  box-shadow: 0 0 8px rgba(27, 42, 180, 0.7); /* צל בזמן פוקוס */
+  background-color: #f0f8ff; /* צבע רקע בזמן פוקוס */
+  transition: all 0.3s ease; /* מעבר חלק */
+}
+ .form-group label{
+  margin-left: 5px;
+ }
+
+ .signup-container button{
+  color: white;
+  background: linear-gradient(135deg, #425d0f, #3c1982); 
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 auto;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+ }
 
 
 /*LogIn Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
