@@ -1,4 +1,5 @@
 import React from "react";
+import Insta from "./InstagramLoginButton";
 
 function VISTA() {
     return (
@@ -8,6 +9,7 @@ function VISTA() {
                 <p className="hero-description">
                     Automated photo filtering for tourism using <span>deep</span> and <span>active learning</span>.
                 </p>
+                <Insta />
             </div>
         </div>
     );
