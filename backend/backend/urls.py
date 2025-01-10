@@ -29,6 +29,7 @@ urlpatterns = [
     path('api/auth/google/', views.google_auth, name='google-auth'),
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('gallery/', include('gallery.urls')),  # הוספת נתיבי הגלריה
+    path('', include('signup_app.urls')),  # חיבור האפליקציה הראשית
 ]
 
 # תמיכה בקבצי מדיה במצב פיתוח
