@@ -1,5 +1,4 @@
 import React from "react";
-import GoogleLoginButton from './GoogleLoginButton';
 
 function InstagramLoginButton() {
     const handleInstagramLogin = () => {

@@ -47,3 +47,41 @@ class SignUpView(View):
         except Exception as e:
             print(f"An error occurred: {e}")  # הדפסת השגיאה בטרמינל
             return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+        
+        
+@method_decorator(csrf_exempt, name='dispatch')
+class LoginView(View):
+    def post(self, request, *args, **kwargs):
+        try:
+            # קבלת הנתונים מהבקשה
+            data = json.loads(request.body)
+
+            # הדפסה של הנתונים בטרמינל
+            print("Data received from React:", data)
+
+            username = data.get("username")
+            password = data.get("password")
+
+            print(username, password)
+
+            # בדיקת תקינות נתונים
+            if not username or not password:
+                return JsonResponse({"error": "All fields are required."}, status=400)
+
+            # חיפוש המשתמש לפי שם המשתמש
+            user = User.objects.filter(username=username).first()
+
+            # אם המשתמש לא נמצא
+            if not user:
+                return JsonResponse({"error": "Username does not exist."}, status=404)
+
+            # בדיקת התאמת הסיסמה
+            if not user.check_password(password):
+                return JsonResponse({"error": "Incorrect password."}, status=401)
+
+            # התחברות הצליחה
+            return JsonResponse({"message": "Login successful!", "username": user.username}, status=200)
+
+        except Exception as e:
+            print(f"An error occurred: {e}")  # הדפסת השגיאה בטרמינל
+            return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

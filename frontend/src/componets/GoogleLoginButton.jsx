@@ -36,7 +36,21 @@ const GoogleLoginButton = () => {
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <div>
-                <GoogleLogin onSuccess={handleSuccess} onError={handleFailure} />
+                <GoogleLogin
+                    onSuccess={handleSuccess}
+                    onError={handleFailure}
+                    style={{
+                        backgroundColor: '#4285F4',
+                        color: 'white',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        border: 'none',
+                        borderRadius: '8px',
+                        padding: '10px 20px',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s',
+                    }}
+                />
                 {user && (
                     <div>
                         <h2>Welcome, {user.name}</h2>

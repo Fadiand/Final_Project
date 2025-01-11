@@ -7,8 +7,8 @@ import Contact from "./componets/Contact";
 import Fidbek from "./componets/Fidbek";
 import ModelTest from "./componets/ModelTest"; 
 import RootLayout from "./componets/Root";
-import GoogleLoginButton from "./componets/GoogleLoginButton";
 import SignUp from "./componets/SignUp";
+import LogIn from "./componets/LogIn";
 
 function App() {
     const router = createBrowserRouter([
@@ -18,13 +18,13 @@ function App() {
             children: [
                 { path: '/', element: <VISTA /> },
                 { path: '/home', element: <VISTA /> },
-                {path: '/signUp', element: <SignUp />},
+                { path: '/signUp', element: <SignUp /> },
+                {path: '/LogIn', element: <LogIn />},
                 { path: '/About', element: <About /> },
                 { path: '/Gallery', element: <Gallery /> },
                 { path: '/Model_Test', element: <ModelTest /> },
                 { path: '/Contact', element: <Contact /> },
                 { path: '/Fidbek', element: <Fidbek /> },
-                {path: '/GoogleLogin', element: <GoogleLoginButton />}
             ],
         },
     ]);

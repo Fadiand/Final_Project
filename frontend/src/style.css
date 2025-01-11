@@ -9,97 +9,199 @@ body {
 }
 
 /*NavBar Change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111111*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.navbar-container {
+  background: linear-gradient(90deg, #02203e 0%, #213361 50%, #022b43 100%);
+  padding: 10px;
+  z-index: 2; /* ניווט מעל הרקע */
+  position: relative;
+}
+
 .navbar {
-  list-style: none; /* מוחק את הנקודות מהרשימה */
   display: flex;
-  align-items: center; 
-  background-color: #3e3e43;
-  padding: 5px 5px;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
 }
 
-.navbar .logo {
-  display: flex;
-  align-items: center; /* לוגו וטקסט בשורה אחת */
-  margin-right: 20px; /* רווח בין הלוגו לשאר הפריטים */
+.navbar-item {
+  margin: 0 1.5rem;
+  position: relative;
 }
 
+.logo {
+  margin-right: 2rem;
+}
 
-/* עיצוב הלוגו */
 .navbar-logo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.navbar li {
-  padding: 0 15px;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: bold;
-  display: block;
-  padding: 8px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.navbar a:hover,
-.navbar a.active {
-  background-color: #555; /* שינוי צבע רקע בזמן ריחוף */
+  height: 45px;
+  width: auto;
+  filter: drop-shadow(0 0 8px rgba(61, 108, 140, 0.3));
+  transition: all 0.3s ease;
 }
 
 .navbar-logo:hover {
-  background-color: transparent !important; /* מניעת שינוי רקע */
-  color: inherit !important; /* שמירה על צבע מקורי */
-  box-shadow: none !important; /* הסרת צל */
-  transform: none !important; /* מניעת אנימציות */
-  cursor: pointer; /* מצביע נשאר כמו לינק */
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 12px rgba(24, 133, 166, 0.5));
 }
 
-.navbar .button {
+.navbar-item a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.navbar-item a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, #b75e5e, #4ecdc4);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar-item a:hover::after,
+.navbar-item a.active::after {
+  transform: scaleX(1);
+}
+
+.navbar-item a:hover {
+  color: #4ecdc4;
+}
+
+.navbar-item.buttons {
   display: flex;
-  align-items: center;
-  gap: 15px; /* רווח בין הכפתורים */
-  margin-left: auto; /* דוחף את הכפתורים לקצה הימני של השורה */
+  gap: 1rem;
+  margin-left: auto;
 }
 
-.navbar .button button {
-  padding: 8px 13px;
-  border-radius: 13px;
-  border: 1px solid rgb(94, 94, 94);
+.navbar-button {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.navbar .button button:hover {
-  background-color: #555;
+.navbar-button.login {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-button.login::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.navbar-button.login:hover::before {
+  left: 100%;
+}
+
+.navbar-button.login:hover {
+  border-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-button.signup {
+  background: linear-gradient(45deg, #9e2d2d, #4ecdc4);
   color: white;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-button.signup::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, #4ecdc4, #ff6b6b);
+  border-radius: 25px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-button.signup:hover::before {
+  opacity: 1;
+}
+
+.navbar-button.signup:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 
-/* סגנון פעיל לקישור */
-.active-link {
-  background-color: #555; /* רקע בעת לחיצה */
-  color: white; /* צבע טקסט */
-  padding: 8px;
-  border-radius: 4px;
+
+/* Animation for navbar items */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+
+/* Glow effect for active link */
+.navbar-item a.active {
+  color: #4ecdc4;
+  text-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+}
+
 
 /*SignUp Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .signup-container{
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #2d3706, #3d236b); /* מעבר כחול לשחור */
   padding: 20px;
+  z-index: 1; /* טופס מעל הרקע */
+
 }
 .signup-container h2{
   margin-left: 145px;
   margin-bottom: 50px;
+  color: rgb(76, 74, 74);
 }
 .signup-form{
   display: flex;
@@ -108,13 +210,14 @@ body {
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-  width: 400px;
-  height: 420px;
+  width: 420px;
+  height: 490px;
   margin-bottom: 20px;
   margin-top: 10px;
-  color: white;
-  background: linear-gradient(135deg, #5b6d12, #3e269e); /* מעבר כחול לשחור */
+  color: rgb(116, 111, 111);
+  background-color: white;
 
+  
 }
  .form-group{
   display: flex;
@@ -144,7 +247,7 @@ body {
 
  .signup-container button{
   color: white;
-  background: linear-gradient(135deg, #425d0f, #3c1982); 
+  background: linear-gradient(135deg, #4ca1af, #2c3e50); /* צבע מעבר לכפתור */
   border: none;
   border-radius: 15px;
   padding: 10px 20px;
@@ -154,156 +257,277 @@ body {
   margin: 0 auto;
   transition: background-color 0.3s ease, transform 0.2s ease;
  }
-
-
-/*LogIn Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-
-/* עיצוב לרשימת הלוגין/סינגאפ */
-.login_Signup {
-  display: flex;
-  justify-content: center;
-  margin-top: 100px;
-  margin-bottom: 50px;
-  gap: 20px;
-  list-style: none;
-  text-align: center;
-}
-
-.login_Signup li {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  color: #a19d49;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  padding-top: -10px;
-  margin-top: -80px;
-}
-
-.login_Signup li:hover {
-  color: #333;
-}
-
-/* עיצוב לקונטיינר של הכפתור */
-.toggle-container {
-  width: 53px;
-  height: 22px;
-  background-color: #ccc;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-  transition: background-color 0.3s ease;
-  margin: 0 auto;
-  margin-top: -70px;
-  margin-bottom: 20px;
-}
-
-/* עיצוב כשהכפתור דלוק */
-.toggle-container.on {
-  background-color: #7a8223;
-}
-
-/* עיצוב לכפתור עצמו */
-.toggle-knob {
-  width: 18px;
-  height: 19px;
-  background-color: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-}
-
-.toggle-knob.on {
-  left: 32px;
-}
-
-/* עיצוב לבלוק הפורום */
-.login-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 20px;
-  background: linear-gradient(135deg, #2d3706,  #3d236b); /* מעבר כחול לשחור */
-  border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-  width: 400px;
-  height: 420px;
-  margin-bottom: 20px;
-  margin-top: 10px;
+ 
+ .signup-form span{
+  margin-left: -10px;
+  margin-top: 20px;
+ }
+ .signup-form span button{
   color: white;
-}
-
-.login-form h2 {
-  text-align: center;
-  margin-bottom: 60px;
-  color: #4e80b1;
-  font-weight: bold;
-}
-
-.login-form .input-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.login-form .input-container input {
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 2px solid #80bfff;
-  border-radius: 8px;
-  background-color: #1c1c1c;
-  color: white;
-  font-size: 16px;
-}
-
-.login-form .input-container input::placeholder {
-  color: #aaa;
-}
-
-.login-form .input-container input:focus {
-  border-color: #4784c6;
-  outline: none;
-}
-
-/* עיצוב לכפתור ה-Submit */
-.login-form button {
-  color: white;
-  background: linear-gradient(135deg, #54146f, #003366); 
+  background: linear-gradient(135deg, #4ca1af, #2c3e50); /* צבע מעבר לכפתור */
   border: none;
-  border-radius: 15px;
-  padding: 10px 20px;
-  font-size: 16px;
+  border-radius: 10px;
+  padding: 10px 10px;
+  font-size: 14px;
   font-weight: bold;
   cursor: pointer;
   margin: 0 auto;
   transition: background-color 0.3s ease, transform 0.2s ease;
+ }
+
+
+ @keyframes animate {
+  0%{
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+      border-radius: 0;
+  }
+  100%{
+      transform: translateY(-1000px) rotate(720deg);
+      opacity: 0;
+      border-radius: 50%;
+  }
 }
 
-.login-form button:hover {
-  background: linear-gradient(135deg, #54146f, #003366); 
-  transform: translateY(-3px);
+.background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background: #2c365e;
+  overflow: hidden;
+}
+.background li {
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: animate 24s linear infinite;
 }
 
-.login-form button:active {
-  background: linear-gradient(135deg, #54146f, #003366); 
-  transform: translateY(2px);
+
+
+
+.background li:nth-child(0) {
+  left: 67%;
+  width: 89px;
+  height: 89px;
+  bottom: -89px;
+  animation-delay: 1s;
 }
-/* אנימציות */
-@keyframes zoomIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+.background li:nth-child(1) {
+  left: 41%;
+  width: 116px;
+  height: 116px;
+  bottom: -116px;
+  animation-delay: 2s;
+}
+.background li:nth-child(2) {
+  left: 27%;
+  width: 92px;
+  height: 92px;
+  bottom: -92px;
+  animation-delay: 7s;
+}
+.background li:nth-child(3) {
+  left: 54%;
+  width: 118px;
+  height: 118px;
+  bottom: -118px;
+  animation-delay: 2s;
+}
+.background li:nth-child(4) {
+  left: 16%;
+  width: 74px;
+  height: 74px;
+  bottom: -74px;
+  animation-delay: 8s;
+}
+.background li:nth-child(5) {
+  left: 85%;
+  width: 81px;
+  height: 81px;
+  bottom: -81px;
+  animation-delay: 17s;
+}
+.background li:nth-child(6) {
+  left: 80%;
+  width: 122px;
+  height: 122px;
+  bottom: -122px;
+  animation-delay: 7s;
+}
+.background li:nth-child(7) {
+  left: 52%;
+  width: 55px;
+  height: 55px;
+  bottom: -55px;
+  animation-delay: 14s;
+}
+.background li:nth-child(8) {
+  left: 36%;
+  width: 111px;
+  height: 111px;
+  bottom: -111px;
+  animation-delay: 34s;
+}
+.background li:nth-child(9) {
+  left: 76%;
+  width: 70px;
+  height: 70px;
+  bottom: -70px;
+  animation-delay: 38s;
+}
+.background li:nth-child(10) {
+  left: 37%;
+  width: 126px;
+  height: 126px;
+  bottom: -126px;
+  animation-delay: 19s;
+}
+.background li:nth-child(11) {
+  left: 41%;
+  width: 61px;
+  height: 61px;
+  bottom: -61px;
+  animation-delay: 52s;
+}
+.background li:nth-child(12) {
+  left: 67%;
+  width: 79px;
+  height: 79px;
+  bottom: -79px;
+  animation-delay: 38s;
+}
+.background li:nth-child(13) {
+  left: 18%;
+  width: 95px;
+  height: 95px;
+  bottom: -95px;
+  animation-delay: 47s;
+}
+.background li:nth-child(14) {
+  left: 23%;
+  width: 72px;
+  height: 72px;
+  bottom: -72px;
+  animation-delay: 63s;
+}
+.background li:nth-child(15) {
+  left: 54%;
+  width: 72px;
+  height: 72px;
+  bottom: -72px;
+  animation-delay: 19s;
+}
+.background li:nth-child(16) {
+  left: 39%;
+  width: 112px;
+  height: 112px;
+  bottom: -112px;
+  animation-delay: 66s;
+}
+.background li:nth-child(17) {
+  left: 72%;
+  width: 103px;
+  height: 103px;
+  bottom: -103px;
+  animation-delay: 8s;
+}
+
+/*LogIn Style!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+
+/* טופס ה-Log In */
+.LogIn_Container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white; /* צבע רקע לטופס */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* צל */
+  padding: 20px;
+  width: 390px;
+  height: 430px;
+  max-width: 90%; /* התאמה למסכים קטנים */
+  margin-top: 100px;
+  margin-left: 500px;
+}
+
+.LogIn_Form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.LogIn_Form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: rgb(76, 74, 74);
+}
+
+.Login-form-input {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Login-form-input label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.Login-form-input input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.Login-form-input input:focus {
+  border-color: #4ca1af; /* צבע גבול בפוקוס */
+  outline: none;
+  box-shadow: 0 0 8px rgba(76, 161, 175, 0.3); /* צל בפוקוס */
+}
+
+/* כפתור Log In */
+.Login-form-input button {
+  background: linear-gradient(135deg, #4ca1af, #2c3e50); /* צבע מעבר לכפתור */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.Login-form-input button:hover {
+  background: linear-gradient(135deg, #2c3e50, #4ca1af); /* שינוי צבע מעבר */
+  transform: translateY(-2px); /* אפקט קפיצה */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* צל נוסף */
+}
+
+.Login-form-input button:active {
+  transform: translateY(1px); /* אפקט לחיצה */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* צל מוחלש */
+}
+.Login-form-input span{
+  margin-left: 10px;
+  margin-top: 40px;
 }
 
 
