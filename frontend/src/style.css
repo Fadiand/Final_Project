@@ -186,6 +186,13 @@ body {
   color: #4ecdc4;
   text-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
 }
+.navbar-container {
+  background: linear-gradient(90deg, #02203e 0%, #213361 50%, #022b43 100%);
+  padding: 10px;
+  z-index: 2; /* ניווט מעל הרקע */
+  position: relative;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4); /* צל בולט יותר */
+}
 
 /* עיצוב עבור השם משתמש */
 .welcome-message {
@@ -587,7 +594,7 @@ body {
 }
 
 
-/* עיצוב רכיב - conect */
+/* עיצוב רכיב - conect!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 .contact-container {
   display: flex;
@@ -611,9 +618,9 @@ body {
 
 .contact-box > div {
   flex: 1;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
+  border: 1px solid #ca7676;
+  border-radius: 50px;
+  padding: 20px;
   margin: 10px;
   width: 200px;
   height: 200px;
@@ -633,7 +640,7 @@ body {
 }
 .contact-box h3 {
   color: #3a3535;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
 }
 
@@ -714,183 +721,9 @@ body {
   text-decoration: underline;
 }
 
-/*עיצוב רכיב about*/
-.about-section {
-  background: linear-gradient(135deg, #00ff44, #3157ca);
-  padding: 40px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  font-family: "Roboto", sans-serif;
-  color: #333;
-  overflow: hidden;
-}
 
-.about-content {
-  max-width: 900px;
-  background-color: #ddf7df;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  animation: fadeIn 1.5s ease-in-out;
-  position: relative;
-}
-
-.about-title {
-  font-size: 2.5rem;
-  color: #0073e6;
-  text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  animation: slideIn 1s ease-in-out;
-}
-
-.about-intro,
-.about-details p,
-.about-performance p,
-.about-summary {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  margin-bottom: 20px;
-  position: relative;
-  animation: fadeInUp 1.2s ease-in-out;
-}
-
-.about-details,
-.about-performance,
-.about-highlights {
-  margin-bottom: 25px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  cursor: pointer;
-}
-
-.about-details:hover,
-.about-performance:hover,
-.about-highlights:hover {
-  transform: scale(1.05);
-  background-color: #f0f8ff;
-}
-
-.highlighted {
-  background-color: #d3e6ff;
-  transform: scale(1.08);
-}
-
-.about-details h2,
-.about-performance h2,
-.about-highlights h2 {
-  font-size: 1.8rem;
-  color: #0056b3;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #0073e6;
-  display: inline-block;
-}
-
-.about-highlights ul {
-  margin-left: 20px;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-.about-highlights li {
-  margin-bottom: 10px;
-  list-style-type: disc;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.about-summary {
-  font-size: 1.5rem;
-  line-height: 2;
-  color: #fff;
-  background: #0066cc;
-  padding: 25px 30px;
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin: 30px auto;
-  max-width: 800px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease-in-out;
-}
-
-.about-summary::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
-  transform: rotate(45deg);
-  transition: all 0.5s ease;
-  z-index: 0;
-}
-
-.about-summary:hover::before {
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 80%);
-}
-
-.about-summary:hover {
-  transform: scale(1.05) rotate(1deg);
-  background: #005bb5;
-}
-
-.about-summary span {
-  font-weight: bold;
-  color: #ffcc00;
-  display: inline-block;
-  margin: 5px 0;
-}
-
-@keyframes fadeSlide {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.about-summary {
-  animation: fadeSlide 1s ease-in-out;
-}
-
-/*עיצוב דף הבית */
-/* רקע כללי לדף */
+/*עיצוב דף הבית !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/* קונטיינר כללי */
 .vista-container {
   position: relative;
   min-height: 100vh;
@@ -900,59 +733,62 @@ body {
   overflow: hidden;
   background: linear-gradient(135deg, #020024, #090979, #00d4ff);
   color: white;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 
-/* אנימציית חלקיקים */
+/* חלקיקים ברקע */
 .particles-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("https://www.transparenttextures.com/patterns/dark-mesh.png"), radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 80%);
-  animation: moveParticles 20s infinite linear;
+  background: url("https://www.transparenttextures.com/patterns/dark-mesh.png"), 
+              radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 80%);
+  animation: moveParticles 15s infinite linear;
   z-index: 0;
+  filter: blur(2px);
 }
 
 @keyframes moveParticles {
   from {
-      background-position: 0 0;
+    background-position: 0 0;
   }
   to {
-      background-position: 100% 100%;
+    background-position: 200% 200%;
   }
 }
 
-/* עיצוב אזור מרכזי */
+/* אזור מרכזי */
 .hero-section {
-  text-align: center;
+  position: relative;
   z-index: 1;
-  padding: 2rem;
-  animation: fadeIn 2s ease-in-out;
+  padding: 3rem 2rem;
 }
 
 /* כותרת ראשית */
 .hero-title {
-  font-size: 4rem;
+  font-size: 4.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
   color: #ffffff;
-  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  animation: glow 2s infinite alternate;
+  text-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+  animation: glow 2.5s infinite alternate;
 }
 
 .hero-title span {
   color: #80ed99;
-  text-shadow: 0px 0px 20px rgba(128, 237, 153, 0.7);
+  text-shadow: 0px 0px 25px rgba(128, 237, 153, 0.8);
 }
 
 /* תיאור */
 .hero-description {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  color: #f0f0f0;
-  text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  font-size: 1.7rem;
+  margin-bottom: 2.5rem;
+  color: #d4d4d4;
+  text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
+  line-height: 1.8;
 }
 
 .hero-description span {
@@ -963,47 +799,38 @@ body {
 /* כפתור אינסטגרם */
 .instagram-login-button {
   display: inline-block;
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  padding: 15px 30px;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  padding: 15px 40px;
   color: white;
   border-radius: 30px;
   text-transform: uppercase;
   font-weight: bold;
+  font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
 .instagram-login-button:hover {
   transform: translateY(-5px);
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 8px 30px rgba(255, 105, 135, 0.5);
 }
 
 .instagram-login-button:active {
   transform: translateY(2px);
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* אנימציות */
-@keyframes fadeIn {
-  from {
-      opacity: 0;
-      transform: translateY(20px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
-}
-
+/* אפקטי אנימציה */
 @keyframes glow {
   from {
-      text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+    text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
   }
   to {
-      text-shadow: 0px 0px 30px rgba(255, 255, 255, 1);
+    text-shadow: 0px 0px 40px rgba(255, 255, 255, 1);
   }
 }
+
 
 /*עיצוב דף גלריההה!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 /* עיצוב קונטיינר העלאת קבצים */
@@ -1011,11 +838,11 @@ body {
   max-width: 600px;
   margin: 50px auto; /* מרכז את הקונטיינר */
   text-align: center;
-  background: linear-gradient(135deg, #ffffff, #d7f2dc); /* מעבר צבע עדין */
+  background: linear-gradient(135deg, #ffffff, #f0f4f0); /* מעבר צבע עדין */
   padding: 30px;
   border-radius: 15px; /* פינות מעוגלות */
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל עמוק יותר */
-  border: 1px solid #c8e6c9; /* גבול רך */
+  border: 1px solid #ffffff; /* גבול רך */
 }
 
 /* כותרת */
@@ -1023,7 +850,7 @@ body {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #3157ca;
+  color: #9e2d2d;
 }
 
 /* כפתור העלאת קבצים מהמחשב */
@@ -1032,7 +859,7 @@ body {
   width: 560px;
   padding: 15px;
   margin-bottom: 20px;
-  background: linear-gradient(135deg, #00ff44, #3157ca);
+  background: linear-gradient(45deg, #9e2d2d, #4ecdc4);
   color: white;
   font-size: 18px;
   font-weight: bold;
@@ -1052,7 +879,7 @@ body {
   width: 590px;
   padding: 15px;
   margin-bottom: 20px;
-  background: linear-gradient(135deg, #00ff44, #3157ca);
+  background: linear-gradient(45deg, #9e2d2d, #4ecdc4);
   color: white;
   font-size: 18px;
   font-weight: bold;
@@ -1111,4 +938,144 @@ body {
 .gallery-image:hover {
   transform: scale(1.05); /* הגדלה בהובר */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/*עיצוב רכיב about!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+.about-section {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 100px 50px; /* מרווח נעים מסביב */
+  color: #f9f9f9; /* צבע טקסט בהיר */
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* כותרת ראשית */
+.about-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #f4d03f; /* צבע זהב מודגש */
+  text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+  margin-bottom: 50px;
+  animation: slideDown 1s ease-in-out;
+}
+
+/* טקסט כללי */
+.about-intro,
+.about-details p,
+.about-performance p,
+.about-summary {
+  font-size: 1.5rem;
+  line-height: 2;
+  margin-bottom: 30px;
+  color: #e0e0e0;
+  text-align: justify;
+}
+
+/* כותרות משנה */
+.about-details h2,
+.about-performance h2,
+.about-highlights h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffd700; /* זהב בולט */
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.6);
+  margin-bottom: 20px;
+}
+
+/* קופסאות אינטראקטיביות */
+.about-details,
+.about-performance,
+.about-highlights {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  margin: 30px auto;
+  border-radius: 15px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+}
+
+.about-details:hover,
+.about-performance:hover,
+.about-highlights:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* רשימות */
+.about-highlights ul {
+  font-size: 1.4rem;
+  color: #f9f9f9;
+  list-style-type: disc;
+  margin: 20px auto;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.about-highlights li {
+  margin-bottom: 15px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.about-highlights li:hover {
+  color: #ffd700;
+  transform: translateX(10px);
+}
+
+/* טקסט סיכום */
+.about-summary {
+  font-size: 1.7rem;
+  line-height: 2;
+  padding: 30px;
+  background: rgba(251, 249, 247, 0.3);
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.5);
+  margin-top: 50px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.about-summary:hover {
+  background: rgba(255, 215, 0, 0.6);
+  transform: scale(1.1);
+  box-shadow: 0px 12px 35px rgba(0, 0, 0, 0.7);
+}
+
+/* אנימציות */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* אפקט גלואו עדין */
+.about-title::after {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 5px;
+  background: linear-gradient(45deg, #9e2d2d, #4ecdc4,transparent);
+  margin: auto;
+  display: block;
+  border-radius: 50px;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    opacity: 0.5;
+    transform: scaleX(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
