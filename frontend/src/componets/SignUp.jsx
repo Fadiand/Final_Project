@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./UserContext"; // Import UserContext for user management
 
 function SignUp() {
+  const { setUser } = useUser(); // Access context to set the user
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -51,44 +53,56 @@ function SignUp() {
     e.preventDefault();
 
     if (validate()) {
-      setIsSubmitting(true); // התחלת שליחה
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/signup/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: formData.username,
-            email: formData.email,
-            password: formData.password,
-          }),
-        });
+        setIsSubmitting(true); // התחלת שליחה
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/signup/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password,
+                }),
+            });
 
-        if (response.ok) {
-          console.log("Form submitted successfully:", formData);
-          navigate("/"); // נווט ל-Home או עמוד הצלחה
-        } else {
-          const data = await response.json();
-          console.log("Server error:", data);
-          setErrors({ server: "Failed to submit form. Please try again." });
+            const data = await response.json(); // קבלת הנתונים מהשרת
+            console.log("Response from server:", data);
+
+            if (response.ok) {
+              setUser({
+                username: data.username,
+                email: data.email,
+            });
+            localStorage.setItem(
+                "user",
+                JSON.stringify({
+                    username: data.username,
+                    email: data.email,
+                })
+            );
+                navigate("/"); // ניתוב לעמוד הבית
+            } else {
+                setErrors({ server: "Failed to submit form. Please try again." });
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            setErrors({ server: "An error occurred. Please try again." });
+        } finally {
+            setIsSubmitting(false); // סיום שליחה
         }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        setErrors({ server: "An error occurred. Please try again." });
-      } finally {
-        setIsSubmitting(false); // סיום שליחה
-      }
-    } else {
-      console.log("Validation failed");
     }
-  };
+};
+
+  
 
   const nav = useNavigate();
 
   function navigateToLogin() {
     nav("/login");
   }
+
   return (
     <>
       {/* רקע */}
@@ -171,7 +185,8 @@ function SignUp() {
             {isSubmitting ? "Submitting..." : "Sign Up"}
           </button>
           <span>
-            Already have an account? <button onClick={navigateToLogin} >Log In</button>
+            Already have an account?{" "}
+            <a onClick={navigateToLogin}>Log In</a>
           </span>
         </form>
       </div>

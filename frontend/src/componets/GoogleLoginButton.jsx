@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useUser } from "./UserContext"; // שימוש ב-UserContext
 
 const GoogleLoginButton = () => {
-    const [user, setUser] = useState(null);
+    const { setUser } = useUser(); // שימוש בפונקציה setUser מתוך ה-Context
 
     const handleSuccess = (credentialResponse) => {
         console.log('Login Success:', credentialResponse);
@@ -17,12 +18,23 @@ const GoogleLoginButton = () => {
             .then((data) => {
                 console.log('Server Response:', data);
 
-                // שמירת נתוני המשתמש במצב (State)
+                // שמירת נתוני המשתמש ב-Context וב-localStorage
                 setUser({
-                    name: data.name,
+                    username: data.username || data.name, // לוודא שיש שדה שם משתמש או שם
                     email: data.email,
                     picture: data.picture,
                 });
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify({
+                        username: data.username || data.name,
+                        email: data.email,
+                        picture: data.picture,
+                    })
+                );
+
+                console.log("User saved in localStorage:", localStorage.getItem("user"));
             })
             .catch((err) => {
                 console.error('Error:', err);
@@ -51,13 +63,6 @@ const GoogleLoginButton = () => {
                         transition: 'transform 0.2s',
                     }}
                 />
-                {user && (
-                    <div>
-                        <h2>Welcome, {user.name}</h2>
-                        <p>Email: {user.email}</p>
-                        <img src={user.picture} alt="User Profile" />
-                    </div>
-                )}
             </div>
         </GoogleOAuthProvider>
     );

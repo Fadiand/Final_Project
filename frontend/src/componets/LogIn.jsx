@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleLoginButton from "./GoogleLoginButton";
+import {useUser} from "./UserContext";
 
 function LogIn() {
+  const {setUser} = useUser();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -33,7 +35,18 @@ function LogIn() {
           password: formData.password,
         }),
       });
+
+      const data = await response.json();
       if (response.ok) {
+        setUser({
+          username: data.username,
+          email: data.email,
+        });
+        localStorage.setItem("user",
+          JSON.stringify({
+            username: data.username,
+          email: data.email,
+          }));
         console.log("Form submitted successfully:", formData);
         nav("/"); // נווט ל-Home או עמוד הצלחה
       } else {
