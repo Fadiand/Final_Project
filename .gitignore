@@ -41,3 +41,5 @@ Thumbs.db
 # Media and upload folders (if they contain user-uploaded files)
 media/
 uploads/
+
+**/__pycache__/
