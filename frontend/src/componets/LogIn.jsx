@@ -43,8 +43,11 @@ function LogIn() {
         setUser({
           username: data.username,
           email: data.email,
+          session_id: data.session_id, // שמירת ה-session_id בהקשר
         });
 
+        console.log("Session ID:", data.session_id); // הדפסה של ה-session_id
+        console.log("Cookies (client-side):", document.cookie); // בדיקה אם העוגיות נשמרו
         console.log("Login successful:", data);
         nav("/"); 
       } else {

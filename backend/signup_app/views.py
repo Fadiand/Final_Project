@@ -108,19 +108,37 @@ class LoginView(View):
                 print("Password check failed")
                 return JsonResponse({"error": "Invalid credentials."}, status=401)
             
-
-            login(request, user)
-            print(f"User {username} logged in successfully")
+            
+            # יצירת session_id ידני
+            session = SessionStore()
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session.create()  # שמירת ה-session במאגר הנתונים
+            
+            print(f"User {username} ,session_id: {session.session_key},  logged in successfully")
             
             user.Is_active = True
             user.save() # חשוב!!!!!!!!!!!!!!!!!!!!!!!!
 
-            return JsonResponse({
+            response = JsonResponse({
                 "message": "Login successful!",
                 "username": user.username,
                 "user_id": user.id,
                 "Is_active":user.Is_active,
+                "session_id": session.session_key,  # session_id שנוצר ידנית
             }, status=200)
+            
+             # הוספת העוגייה של ה-Session (רק **פעם אחת!**)
+            response.set_cookie(
+                key='sessionid',
+                value=session.session_key,
+                max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
+                httponly=True,  # לא ניתן לגשת לעוגיה דרך JavaScript (הגנה)
+                secure=False,  # אם אתה ב-HTTPS שנה ל-True
+                samesite='Lax'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
+            )
+            return response
+            
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
             return JsonResponse({"error": "An unexpected error occurred. Please try again."}, status=500)

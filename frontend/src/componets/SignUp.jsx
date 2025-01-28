@@ -22,7 +22,7 @@ function SignUp() {
       [name]: value,
     }));
   };
-
+  
   const validate = () => {
     const newErrors = {};
 
