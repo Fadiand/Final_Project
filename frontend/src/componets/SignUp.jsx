@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "./UserContext"; // Import UserContext for user management
+import { useUser } from "./UserContext"; // ניהול המשתמש בהקשר
 
 function SignUp() {
-  const { setUser } = useUser(); // Access context to set the user
+  const { setUser } = useUser(); // גישה להקשר המשתמש
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -60,7 +60,7 @@ function SignUp() {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // שליחת cookies לשרת
+          credentials: "include", // חובה כדי שה-Cookies יישלחו ויתקבלו
           body: JSON.stringify({
             username: formData.username,
             email: formData.email,
@@ -68,25 +68,31 @@ function SignUp() {
           }),
         });
 
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Signup failed.");
+        }
+
         const data = await response.json(); // קבלת הנתונים מהשרת
         console.log("Response from server:", data);
 
-        if (response.ok) {
+        if (data.session_id) {
           setUser({
             id: data.id,
             username: data.username,
             email: data.email,
-            Is_active: data.Is_active,
-            Is_superviser : data.Is_superviser,
+            session_id: data.session_id, // שמירת ה-session_id בהקשר
           });
 
+          console.log("Session ID:", data.session_id); // הדפסה של ה-session_id
+          console.log("Cookies (client-side):", document.cookie); // בדיקה אם העוגיות נשמרו
           navigate("/"); 
         } else {
-          setErrors({ server: data.error || "Failed to submit form. Please try again." });
+          setErrors({ server: "No session ID received from server." });
         }
       } catch (error) {
         console.error("Error submitting form:", error);
-        setErrors({ server: "An error occurred. Please try again." });
+        setErrors({ server: error.message || "An error occurred. Please try again." });
       } finally {
         setIsSubmitting(false); // סיום שליחה
       }
@@ -103,7 +109,6 @@ function SignUp() {
     <>
       {/* רקע */}
       <ul className="background">
-        <li></li>
         <li></li>
         <li></li>
         <li></li>

@@ -227,10 +227,16 @@ SIMPLE_JWT = {
     'SIGNING_KEY': 'your-256-bit-secret',  # כאן יהיה המפתח הסודי שלך
 }
 
-
-SESSION_COOKIE_AGE = 3 * 24 * 60 * 60  # 3 ימים בשניות
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # השאר את ה-Session גם אם הדפדפן נסגר
-
-
 CORS_ALLOW_CREDENTIALS = True  # מאפשר credentials
 CORS_ORIGIN_ALLOW_ALL = False  # חסום את כל המקורות כברירת מחדל
+
+# נוודא שהעוגיות יישלחו גם ב-HTTP רגיל
+SESSION_COOKIE_SECURE = False  # אם אתה ב-HTTPS שנה את זה ל-True
+SESSION_COOKIE_HTTPONLY = True  # הגנה על העוגיה מגישה דרך JavaScript
+SESSION_COOKIE_SAMESITE = 'Lax'  # כדי שהעוגיה לא תיחסם ע"י דפדפנים (אם עדיין לא עובד נסה 'None')
+
+# נוודא שה-Session לא נמחק כאשר הדפדפן נסגר
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# זמן חיי ה-Session בימים (כאן זה 3 ימים)
+SESSION_COOKIE_AGE = 3 * 24 * 60 * 60
