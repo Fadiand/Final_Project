@@ -1,0 +1,43 @@
+# Environment files
+.env
+.env.local
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Log files
+*.log
+
+# Node.js dependencies
+node_modules/
+
+# Virtual environments
+venv/
+
+# Django database files
+*.sqlite3
+
+# Executable files
+ngrok.exe
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.swp
+
+# Temporary files
+*.tmp
+*.temp
+
+# Media and upload folders (if they contain user-uploaded files)
+media/
+uploads/
