@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleLoginButton from "./GoogleLoginButton";
-import {useUser} from "./UserContext";
 
+import { useUser } from "./UserContext";
 function LogIn() {
-  const {setUser} = useUser();
+  const { setUser } = useUser();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,43 +24,50 @@ function LogIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     try {
       const response = await fetch("http://127.0.0.1:8000/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
+        credentials: "include", // נדרש עבור Cookies
         body: JSON.stringify({
           username: formData.username,
           password: formData.password,
         }),
       });
 
-      const data = await response.json();
       if (response.ok) {
+        const data = await response.json();
         setUser({
           username: data.username,
           email: data.email,
+          session_id: data.session_id, // שמירת ה-session_id בהקשר
         });
-        localStorage.setItem("user",
-          JSON.stringify({
-            username: data.username,
-          email: data.email,
-          }));
-        console.log("Form submitted successfully:", formData);
-        nav("/"); // נווט ל-Home או עמוד הצלחה
+
+        console.log("Session ID:", data.session_id); // הדפסה של ה-session_id
+        console.log("Cookies (client-side):", document.cookie); // בדיקה אם העוגיות נשמרו
+        console.log("Login successful:", data);
+        nav("/"); 
       } else {
-        const data = await response.json();
-        console.log("Server error:", data);
-        setErrors({ server: "Failed to submit form. Please try again." });
+        const errorData = await response.json();
+        console.log("Server error:", errorData);
+        setErrors({ server: errorData.error || "Failed to log in. Please try again." });
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error during login:", error);
       setErrors({ server: "An error occurred. Please try again." });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+
+  const changepath = () => {
+    nav("/")
+  }
 
   const nav = useNavigate();
   function navigateToSignUp() {
@@ -86,7 +93,7 @@ function LogIn() {
         <li></li>
         <li></li>
         <li></li>
-        <li></li>
+
       </ul>
       <div className="LogIn_Container">
         <form className="LogIn_Form" onSubmit={handleSubmit}>
@@ -118,12 +125,14 @@ function LogIn() {
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Log In"}
             </button>
-            <span>
+            <span onClick={changepath}>
               Login with Google <GoogleLoginButton />
             </span>
             <span>
-              Dont have an account?{" "}
-              <button onClick={navigateToSignUp}>Sign Up</button>
+              Don't have an account?{" "}
+              <a className="login_aherf" onClick={navigateToSignUp}>
+                Sign Up
+              </a>
             </span>
           </div>
         </form>

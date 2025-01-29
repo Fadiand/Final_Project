@@ -14,6 +14,7 @@ from pathlib import Path
 from decouple import config
 import os
 
+from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +30,8 @@ SECRET_KEY = 'django-insecure-l0apg_hs809w*k+a5_f7hjm#2a&mmg0d0p_zouo6y$kt4kf%=j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['21ac-207-232-14-60.ngrok-free.app', '127.0.0.1', 'localhost']
+
+ALLOWED_HOSTS = ['21ac-207-232-14-60.ngrok-free.app', '127.0.0.1', 'localhost', '.ngrok-free.app','6667-2a06-c701-9b59-5f00-2c05-9dd2.ngrok-free.app', ]
 
 
 # Application definition
@@ -66,6 +68,8 @@ INSTALLED_APPS = [
     'gallery',
     'signup_app',
     
+
+    
 ]
 
 # הגדרות נוספות עבור אימות משתמשים
@@ -94,7 +98,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
-
+    ],
+     'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
@@ -117,12 +123,14 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+
+                'django.template.context_processors.request',  # חשוב ל-Django Admin
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -198,8 +206,39 @@ CSRF_TRUSTED_ORIGINS = [
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# settings.py
+AUTH_USER_MODEL = 'auth.User'  # או כל מודל אחר אם שינית את המודל
+
+
+
+# settings.py
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # זמן תוקף לטוקן
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # זמן תוקף לטוקן רענון
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',  # שם השדה במודל של המשתמש
+    'USER_ID_CLAIM': 'user_id',  # שם ה-claim במודל
+    'SIGNING_KEY': 'your-256-bit-secret',  # כאן יהיה המפתח הסודי שלך
+}
+
+CORS_ALLOW_CREDENTIALS = True  # מאפשר credentials
+CORS_ORIGIN_ALLOW_ALL = False  # חסום את כל המקורות כברירת מחדל
+
+# נוודא שהעוגיות יישלחו גם ב-HTTP רגיל
+SESSION_COOKIE_SECURE = False  # אם אתה ב-HTTPS שנה את זה ל-True
+SESSION_COOKIE_HTTPONLY = True  # הגנה על העוגיה מגישה דרך JavaScript
+SESSION_COOKIE_SAMESITE = 'Lax'  # כדי שהעוגיה לא תיחסם ע"י דפדפנים (אם עדיין לא עובד נסה 'None')
+
+# נוודא שה-Session לא נמחק כאשר הדפדפן נסגר
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# זמן חיי ה-Session בימים (כאן זה 3 ימים)
+SESSION_COOKIE_AGE = 3 * 24 * 60 * 60

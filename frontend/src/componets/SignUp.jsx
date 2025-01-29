@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "./UserContext"; // Import UserContext for user management
+
+import { useUser } from "./UserContext"; // ניהול המשתמש בהקשר
 
 function SignUp() {
-  const { setUser } = useUser(); // Access context to set the user
+  const { setUser } = useUser(); // גישה להקשר המשתמש
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -23,6 +24,7 @@ function SignUp() {
     }));
   };
 
+  
   const validate = () => {
     const newErrors = {};
 
@@ -53,49 +55,51 @@ function SignUp() {
     e.preventDefault();
 
     if (validate()) {
-        setIsSubmitting(true); // התחלת שליחה
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api/signup/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: formData.username,
-                    email: formData.email,
-                    password: formData.password,
-                }),
-            });
+      setIsSubmitting(true); // התחלת שליחה
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/signup/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // חובה כדי שה-Cookies יישלחו ויתקבלו
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
 
-            const data = await response.json(); // קבלת הנתונים מהשרת
-            console.log("Response from server:", data);
-
-            if (response.ok) {
-              setUser({
-                username: data.username,
-                email: data.email,
-            });
-            localStorage.setItem(
-                "user",
-                JSON.stringify({
-                    username: data.username,
-                    email: data.email,
-                })
-            );
-                navigate("/"); // ניתוב לעמוד הבית
-            } else {
-                setErrors({ server: "Failed to submit form. Please try again." });
-            }
-        } catch (error) {
-            console.error("Error submitting form:", error);
-            setErrors({ server: "An error occurred. Please try again." });
-        } finally {
-            setIsSubmitting(false); // סיום שליחה
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Signup failed.");
         }
-    }
-};
 
-  
+        const data = await response.json(); // קבלת הנתונים מהשרת
+        console.log("Response from server:", data);
+
+        if (data.session_id) {
+          setUser({
+            id: data.id,
+            username: data.username,
+            email: data.email,
+            session_id: data.session_id, // שמירת ה-session_id בהקשר
+          });
+
+          console.log("Session ID:", data.session_id); // הדפסה של ה-session_id
+          console.log("Cookies (client-side):", document.cookie); // בדיקה אם העוגיות נשמרו
+          navigate("/"); 
+        } else {
+          setErrors({ server: "No session ID received from server." });
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setErrors({ server: error.message || "An error occurred. Please try again." });
+      } finally {
+        setIsSubmitting(false); // סיום שליחה
+      }
+    }
+  };
 
   const nav = useNavigate();
 
@@ -123,7 +127,7 @@ function SignUp() {
         <li></li>
         <li></li>
         <li></li>
-        <li></li>
+
       </ul>
 
       {/* טופס */}

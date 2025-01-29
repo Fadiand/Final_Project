@@ -9,6 +9,8 @@ from decouple import config
 from django.http import HttpResponse
 from .models import gmail_users as gmail
 
+from django.contrib.auth import login
+
 def home(request):
     return HttpResponse("Hello, World!")
 
@@ -41,13 +43,29 @@ def google_auth(request):
             if not created:
                 # אם הרשומה כבר קיימת, עדכן את השם
                 gmail_entry.name = name
+
+                gmail_entry.Is_active = True
                 gmail_entry.save()
+                
+             # יצירת Session ידנית
+            request.session['user_id'] = gmail_entry.id
+            request.session['email'] = gmail_entry.email
+            request.session['is_active'] = gmail_entry.Is_active
+            
+            request.session.set_expiry(3600)  # Session יפוג תוך שעה (3600 שניות)
 
             # הדפסת מידע שפורק מהטוקן בטרמינל
             print("Token verified. Info:", idinfo)
 
-            # החזרת התגובה ל-React
-            return JsonResponse({'message': 'Login successful', 'email': email, 'name': name})
+
+              # החזרת התגובה ל-Frontend
+            return JsonResponse({
+                'message': 'Login successful',
+                'email': email,
+                'name': name,
+                'session_id': request.session.session_key  # מזהה ה-Session
+            })
+            
         except ValueError as e:
             print("Invalid token:", e)
             return JsonResponse({'error': 'Invalid token'}, status=400)
@@ -62,14 +80,3 @@ def google_auth(request):
 
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-
-
-
-
-
-
-
-
-
-

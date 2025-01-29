@@ -1,5 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 
+import axios from "axios"; // ספרייה לביצוע קריאות ל-API
+
 // יצירת Context למידע על המשתמש
 const UserContext = createContext();
 
@@ -23,8 +25,35 @@ export const UserProvider = ({ children }) => {
         }
     }, [user]);
 
+    // פונקציה להתחברות
+    const login = async (username, password) => {
+        try {
+            const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+                username,
+                password,
+            });
+            const loggedInUser = response.data; // המידע על המשתמש מהשרת
+            setUser(loggedInUser); // עדכון ה-Context
+            localStorage.setItem("user", JSON.stringify(loggedInUser)); // שמירת המידע ב-localStorage
+        } catch (error) {
+            console.error("Login failed:", error.response?.data || error.message);
+            throw error.response?.data || { message: "Login failed" };
+        }
+    };
+
+    // פונקציה להתנתקות
+    const logout = async () => {
+        try {
+            await axios.post("http://127.0.0.1:8000/api/auth/logout/"); // קריאה לשרת להתנתקות
+            setUser(null); // איפוס ה-Context
+            localStorage.removeItem("user"); // מחיקת המידע מ-localStorage
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, login, logout }}>
             {children}
         </UserContext.Provider>
     );

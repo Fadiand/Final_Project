@@ -28,8 +28,12 @@ urlpatterns = [
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/google/', views.google_auth, name='google-auth'),
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('gallery/', include('gallery.urls')),  # הוספת נתיבי הגלריה
+
     path('', include('signup_app.urls')),  # חיבור האפליקציה הראשית
+    path('webhook/', include('instagram.urls')),  # מחבר את האפליקציה לנתיב webhook פשוט
+    path('gallery/', include('gallery.urls')),  # הוספת נתיבי הגלריה
+
+
 ]
 
 # תמיכה בקבצי מדיה במצב פיתוח

@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Image
 
-@admin.register(Image)
-class ImageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'image', 'uploaded_at')  # להציג את השדות החשובים
+from .models import Image_user  # ייבוא המודל
+
+@admin.register(Image_user)
+class ImageUserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'image', 'uploaded_at')  # שדות שיוצגו ברשימה
+    list_filter = ('uploaded_at',)  # אפשרות סינון לפי זמן העלאה
+    search_fields = ('image',)  # שדה חיפוש לפי שם הקובץ
+    ordering = ('-uploaded_at',)  # סד

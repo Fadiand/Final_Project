@@ -7,13 +7,37 @@ export default function NavBar() {
   const { user, setUser } = useUser(); // קבלת המידע על המשתמש
   const navigate = useNavigate();
 
-  const handleLogout = (e) => {
-    e.preventDefault(); // ביטול ברירת המחדל של הניווט
-    setUser(null); // איפוס מצב המשתמש
-    localStorage.removeItem("user"); // מחיקת המידע מה-localStorage
-    navigate("/"); // ניתוב לעמוד הבית
-  };
 
+  const handleLogout = async (e) => {
+    e.preventDefault(); 
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/logout/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // שולח את ה-Cookies לשרת
+        body: JSON.stringify({
+          username: user.username
+        })
+      });
+  
+      if (response.ok) {
+        setUser(null); 
+        localStorage.removeItem("user"); 
+        navigate("/"); 
+      } else {
+        const errorData = await response.json();
+        console.error("Logout failed:", errorData.error);
+        alert(errorData.error || "Logout failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("An error occurred during logout:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+  
   return (
     <nav className="navbar-container">
       <ul className="navbar">
@@ -75,7 +99,8 @@ export default function NavBar() {
               <a
                 href="/"
                 onClick={handleLogout}
-                className="navbar-button logout"
+
+                className="navbar-logout"
               >
                 Logout
               </a>
@@ -100,4 +125,5 @@ export default function NavBar() {
       </ul>
     </nav>
   );
+
 }

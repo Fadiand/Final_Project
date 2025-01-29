@@ -1,38 +1,45 @@
-import zipfile
-from io import BytesIO
-from rest_framework.decorators import api_view, parser_classes
+
+from rest_framework.decorators import api_view, parser_classes, permission_classes, authentication_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Image
-from .serializers import ImageSerializer
+from rest_framework.permissions import AllowAny  # מחלקת ההרשאות שמאפשרת גישה לכולם
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication  # ביטול כל אימות
+from .models import Image_user
+from .serializers import ImageUserSerializer
+import zipfile
+from io import BytesIO
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
+
+@permission_classes([AllowAny])  # הרשאה לכולם
+@authentication_classes([])  # ביטול אימות
 def upload_images(request):
     """
-    פונקציה להעלאת תמונות וקבצים ושמירתם כנתיבים.
+    View להעלאת תמונות (כולל קבצי ZIP).
     """
     if 'images' not in request.FILES:
         return Response({'error': 'No files provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # קבלת כל הקבצים מתוך הבקשה
+
     files = request.FILES.getlist('images')
     saved_images = []
 
     for file in files:
-        # טיפול בקובץ ZIP
+
+        # אם הקובץ הוא ZIP, פתח אותו והעלה את כל התמונות שבו
         if file.name.endswith('.zip'):
             try:
                 with zipfile.ZipFile(file) as zf:
                     for filename in zf.namelist():
-                        # בדיקה אם הקובץ בתוך ה-ZIP הוא תמונה
+
                         if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
                             file_data = zf.read(filename)
-                            image_file = BytesIO(file_data)
-                            image_file.name = filename  # נותן שם לקובץ
-                            serializer = ImageSerializer(data={'image': image_file})
+                            image_file = SimpleUploadedFile(filename, file_data)
+                            serializer = ImageUserSerializer(data={'image': image_file})
                             if serializer.is_valid():
                                 serializer.save()
                                 saved_images.append(serializer.data)
@@ -41,8 +48,9 @@ def upload_images(request):
             except zipfile.BadZipFile:
                 return Response({'error': 'Invalid ZIP file'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            # טיפול בקבצי תמונה רגילים
-            serializer = ImageSerializer(data={'image': file})
+
+            # אם זה לא ZIP, העלה את התמונה כרגיל
+            serializer = ImageUserSerializer(data={'image': file})
             if serializer.is_valid():
                 serializer.save()
                 saved_images.append(serializer.data)
@@ -53,10 +61,13 @@ def upload_images(request):
 
 
 @api_view(['GET'])
+@parser_classes([MultiPartParser, FormParser])
+@permission_classes([AllowAny])  # הרשאה לכולם
+@authentication_classes([])  # ביטול אימות
 def get_images(request):
     """
-    פונקציה לשליפת כל התמונות הקיימות כנתיבים.
+    View לשליפת כל התמונות שהועלו.
     """
-    images = Image.objects.all()  # מביא את כל האובייקטים של תמונות
-    serializer = ImageSerializer(images, many=True)  # ממיר את כל האובייקטים לנתונים בפורמט JSON
+    images = Image_user.objects.all()  # שליפת כל האובייקטים של תמונות
+    serializer = ImageUserSerializer(images, many=True)  # המרת האובייקטים לפורמט JSON
     return Response({'images': serializer.data}, status=status.HTTP_200_OK)
