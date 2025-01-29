@@ -1,13 +1,16 @@
 from django.db import models
+from signup_app.models import User  # יבוא מודל משתמשים
 
 class Image_user(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null = True)  # קישור משתמש לכל תמונה
     # שדה לאחסון הקובץ (תמונה)
     image = models.ImageField(upload_to='images/')  # התמונות יישמרו בתיקיית media/images
     # שדה לאחסון זמן ההעלאה
     uploaded_at = models.DateTimeField(auto_now_add=True)  # חותמת זמן אוטומטית
 
     def _str_(self):
-        return self.image.name  # הצגת שם הקובץ
+        return self.image.name 
 
     class Meta:
         verbose_name = "Image"

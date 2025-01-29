@@ -2,23 +2,45 @@ from rest_framework.decorators import api_view, parser_classes, permission_class
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny  # מחלקת ההרשאות שמאפשרת גישה לכולם
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication  # ביטול כל אימות
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from .models import Image_user
 from .serializers import ImageUserSerializer
 import zipfile
 from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.auth.models import User  # נייבא את מחלקת המשתמשים
 
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
-@permission_classes([AllowAny])  # הרשאה לכולם
-@authentication_classes([])  # ביטול אימות
+@permission_classes([AllowAny])
+@authentication_classes([])
 def upload_images(request):
     """
-    View להעלאת תמונות (כולל קבצי ZIP).
+    View להעלאת תמונות (כולל קבצי ZIP) **רק עבור משתמש מחובר ופעיל**.
     """
+    # בדיקה אם המשתמש מחובר
+    session_id = request.COOKIES.get('sessionid')
+    if not session_id:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    # קבלת ה-User מתוך ה-Session
+    session = SessionStore(session_key=session_id)
+    user_id = session.get('user_id')
+
+    if not user_id:
+        return Response({'error': 'Invalid session, please log in again'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    # בדיקה אם המשתמש **פעיל**
+    if not user.is_active:
+        return Response({'error': 'User is not active. Please log in again.'}, status=status.HTTP_403_FORBIDDEN)
+
     if 'images' not in request.FILES:
         return Response({'error': 'No files provided'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -36,8 +58,8 @@ def upload_images(request):
                             image_file = SimpleUploadedFile(filename, file_data)
                             serializer = ImageUserSerializer(data={'image': image_file})
                             if serializer.is_valid():
-                                serializer.save()
-                                saved_images.append(serializer.data)
+                                image_instance = serializer.save(user=user)  # שמירת התמונה עם המשתמש
+                                saved_images.append(ImageUserSerializer(image_instance).data)
                             else:
                                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             except zipfile.BadZipFile:
@@ -46,24 +68,43 @@ def upload_images(request):
             # אם זה לא ZIP, העלה את התמונה כרגיל
             serializer = ImageUserSerializer(data={'image': file})
             if serializer.is_valid():
-                serializer.save()
-                saved_images.append(serializer.data)
+                image_instance = serializer.save(user=user)  # שמירת התמונה עם המשתמש
+                saved_images.append(ImageUserSerializer(image_instance).data)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({'uploaded_images': saved_images}, status=status.HTTP_201_CREATED)
 
 
-
-
 @api_view(['GET'])
 @parser_classes([MultiPartParser, FormParser])
-@permission_classes([AllowAny])  # הרשאה לכולם
-@authentication_classes([])  # ביטול אימות
+@permission_classes([AllowAny])
+@authentication_classes([])
 def get_images(request):
     """
-    View לשליפת כל התמונות שהועלו.
+    View לשליפת **רק התמונות של המשתמש המחובר והפעיל**.
     """
-    images = Image_user.objects.all()  # שליפת כל האובייקטים של תמונות
-    serializer = ImageUserSerializer(images, many=True)  # המרת האובייקטים לפורמט JSON
+    session_id = request.COOKIES.get('sessionid')
+    if not session_id:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    # קבלת ה-User מתוך ה-Session
+    session = SessionStore(session_key=session_id)
+    user_id = session.get('user_id')
+
+    if not user_id:
+        return Response({'error': 'Invalid session, please log in again'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    # בדיקה אם המשתמש **פעיל**
+    if not user.is_active:
+        return Response({'error': 'User is not active. Please log in again.'}, status=status.HTTP_403_FORBIDDEN)
+
+    # שליפת כל התמונות ששייכות **רק למשתמש הנוכחי**
+    images = Image_user.objects.filter(user=user)
+    serializer = ImageUserSerializer(images, many=True)
+
     return Response({'images': serializer.data}, status=status.HTTP_200_OK)
