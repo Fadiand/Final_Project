@@ -75,7 +75,7 @@ class SignUpView(View):
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
                 httponly=True,  # לא ניתן לגשת לעוגיה דרך JavaScript (הגנה)
                 secure=False,  # אם אתה ב-HTTPS שנה ל-True
-                samesite='Lax'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
+                samesite='None'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
             )
 
             print(f"User created: {user.username}, {user.email}, session_id: {session.session_key}")
@@ -138,7 +138,7 @@ class LoginView(View):
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
                 httponly=True,  # לא ניתן לגשת לעוגיה דרך JavaScript (הגנה)
                 secure=False,  # אם אתה ב-HTTPS שנה ל-True
-                samesite='Lax'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
+                samesite='None'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
             )
             return response
             

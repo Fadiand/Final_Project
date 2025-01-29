@@ -1,7 +1,9 @@
 from django.db import models
+from signup_app.models import User  # ייבוא מודל המשתמש
 
 
 class Image_user(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)  # קישור משתמש לכל תמונה
     # שדה לאחסון הקובץ (תמונה)
     image = models.ImageField(upload_to='images/')  # התמונות יישמרו בתיקיית media/images
     # שדה לאחסון זמן ההעלאה
