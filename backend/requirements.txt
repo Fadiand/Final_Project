@@ -34,4 +34,3 @@ dj-rest-auth
 djangorestframework-simplejwt
 django-allauth
 python-decouple
->>>>>>> master
