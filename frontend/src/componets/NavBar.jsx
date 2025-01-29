@@ -10,6 +10,8 @@ export default function NavBar() {
   const handleLogout = async (e) => {
     e.preventDefault(); 
 
+    console.log("Attempting logout with email:", user?.email); // ✅ בדיקה
+
     try {
       const response = await fetch("http://127.0.0.1:8000/api/logout/", {
         method: "POST",
@@ -18,7 +20,8 @@ export default function NavBar() {
         },
         credentials: "include", // שולח את ה-Cookies לשרת
         body: JSON.stringify({
-          username: user.username
+          username: user.username,
+          email:user.email
         })
       });
   

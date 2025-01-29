@@ -26,19 +26,22 @@ const GoogleLoginButton = () => {
       .then((data) => {
         console.log("Server Response:", data);
 
-        // שמירת נתוני המשתמש ב-Context וב-localStorage
+        // שמירת נתוני המשתמש כולל session_id
         setUser({
           username: data.username || data.name, // לוודא שיש שדה שם משתמש או שם
           email: data.email,
           picture: data.picture,
+          session_id: data.session_id, // שמירת session_id שהגיע מהשרת
         });
 
+        // שמירת הנתונים ב-localStorage כולל session_id
         localStorage.setItem(
           "user",
           JSON.stringify({
             username: data.username || data.name,
             email: data.email,
             picture: data.picture,
+            session_id: data.session_id, // שמירת ה-session_id
           })
         );
 
