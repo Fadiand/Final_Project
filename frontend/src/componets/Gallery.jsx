@@ -31,11 +31,12 @@ const UploadOptions = () => {
       const response = await fetch("http://127.0.0.1:8000/gallery/upload-images/", {
         method: "POST",
         body: formData,
+        credentials: "include",  // <-- חשוב! שולח עוגייה sessionid
       });
 
       if (response.ok) {
         alert("העלאת הקבצים הצליחה!");
-        fetchUploadedImages();
+        fetchUploadedImages(); // שליפת העדכון האחרון של התמונות
       } else {
         const errorData = await response.json();
         alert(`העלאת הקבצים נכשלה: ${errorData.error || "Unknown error"}`);
@@ -52,7 +53,9 @@ const UploadOptions = () => {
   const fetchUploadedImages = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://127.0.0.1:8000/gallery/get-images/");
+      const response = await fetch("http://127.0.0.1:8000/gallery/get-images/", {
+        credentials: "include", // <-- חשוב גם כאן
+      });
 
       if (response.ok) {
         const data = await response.json();

@@ -233,7 +233,7 @@ CORS_ORIGIN_ALLOW_ALL = False  # חסום את כל המקורות כברירת 
 # נוודא שהעוגיות יישלחו גם ב-HTTP רגיל
 SESSION_COOKIE_SECURE = False  # אם אתה ב-HTTPS שנה את זה ל-True
 SESSION_COOKIE_HTTPONLY = True  # הגנה על העוגיה מגישה דרך JavaScript
-SESSION_COOKIE_SAMESITE = 'Lax'  # כדי שהעוגיה לא תיחסם ע"י דפדפנים (אם עדיין לא עובד נסה 'None')
+SESSION_COOKIE_SAMESITE = "Lax"
 
 # נוודא שה-Session לא נמחק כאשר הדפדפן נסגר
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False

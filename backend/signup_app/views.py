@@ -52,7 +52,7 @@ class SignUpView(View):
             session['username'] = user.username
             session['email'] = user.email
             session.create()  # שמירת ה-session במאגר הנתונים
-            
+             
             
             if not session.session_key:  # בדיקה שה-Session נוצר בהצלחה
                 return JsonResponse({"error": "Failed to create session."}, status=500)
@@ -71,10 +71,10 @@ class SignUpView(View):
                 key='sessionid',
                 value=session.session_key,
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
-                httponly=True,  # לא ניתן לגשת לעוגיה דרך JavaScript (הגנה)
-                secure=False,  # אם אתה ב-HTTPS שנה ל-True
-                samesite='Lax'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
-            )
+                httponly=False,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
+                secure=False,  # אין HTTPS, אז False
+                samesite="Lax"  # ביטול SameSite לחלוטין
+)
 
             print(f"User created: {user.username}, {user.email}, session_id: {session.session_key}")
             return response
@@ -134,10 +134,10 @@ class LoginView(View):
                 key='sessionid',
                 value=session.session_key,
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
-                httponly=True,  # לא ניתן לגשת לעוגיה דרך JavaScript (הגנה)
-                secure=False,  # אם אתה ב-HTTPS שנה ל-True
-                samesite='Lax'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
-            )
+                httponly=False,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
+                secure=False,  # אין HTTPS, אז False
+                samesite="Lax"  # ביטול SameSite לחלוטין
+)
             return response
             
         except Exception as e:

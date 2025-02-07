@@ -21,5 +21,5 @@ class User(models.Model):
         self.password = make_password(raw_password)
         self.save()
         
-    def _str_(self):
-        return f"Username: {self.username}, Email: {self.email}"
+    def __str__(self):
+        return f" {self.username}"
