@@ -5,10 +5,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from .models import User
-
 from connectgmail.models import gmail_users  # המודל של משתמשי Google
-from django.contrib.auth import login
-from django.contrib.auth import logout
+#from django.contrib.auth import login
+#from django.contrib.auth import logout
+from connectgmail.models import gmail_users
 
 from django.contrib.sessions.backends.db import SessionStore
 
@@ -27,7 +27,6 @@ class SignUpView(View):
             email = data.get("email")
             password = data.get("password")
 
-
             # בדיקות תקינות קלט
             if not username or not email or not password:
                 return JsonResponse({"error": "All fields are required."}, status=400)
@@ -37,8 +36,8 @@ class SignUpView(View):
 
             if User.objects.filter(username=username).exists():
                 return JsonResponse({"error": "Username already exists."}, status=400)
-
-
+            
+            gmail_users.Is_active = True
             # יצירת משתמש חדש
             user = User(
                 username=username,
@@ -53,9 +52,8 @@ class SignUpView(View):
             session['username'] = user.username
             session['email'] = user.email
             session.create()  # שמירת ה-session במאגר הנתונים
+             
             
-            
-
             if not session.session_key:  # בדיקה שה-Session נוצר בהצלחה
                 return JsonResponse({"error": "Failed to create session."}, status=500)
 
@@ -73,10 +71,10 @@ class SignUpView(View):
                 key='sessionid',
                 value=session.session_key,
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
-                httponly=True,  # לא ניתן לגשת לעוגיה דרך JavaScript (הגנה)
-                secure=False,  # אם אתה ב-HTTPS שנה ל-True
-                samesite='None'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
-            )
+                httponly=False,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
+                secure=False,  # אין HTTPS, אז False
+                samesite="Lax"  # ביטול SameSite לחלוטין
+)
 
             print(f"User created: {user.username}, {user.email}, session_id: {session.session_key}")
             return response
@@ -136,36 +134,43 @@ class LoginView(View):
                 key='sessionid',
                 value=session.session_key,
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
-                httponly=True,  # לא ניתן לגשת לעוגיה דרך JavaScript (הגנה)
-                secure=False,  # אם אתה ב-HTTPS שנה ל-True
-                samesite='None'  # כדאי להשתמש ב-'Lax' כדי למנוע בעיות
-            )
+                httponly=False,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
+                secure=False,  # אין HTTPS, אז False
+                samesite="Lax"  # ביטול SameSite לחלוטין
+)
             return response
             
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
             return JsonResponse({"error": "An unexpected error occurred. Please try again."}, status=500)
 
-
-    
 @method_decorator(csrf_exempt, name='dispatch')
 class LogOut(View):
     def post(self, request):
         try:
             data = json.loads(request.body)
             username = data.get("username")
-            
-            if not username:
-                return JsonResponse({"message": "Username not found"}, status=400)
-            
-            user = User.objects.filter(username=username).first()
-            
-            if not user:
+            email = data.get("email")  # תמיכה בהתנתקות לפי אימייל
+
+            if not username and not email:  # אם לא התקבל לא username ולא email
+                return JsonResponse({"message": "Username or email required"}, status=400)
+
+            # בדיקת משתמש רגיל (אם username קיים)
+            user = User.objects.filter(username=username).first() if username else None
+            # בדיקת משתמש Google (אם email קיים)
+            google_user = gmail_users.objects.filter(email=email).first() if email else None
+
+            if not (user or google_user):  # כאן שיניתי ל-`or` כדי להספיק שמשתמש אחד יימצא
                 return JsonResponse({"message": "User not found in the database, you need to create it first"}, status=404)
 
-            # עדכון המשתמש כלא פעיל
-            user.Is_active = False
-            user.save()
+            # סימון המשתמש כלא פעיל
+            if user:
+                user.Is_active = False
+                user.save()
+
+            if google_user:
+                google_user.Is_active = False
+                google_user.save()
 
             # מחיקת כל נתוני ה-Session
             request.session.flush()

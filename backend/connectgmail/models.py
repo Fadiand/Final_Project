@@ -3,7 +3,6 @@ from django.db import models
 class gmail_users(models.Model):
      email = models.CharField(max_length=100)
      name = models.CharField(max_length=100)
-
      Is_active = models.BooleanField(default=True)
      Is_superviser = models.BooleanField(default=False)
     

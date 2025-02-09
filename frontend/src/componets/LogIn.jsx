@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleLoginButton from "./GoogleLoginButton";
-
 import { useUser } from "./UserContext";
+
 function LogIn() {
   const { setUser } = useUser();
   const [errors, setErrors] = useState({});
@@ -31,7 +31,6 @@ function LogIn() {
         headers: {
           "Content-Type": "application/json",
         },
-
         credentials: "include", // נדרש עבור Cookies
         body: JSON.stringify({
           username: formData.username,
@@ -64,7 +63,6 @@ function LogIn() {
     }
   };
 
-
   const changepath = () => {
     nav("/")
   }
@@ -93,7 +91,6 @@ function LogIn() {
         <li></li>
         <li></li>
         <li></li>
-
       </ul>
       <div className="LogIn_Container">
         <form className="LogIn_Form" onSubmit={handleSubmit}>

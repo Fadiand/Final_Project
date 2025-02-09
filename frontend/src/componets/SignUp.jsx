@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useUser } from "./UserContext"; // ניהול המשתמש בהקשר
 
 function SignUp() {
@@ -23,7 +22,6 @@ function SignUp() {
       [name]: value,
     }));
   };
-
   
   const validate = () => {
     const newErrors = {};
@@ -127,7 +125,6 @@ function SignUp() {
         <li></li>
         <li></li>
         <li></li>
-
       </ul>
 
       {/* טופס */}
