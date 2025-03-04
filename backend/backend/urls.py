@@ -30,7 +30,7 @@ urlpatterns = [
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
 
     path('', include('signup_app.urls')),  # חיבור האפליקציה הראשית
-    path('webhook/', include('instagram.urls')),  # מחבר את האפליקציה לנתיב webhook פשוט
+    path('instagram/', include('instagram.urls')),  
     path('gallery/', include('gallery.urls')),  # הוספת נתיבי הגלריה
 
 

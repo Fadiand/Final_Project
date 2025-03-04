@@ -1,20 +1,77 @@
-from rest_framework.decorators import api_view, parser_classes, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from .models import Image_user
 from .serializers import ImageUserSerializer
 import zipfile
-from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.sessions.backends.db import SessionStore
-#from django.contrib.auth.models import User  #אנייי ללאאאאא מאמיןןןןן!!!!!!!!!!!!!!!!
-from signup_app.models import User # זה הנכון
-from django.views.decorators.csrf import csrf_exempt  
+
+from signup_app.models import User
+from django.views.decorators.csrf import csrf_exempt
+
+import tensorflow as tf
+import numpy as np
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from PIL import Image
+import os
+
+# ✅ הגדרת הנתיב למודל
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
+MODEL_PATH = os.path.join(BASE_DIR, "../vista-model/classification/predict_image_demonstration/view_model_round_3.h5")
+print(f"🔹 Trying to load model from: {MODEL_PATH}")  
+
+# ✅ טעינת המודל
+model = tf.keras.models.load_model(MODEL_PATH)
+print("✅ Model loaded successfully!")
+
+# ✅ פונקציה לסיווג תמונה עם הדפסות לבדיקה
+@csrf_exempt
+def classify_image(request):
+    if request.method == "POST" and request.FILES.get("image"):
+        try:
+            # 🔹 קבלת הקובץ
+            image_file = request.FILES["image"]
+            print(f"📸 קובץ התקבל: {image_file.name}, גודל: {image_file.size} bytes")
+
+            # 🔹 המרת הקובץ לתמונה בפורמט RGB
+            image = Image.open(image_file).convert("RGB")
+            image = image.resize((224, 224))  # התאמת גודל המודל
+            image_array = np.array(image)  # ❌ אין חלוקה ב-255!
+            image_array = np.expand_dims(image_array, axis=0)  # הוספת מימד מתאים
+
+            # ✅ בדיקה שהתמונה מעובדת נכון
+            print(f"🔹 תמונה עובדה בהצלחה: צורה {image_array.shape}, ערכים בטווח [{image_array.min()} - {image_array.max()}]")
+
+            # 🔹 הרצת התמונה דרך המודל
+            prediction = model.predict(image_array)[0]  # מקבל את כל הערכים מהמטריצה
+            predicted_class = np.argmax(prediction)  # מזהה את המחלקה עם הערך הגבוה ביותר
+
+            # 🔹 הגדרת תוצאה
+            classification = "תיירות" if predicted_class == 1 else "לא תיירות"
+            confidence = float(prediction[predicted_class])  # רמת ביטחון למחלקה שנבחרה
+
+            # ✅ הדפסת תוצאת המודל לטרמינל
+            print(f"🟢 תוצאה: {classification}, ביטחון: {confidence:.4f}, ערכי המודל: {prediction}")
+
+            return JsonResponse({
+                "classification": classification,
+                "confidence": confidence,
+                "raw_output": prediction.tolist()  # מציג את כל ערכי היציאה
+            })
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"error": "שלח תמונה בפורמט POST"}, status=400)
 
 
+
+
+# 🔹 פונקציה לזיהוי משתמש דרך ה-Session וה-Cookies
 def get_user_from_session(request):
     session_key = request.COOKIES.get('sessionid')
     print(f"🔹 Cookie sessionid: {session_key}")  
@@ -39,43 +96,16 @@ def get_user_from_session(request):
         print("🔴 User not found in database")
         return None
     
-    
 
+# 🔹 **View להעלאת תמונות**
 @csrf_exempt  
 @api_view(['POST'])
+@permission_classes([AllowAny]) 
 @parser_classes([MultiPartParser, FormParser])
-@permission_classes([AllowAny])
-#@authentication_classes([])
 def upload_images(request):
-    """
-    View להעלאת תמונות (כולל קבצי ZIP) **רק עבור משתמש מחובר ופעיל**.
-    """
-    
-    """
-    
-    # בדיקה אם המשתמש מחובר
-    session_id = request.COOKIES.get('sessionid')
-    if not session_id:
-        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    print("🔹 Upload request received")
 
-    # קבלת ה-User מתוך ה-Session
-    session = SessionStore(session_key=session_id)
-    user_id = session.get('user_id')
-
-    if not user_id:
-        return Response({'error': 'Invalid session, please log in again'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    user = User.objects.filter(id=user_id).first()
-    if not user:
-        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    # בדיקה אם המשתמש **פעיל**
-    if not user.is_active:
-        return Response({'error': 'User is not active. Please log in again.'}, status=status.HTTP_403_FORBIDDEN)
-        
-        
-    """
-    
+    # **מזהה משתמש אם קיים**
     user = get_user_from_session(request)
     if user:
         print(f"✅ Uploading images for user: {user.username} ({user.email})")
@@ -83,11 +113,13 @@ def upload_images(request):
         print("❌ No user found in session. Uploading images anonymously.")
 
     files = request.FILES.getlist('images')
+    if not files:
+        return Response({'error': 'No files provided'}, status=status.HTTP_400_BAD_REQUEST)
+
     saved_images = []
 
     for file in files:
-        # אם הקובץ הוא ZIP, פתח אותו והעלה את כל התמונות שבו
-        if file.name.endswith('.zip'):
+        if file.name.lower().endswith('.zip'):
             try:
                 with zipfile.ZipFile(file) as zf:
                     for filename in zf.namelist():
@@ -96,64 +128,41 @@ def upload_images(request):
                             image_file = SimpleUploadedFile(filename, file_data)
                             serializer = ImageUserSerializer(data={'image': image_file})
                             if serializer.is_valid():
-                                image_instance = serializer.save(user=user)  # שמירת התמונה עם המשתמש
-                                saved_images.append(ImageUserSerializer(image_instance).data)
+                                serializer.save(user=user)
+                                saved_images.append(serializer.data)
                             else:
                                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             except zipfile.BadZipFile:
                 return Response({'error': 'Invalid ZIP file'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            # אם זה לא ZIP, העלה את התמונה כרגיל
             serializer = ImageUserSerializer(data={'image': file})
             if serializer.is_valid():
-                image_instance = serializer.save(user=user)  # שמירת התמונה עם המשתמש
-                saved_images.append(ImageUserSerializer(image_instance).data)
+                serializer.save(user=user)
+                saved_images.append(serializer.data)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({'uploaded_images': saved_images}, status=status.HTTP_201_CREATED)
 
+
+# 🔹 **View לשליפת תמונות**
 @csrf_exempt  
 @api_view(['GET'])
-@parser_classes([MultiPartParser, FormParser])
 @permission_classes([AllowAny])
-#@authentication_classes([])
+@parser_classes([MultiPartParser, FormParser])
 def get_images(request):
-    """
-    View לשליפת **רק התמונות של המשתמש המחובר והפעיל**.
-    """
-    
-    """
-      session_id = request.COOKIES.get('sessionid')
-    if not session_id:
-        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    print("🔹 Fetching images")
 
-    # קבלת ה-User מתוך ה-Session
-    session = SessionStore(session_key=session_id)
-    user_id = session.get('user_id')
-
-    if not user_id:
-        return Response({'error': 'Invalid session, please log in again'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    user = User.objects.filter(id=user_id).first()
-    if not user:
-        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    # בדיקה אם המשתמש **פעיל**
-    if not user.is_active:
-        return Response({'error': 'User is not active. Please log in again.'}, status=status.HTTP_403_FORBIDDEN)
-        
-    """
-    
+    # **מזהה משתמש אם קיים**
     user = get_user_from_session(request)
     if user:
-        print(f"✅ Uploading images for user: {user.username} ({user.email})")
+        print(f"✅ Fetching images for user: {user.username} ({user.email})")
+        images = Image_user.objects.filter(user=user)
     else:
-        print("❌ No user found in session. Uploading images anonymously.")
+        print("❌ No user found in session. Fetching all images.")  
+        images = Image_user.objects.all()
 
-
-    # שליפת כל התמונות ששייכות **רק למשתמש הנוכחי**
-    images = Image_user.objects.filter(user=user)
     serializer = ImageUserSerializer(images, many=True)
-
     return Response({'images': serializer.data}, status=status.HTTP_200_OK)
+
+
