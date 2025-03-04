@@ -633,6 +633,139 @@ cursor: pointer;
   margin-top: 1.5rem;
 }
 
+/*עיצוב המודל!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/* Enhanced color palette */
+.model-test {
+  --color-bg: #f0f4f8;
+  --color-text: #2c3e50;
+  --color-primary: #3498db;
+  --color-secondary: #2ecc71;
+  --color-error: #e74c3c;
+  --color-border: #bdc3c7;
+  --color-box-bg: #ffffff;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.classification-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.classification-gallery {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+}
+
+.classification-column {
+  width: 42%; /* Reduced width to create more space between boxes */
+  background-color: var(--color-box-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.column-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+  text-align: center;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.classified-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.results-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.result-item {
+  background-color: var(--color-box-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.classification-icon {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.classification-icon.success {
+  background-color: var(--color-secondary);
+  color: #ffffff;
+}
+
+.classification-icon.error {
+  background-color: var(--color-error);
+  color: #ffffff;
+}
+
+.confidence-text {
+  margin-top: 0.8rem;
+  font-size: 1rem;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .classification-gallery {
+    flex-direction: column;
+  }
+
+  .classification-column {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .results-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+
+
 
 /* עיצוב רכיב - conect!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
@@ -873,112 +1006,241 @@ cursor: pointer;
 
 
 /*עיצוב דף גלריההה!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-/* עיצוב קונטיינר העלאת קבצים */
+:root {
+  --primary-color: #1a237e;
+  --primary-light: #534bae;
+  --primary-dark: #000051;
+  --secondary-color: #3f51b5;
+  --text-light: #ffffff;
+  --text-dark: #121212;
+  --background-light: #f5f5f5;
+  --background-dark: #121212;
+  --border-color: #e0e0e0;
+}
+
+
 .upload-container {
-  max-width: 600px;
-  margin: 50px auto; /* מרכז את הקונטיינר */
-  text-align: center;
-  background: linear-gradient(135deg, #ffffff, #f0f4f0); /* מעבר צבע עדין */
-  padding: 30px;
-  border-radius: 15px; /* פינות מעוגלות */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* צל עמוק יותר */
-  border: 1px solid #ffffff; /* גבול רך */
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 40px;
+  background: var(--text-light);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* כותרת */
 .upload-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #9e2d2d;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-/* כפתור העלאת קבצים מהמחשב */
-.upload-box {
-  display: inline-block;
-  width: 560px;
-  padding: 15px;
+.upload-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 24px;
+  color: var(--primary-color);
+  font-weight: 600;
   margin-bottom: 20px;
-  background: linear-gradient(45deg, #9e2d2d, #4ecdc4);
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
+}
+
+.upload-box {
+  border: 2px dashed var(--primary-light);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .upload-box:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+  border-color: var(--primary-color);
+  background-color: var(--background-light);
 }
 
-/* כפתור העלאת קבצים מהגלריה */
-.gallery-button {
-  width: 590px;
-  padding: 15px;
+.upload-icon {
+  width: 64px;
+  height: 64px;
   margin-bottom: 20px;
-  background: linear-gradient(45deg, #9e2d2d, #4ecdc4);
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: var(--primary-color);
 }
 
-.gallery-button:hover {
-  background-color: #218838;
-  transform: scale(1.05);
+.upload-text {
+  font-size: 20px;
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 10px;
 }
 
-/* עיצוב גרור ושחרר */
-.drag-and-drop-box {
-  width: 100%;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  color: #666;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-  cursor: pointer;
+.upload-info {
+  font-size: 14px;
+  color: var(--secondary-color);
 }
 
-.drag-and-drop-box:hover {
-  background-color: #f0f8ff;
-  border-color: #007bff;
+.file-input {
+  display: none;
 }
 
-/* גלריית תמונות */
-.image-gallery {
+.loading {
   display: flex;
-  flex-wrap: wrap; /* עטיפת שורות */
-  gap: 10px; /* מרווח בין התמונות */
-  justify-content: flex-start; /* משמאל לימין */
-  padding: 20px; /* ריווח פנימי */
-  margin-top: 20px; /* מרווח מעל הגלריה */
-  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.spinner {
+  border: 4px solid var(--background-light);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.image-gallery-container {
+  background: var(--background-light);
+  border-radius: 16px;
+  padding: 30px;
+  margin-top: 40px;
+}
+
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.selected-count {
+  font-size: 16px;
+  color: var(--secondary-color);
+}
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.image-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* עיצוב תמונות בגלריה */
-.gallery-image {
-  width: 150px; /* גודל קטן */
-  height: 150px;
-  object-fit: cover; /* התאמה לגבולות */
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+.image-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.gallery-image:hover {
-  transform: scale(1.05); /* הגדלה בהובר */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+.gallery-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
 }
+
+.image-item.selected {
+  border: 3px solid var(--primary-color);
+}
+
+.selection-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selection-indicator svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-light);
+}
+
+.no-images {
+  text-align: center;
+  color: var(--secondary-color);
+  padding: 60px 0;
+}
+
+.empty-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  color: var(--primary-light);
+}
+
+.classify-button {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin-top: 40px;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.classify-button:hover:not(.disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
+}
+
+.classify-button.disabled {
+  background: var(--border-color);
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .upload-container {
+    padding: 20px;
+  }
+
+  .upload-title {
+    font-size: 24px;
+  }
+
+  .upload-box {
+    padding: 20px;
+  }
+
+  .image-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .gallery-image {
+    height: 120px;
+  }
+}
+
+
+
 
 /*עיצוב רכיב about!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 

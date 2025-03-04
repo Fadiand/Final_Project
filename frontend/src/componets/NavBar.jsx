@@ -76,20 +76,21 @@ export default function NavBar() {
         </li>
         <li className="navbar-item">
           <NavLink
-            to="/contact"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Contact
-          </NavLink>
-        </li>
-        <li className="navbar-item">
-          <NavLink
             to="/model_test"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Model Test
           </NavLink>
         </li>
+        <li className="navbar-item">
+          <NavLink
+            to="/contact"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Contact
+          </NavLink>
+        </li>
+        
 
         {/* כפתורים */}
         <li className="navbar-item buttons">
