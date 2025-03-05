@@ -14,6 +14,31 @@ from django.contrib.sessions.backends.db import SessionStore
 
 
 @method_decorator(csrf_exempt, name='dispatch')
+class UserInfo(View):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            username = data.get("username")  
+            
+            # חיפוש המשתמש במסד הנתונים
+            user = User.objects.filter(username=username).first()  
+            if user:
+                return JsonResponse({
+                    "username": user.username,
+                    "Is_superviser": user.Is_superviser  
+                }, status=200)
+            else:
+                return JsonResponse({"error": "User not found"}, status=404)
+        
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({"error": "GET method not allowed"}, status=405)
+
+    
+
+@method_decorator(csrf_exempt, name='dispatch')
 class SignUpView(View):
     
     # מתודה זמנית לבדיקת שה-API פעיל

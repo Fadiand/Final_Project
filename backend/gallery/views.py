@@ -28,46 +28,51 @@ print(f"🔹 Trying to load model from: {MODEL_PATH}")
 model = tf.keras.models.load_model(MODEL_PATH)
 print("✅ Model loaded successfully!")
 
-# ✅ פונקציה לסיווג תמונה עם הדפסות לבדיקה
+
 @csrf_exempt
 def classify_image(request):
     if request.method == "POST" and request.FILES.get("image"):
         try:
-            # 🔹 קבלת הקובץ
+            # 🔹 זיהוי המשתמש
+            user = get_user_from_session(request)
+            user_info = f"{user.username} ({user.email})" if user else "Anonymous"
+            print(f"🔹 Classifying image for: {user_info}")
+
+            # 🔹 קבלת קובץ תמונה
             image_file = request.FILES["image"]
             print(f"📸 קובץ התקבל: {image_file.name}, גודל: {image_file.size} bytes")
 
             # 🔹 המרת הקובץ לתמונה בפורמט RGB
             image = Image.open(image_file).convert("RGB")
-            image = image.resize((224, 224))  # התאמת גודל המודל
-            image_array = np.array(image)  # ❌ אין חלוקה ב-255!
-            image_array = np.expand_dims(image_array, axis=0)  # הוספת מימד מתאים
+            image = image.resize((224, 224))  
+            image_array = np.array(image)  
+            image_array = np.expand_dims(image_array, axis=0)  
 
             # ✅ בדיקה שהתמונה מעובדת נכון
-            print(f"🔹 תמונה עובדה בהצלחה: צורה {image_array.shape}, ערכים בטווח [{image_array.min()} - {image_array.max()}]")
+            print(f"🔹 תמונה עובדה בהצלחה: צורה {image_array.shape}")
 
             # 🔹 הרצת התמונה דרך המודל
-            prediction = model.predict(image_array)[0]  # מקבל את כל הערכים מהמטריצה
-            predicted_class = np.argmax(prediction)  # מזהה את המחלקה עם הערך הגבוה ביותר
+            prediction = model.predict(image_array)[0]  
+            predicted_class = np.argmax(prediction)  
 
             # 🔹 הגדרת תוצאה
             classification = "תיירות" if predicted_class == 1 else "לא תיירות"
-            confidence = float(prediction[predicted_class])  # רמת ביטחון למחלקה שנבחרה
+            confidence = float(prediction[predicted_class])  
 
             # ✅ הדפסת תוצאת המודל לטרמינל
-            print(f"🟢 תוצאה: {classification}, ביטחון: {confidence:.4f}, ערכי המודל: {prediction}")
+            print(f"🟢 תוצאה: {classification}, ביטחון: {confidence:.4f}")
 
             return JsonResponse({
+                "user": user_info,  # ✅ מחזיר את המשתמש (אם מזוהה)
                 "classification": classification,
                 "confidence": confidence,
-                "raw_output": prediction.tolist()  # מציג את כל ערכי היציאה
+                "raw_output": prediction.tolist()  
             })
 
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
     return JsonResponse({"error": "שלח תמונה בפורמט POST"}, status=400)
-
 
 
 
