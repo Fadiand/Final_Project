@@ -5,9 +5,14 @@ import { useLocation } from "react-router-dom"
 
 function ModelTest() {
   const location = useLocation()
+  const sessionId = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("sessionid="))
+    ?.split("=")[1] // 🔹 מביא את ה-Session ID מה-Cookies
+
   const [classifiedImages, setClassifiedImages] = useState({
-    tourist: JSON.parse(localStorage.getItem("touristImages")) || [],
-    nonTourist: JSON.parse(localStorage.getItem("nonTouristImages")) || [],
+    tourist: JSON.parse(localStorage.getItem(`touristImages_${sessionId}`)) || [],
+    nonTourist: JSON.parse(localStorage.getItem(`nonTouristImages_${sessionId}`)) || [],
   })
   const [results, setResults] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -29,6 +34,7 @@ function ModelTest() {
           const response = await fetch("http://127.0.0.1:8000/gallery/classify-image/", {
             method: "POST",
             body: formData,
+            credentials: "include", // ✅ שולח את ה-Session ID לשרת
           })
 
           if (response.ok) {
@@ -51,8 +57,8 @@ function ModelTest() {
                     : prev.nonTourist,
               }
 
-              localStorage.setItem("touristImages", JSON.stringify(newImages.tourist))
-              localStorage.setItem("nonTouristImages", JSON.stringify(newImages.nonTourist))
+              localStorage.setItem(`touristImages_${sessionId}`, JSON.stringify(newImages.tourist))
+              localStorage.setItem(`nonTouristImages_${sessionId}`, JSON.stringify(newImages.nonTourist))
 
               return newImages
             })
@@ -70,15 +76,15 @@ function ModelTest() {
     }
 
     classifyImages()
-  }, [imageUrls])
+  }, [imageUrls, sessionId])
 
-  // 🔹 פונקציה למחיקת כל התמונות מה-LocalStorage ומה-State
+  // 🔹 פונקציה לניקוי תמונות למשתמש הנוכחי בלבד
   const clearAllImages = () => {
-    setClassifiedImages({ tourist: [], nonTourist: [] }) // 🔄 מנקה את ה-State
-    localStorage.removeItem("touristImages") // 🔄 מוחק מה-LocalStorage
-    localStorage.removeItem("nonTouristImages")
-    setResults([]) // 🔄 מוחק גם את תוצאות הסיווג
-    alert("✅ All images have been cleared!")
+    setClassifiedImages({ tourist: [], nonTourist: [] })
+    localStorage.removeItem(`touristImages_${sessionId}`)
+    localStorage.removeItem(`nonTouristImages_${sessionId}`)
+    setResults([])
+    alert("✅ כל התמונות שלך נמחקו!")
   }
 
   return (
@@ -87,9 +93,9 @@ function ModelTest() {
         <h1 className="classification-title">Image Classification</h1>
         {isLoading && <p className="loading-text">Classifying images...</p>}
 
-        {/* 🔹 כפתור לניקוי כל התמונות */}
+        {/* 🔹 כפתור לניקוי כל התמונות של המשתמש הנוכחי */}
         <button className="clear-all-button" onClick={clearAllImages}>
-          🗑️ Clear All Images
+          🗑️ Clear My Images
         </button>
 
         <div className="classification-gallery">
@@ -135,4 +141,3 @@ function ModelTest() {
 }
 
 export default ModelTest
-

@@ -7,11 +7,12 @@ export default function NavBar() {
   const { user, setUser } = useUser(); // קבלת המידע על המשתמש
   const navigate = useNavigate();
 
-
   const handleLogout = async (e) => {
-    e.preventDefault(); 
-
+    e.preventDefault();
+  
     try {
+      const userData = JSON.parse(localStorage.getItem("user")); // מקבל את הנתונים מה-LocalStorage
+  
       const response = await fetch("http://127.0.0.1:8000/api/logout/", {
         method: "POST",
         headers: {
@@ -19,14 +20,15 @@ export default function NavBar() {
         },
         credentials: "include", // שולח את ה-Cookies לשרת
         body: JSON.stringify({
-          username: user.username
-        })
+          username: userData.username || null, // שולח username אם קיים
+          email: userData.email || null, // שולח email אם קיים
+        }),
       });
   
       if (response.ok) {
-        setUser(null); 
-        localStorage.removeItem("user"); 
-        navigate("/"); 
+        setUser(null);
+        localStorage.removeItem("user");
+        navigate("/");
       } else {
         const errorData = await response.json();
         console.error("Logout failed:", errorData.error);
@@ -37,6 +39,7 @@ export default function NavBar() {
       alert("An error occurred. Please try again.");
     }
   };
+  
   
   return (
     <nav className="navbar-container">
