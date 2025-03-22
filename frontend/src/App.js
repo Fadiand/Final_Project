@@ -9,6 +9,7 @@ import ModelTest from "./componets/ModelTest";
 import RootLayout from "./componets/Root";
 import SignUp from "./componets/SignUp";
 import LogIn from "./componets/LogIn";
+import Admin from "./componets/Admin";
 
 function App() {
     const router = createBrowserRouter([
@@ -25,6 +26,7 @@ function App() {
                 { path: '/Model_Test', element: <ModelTest /> },
                 { path: '/Contact', element: <Contact /> },
                 { path: '/Fidbek', element: <Fidbek /> },
+                {path: '/admin-dashboard', element: <Admin />}
             ],
         },
     ]);

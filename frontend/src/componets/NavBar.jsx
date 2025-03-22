@@ -3,6 +3,8 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useUser } from "./UserContext"; // חיבור ל-UserContext
 
+
+
 export default function NavBar() {
   const { user, setUser } = useUser(); // קבלת המידע על המשתמש
   const navigate = useNavigate();
@@ -94,6 +96,16 @@ export default function NavBar() {
           </NavLink>
         </li>
         
+        {user && user.is_superviser && (
+        <li className="navbar-item">
+        <NavLink
+          to="/admin-dashboard"
+          className={({ isActive }) => (isActive ? "active" : "")}
+           >
+           Admin
+          </NavLink>
+          </li>
+          )}
 
         {/* כפתורים */}
         <li className="navbar-item buttons">

@@ -44,6 +44,7 @@ function LogIn() {
           username: data.username,
           email: data.email,
           session_id: data.session_id, // שמירת ה-session_id בהקשר
+          is_superviser: data.is_superviser,
         });
 
         console.log("Session ID:", data.session_id); // הדפסה של ה-session_id
@@ -122,8 +123,8 @@ function LogIn() {
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Log In"}
             </button>
-            <span onClick={changepath}>
-              Login with Google <GoogleLoginButton />
+            <span className="Login-form-input-span" onClick={changepath}>
+              <GoogleLoginButton />
             </span>
             <span>
               Don't have an account?{" "}

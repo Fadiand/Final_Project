@@ -82,6 +82,7 @@ function SignUp() {
             username: data.username,
             email: data.email,
             session_id: data.session_id, // שמירת ה-session_id בהקשר
+            is_superviser: data.is_superviser,
           });
 
           console.log("Session ID:", data.session_id); // הדפסה של ה-session_id
@@ -196,3 +197,4 @@ function SignUp() {
 }
 
 export default SignUp;
+

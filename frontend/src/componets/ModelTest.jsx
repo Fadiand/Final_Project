@@ -5,11 +5,14 @@ import { useLocation } from "react-router-dom"
 
 function ModelTest() {
   const location = useLocation()
+  
+  // Get session ID from cookies
   const sessionId = document.cookie
     .split("; ")
     .find((row) => row.startsWith("sessionid="))
-    ?.split("=")[1] // 🔹 מביא את ה-Session ID מה-Cookies
+    ?.split("=")[1]
 
+  // State management
   const [classifiedImages, setClassifiedImages] = useState({
     tourist: JSON.parse(localStorage.getItem(`touristImages_${sessionId}`)) || [],
     nonTourist: JSON.parse(localStorage.getItem(`nonTouristImages_${sessionId}`)) || [],
@@ -17,8 +20,19 @@ function ModelTest() {
   const [results, setResults] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
+  // Get image URLs from location state
   const imageUrls = useMemo(() => location.state?.imageUrls || [], [location.state?.imageUrls])
 
+  // Clear all images for current user
+  const clearAllImages = () => {
+    setClassifiedImages({ tourist: [], nonTourist: [] })
+    localStorage.removeItem(`touristImages_${sessionId}`)
+    localStorage.removeItem(`nonTouristImages_${sessionId}`)
+    setResults([])
+    alert("✅ כל התמונות שלך נמחקו!")
+  }
+
+  // Classify images when URLs change
   useEffect(() => {
     if (imageUrls.length === 0) return
 
@@ -34,7 +48,7 @@ function ModelTest() {
           const response = await fetch("http://127.0.0.1:8000/gallery/classify-image/", {
             method: "POST",
             body: formData,
-            credentials: "include", // ✅ שולח את ה-Session ID לשרת
+            credentials: "include", // Send session ID to server
           })
 
           if (response.ok) {
@@ -78,63 +92,87 @@ function ModelTest() {
     classifyImages()
   }, [imageUrls, sessionId])
 
-  // 🔹 פונקציה לניקוי תמונות למשתמש הנוכחי בלבד
-  const clearAllImages = () => {
-    setClassifiedImages({ tourist: [], nonTourist: [] })
-    localStorage.removeItem(`touristImages_${sessionId}`)
-    localStorage.removeItem(`nonTouristImages_${sessionId}`)
-    setResults([])
-    alert("✅ כל התמונות שלך נמחקו!")
-  }
-
   return (
     <div className="model-test">
       <div className="page-container">
-        <h1 className="classification-title">Image Classification</h1>
-        {isLoading && <p className="loading-text">Classifying images...</p>}
+        <header className="page-header">
+          <h1 className="classification-title">Image Classification</h1>
+          
+          <button className="clear-all-button" onClick={clearAllImages}>
+            <span className="button-icon">🗑️</span>
+            <span className="button-text">Clear My Images</span>
+          </button>
+        </header>
 
-        {/* 🔹 כפתור לניקוי כל התמונות של המשתמש הנוכחי */}
-        <button className="clear-all-button" onClick={clearAllImages}>
-          🗑️ Clear My Images
-        </button>
+        {isLoading && (
+          <div className="loading-container">
+            <p className="loading-text">Classifying images...</p>
+            <div className="loading-spinner"></div>
+          </div>
+        )}
 
+        {/* Classification Results */}
         <div className="classification-gallery">
-          <div className="classification-column">
-            <h2 className="column-title">🏝 Tourist</h2>
+          <div className="classification-column tourist-column">
+            <h2 className="column-title">
+              <span className="column-icon">🏝</span> Tourist
+            </h2>
             <div className="image-grid">
-              {classifiedImages.tourist.map((img, index) => (
-                <img key={index} src={img || "/placeholder.svg"} alt="Tourist" className="classified-image" />
-              ))}
+              {classifiedImages.tourist.length > 0 ? (
+                classifiedImages.tourist.map((img, index) => (
+                  <div className="image-container" key={index}>
+                    <img src={img || "/placeholder.svg"} alt="Tourist" className="classified-image" />
+                  </div>
+                ))
+              ) : (
+                <p className="empty-message">No tourist images yet</p>
+              )}
             </div>
           </div>
 
-          <div className="classification-column">
-            <h2 className="column-title">🏠 Non-Tourist</h2>
+          <div className="classification-column non-tourist-column">
+            <h2 className="column-title">
+              <span className="column-icon">🏠</span> Non-Tourist
+            </h2>
             <div className="image-grid">
-              {classifiedImages.nonTourist.map((img, index) => (
-                <img key={index} src={img || "/placeholder.svg"} alt="Non-Tourist" className="classified-image" />
-              ))}
+              {classifiedImages.nonTourist.length > 0 ? (
+                classifiedImages.nonTourist.map((img, index) => (
+                  <div className="image-container" key={index}>
+                    <img src={img || "/placeholder.svg"} alt="Non-Tourist" className="classified-image" />
+                  </div>
+                ))
+              ) : (
+                <p className="empty-message">No non-tourist images yet</p>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="results-container">
-          {results.map((res, index) => (
-            <div key={index} className="result-item">
-              <img src={res.imageUrl || "/placeholder.svg"} alt={`Result ${index}`} className="classified-image" />
-              <p>
-                {res.classification === "תיירות" ? (
-                  <span className="classification-icon success">✔ Tourist</span>
-                ) : (
-                  <span className="classification-icon error">❌ Non-Tourist</span>
-                )}
-              </p>
-              <p className="confidence-text">
-                Confidence: <strong>{res.confidence}%</strong>
-              </p>
+        {/* Recent Classification Results */}
+        {results.length > 0 && (
+          <div className="recent-results">
+            <h2 className="section-title">Recent Classifications</h2>
+            <div className="results-container">
+              {results.map((res, index) => (
+                <div key={index} className="result-item">
+                  <div className="result-image-container">
+                    <img src={res.imageUrl || "/placeholder.svg"} alt={`Result ${index}`} className="classified-image" />
+                  </div>
+                  <div className="result-details">
+                    {res.classification === "תיירות" ? (
+                      <span className="classification-icon success">✔ Tourist</span>
+                    ) : (
+                      <span className="classification-icon error">❌ Non-Tourist</span>
+                    )}
+                    <p className="confidence-text">
+                      Confidence: <strong>{res.confidence}%</strong>
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )

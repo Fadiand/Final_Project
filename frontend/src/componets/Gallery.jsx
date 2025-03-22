@@ -11,7 +11,7 @@ const UploadOptions = () => {
   const handleAttachFiles = () => {
     fileInputRef.current.click();
   };
-
+  
   const handleFilesChange = async (e) => {
     const files = Array.from(e.target.files);
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/gif"];
@@ -70,6 +70,7 @@ const UploadOptions = () => {
     }
   };
 
+
   const toggleImageSelection = (imageUrl) => {
     setSelectedImages((prev) =>
       prev.includes(imageUrl) ? prev.filter((img) => img !== imageUrl) : [...prev, imageUrl]
@@ -84,9 +85,19 @@ const UploadOptions = () => {
     navigate("/model_test", { state: { imageUrls: selectedImages } });
   };
 
+  // ✅ בחירת כל התמונות בלחיצה אחת
+  const handleSelectAll = () => {
+    if (selectedImages.length === uploadedImages.length) {
+      setSelectedImages([]); // אם הכל נבחר -> בטל בחירה
+    } else {
+      const allImages = uploadedImages.map((img) => `http://127.0.0.1:8000${img.image}`);
+      setSelectedImages(allImages);
+    }
+  };
+
   useEffect(() => {
     fetchUploadedImages();
-  }, []); //This line was missing the dependency array
+  }, []);
 
   return (
     <div className="upload-container">
@@ -123,6 +134,15 @@ const UploadOptions = () => {
           <div className="gallery-header">
             <h3 className="section-title">Your Images</h3>
             <p className="selected-count">{selectedImages.length} selected</p>
+            <button className="select-all-button" onClick={handleSelectAll} style={{
+              borderRadius: "5px",
+              padding: "5px",
+              cursor: "pointer",
+              backgroundColor: "#f0f0f0",
+              color: "#0a2540",
+              }}>
+              {selectedImages.length === uploadedImages.length ? "Deselect All" : "Select All"}
+            </button>
           </div>
           <div className="image-gallery">
             {uploadedImages.map((img, index) => {
@@ -146,18 +166,6 @@ const UploadOptions = () => {
               );
             })}
           </div>
-        </div>
-      )}
-
-      {!isLoading && uploadedImages.length === 0 && (
-        <div className="no-images">
-          <svg className="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polyline points="21 15 16 10 5 21"></polyline>
-          </svg>
-          <p>No images uploaded yet</p>
-          <p>Upload some images to get started</p>
         </div>
       )}
 
