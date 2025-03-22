@@ -18,6 +18,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from PIL import Image
 import os
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import authentication_classes, permission_classes
 
 # ✅ הגדרת הנתיב למודל
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
@@ -171,3 +174,35 @@ def get_images(request):
     return Response({'images': serializer.data}, status=status.HTTP_200_OK)
 
 
+
+
+@api_view(['DELETE'])
+@permission_classes([AllowAny]) 
+def delete_image(request, image_id):
+    # ✅ קבלת המשתמש מתוך ה-Session המותאם אישית שלך
+    user = get_user_from_session(request)
+    
+    if not user:
+        print("❌ Authentication failed: Invalid session")
+        return Response({"error": "Authentication failed: Invalid session"}, status=status.HTTP_403_FORBIDDEN)
+
+    try:
+        image = Image_user.objects.get(id=image_id)
+
+        # ✅ בדיקה שהתמונה שייכת למשתמש (אם רלוונטי)
+        if image.user != user:
+            return Response({"error": "You are not authorized to delete this image"}, status=status.HTTP_403_FORBIDDEN)
+
+        # ✅ מחיקת הקובץ מהשרת
+        if image.image and os.path.exists(image.image.path):
+            os.remove(image.image.path)
+
+        # ✅ מחיקת הרשומה מהמסד נתונים
+        image.delete()
+        return Response({'message': f'Image {image_id} deleted successfully'}, status=status.HTTP_200_OK)
+
+    except Image_user.DoesNotExist:
+        return Response({'error': 'Image not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        return Response({'error': f'Failed to delete image: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

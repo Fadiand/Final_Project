@@ -9,32 +9,14 @@ from connectgmail.models import gmail_users  # המודל של משתמשי Goog
 #from django.contrib.auth import login
 #from django.contrib.auth import logout
 from connectgmail.models import gmail_users
-
+from gallery.models import Image_user
 from django.contrib.sessions.backends.db import SessionStore
 
-
-@method_decorator(csrf_exempt, name='dispatch')
-class UserInfo(View):
-    def post(self, request, *args, **kwargs):
-        try:
-            data = json.loads(request.body)
-            username = data.get("username")  
-            
-            # חיפוש המשתמש במסד הנתונים
-            user = User.objects.filter(username=username).first()  
-            if user:
-                return JsonResponse({
-                    "username": user.username,
-                    "Is_superviser": user.Is_superviser  
-                }, status=200)
-            else:
-                return JsonResponse({"error": "User not found"}, status=404)
-        
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON"}, status=400)
-
+class AdminDataView(View):
     def get(self, request, *args, **kwargs):
-        return JsonResponse({"error": "GET method not allowed"}, status=405)
+        # משיכת כל המשתמשים
+        users = User.objects.all().values("id", "username", "email", "Is_superviser", "Is_active")
+        return JsonResponse({"users": list(users)}, status=200)
 
     
 
@@ -88,7 +70,8 @@ class SignUpView(View):
                 "username": user.username,
                 "email": user.email,
                 "session_id": session.session_key,  # session_id שנוצר ידנית
-                
+                 "is_superviser": user.Is_superviser  
+
             }, status=201)
 
             # הוספת העוגייה של ה-Session (רק **פעם אחת!**)
@@ -152,6 +135,8 @@ class LoginView(View):
                 "user_id": user.id,
                 "Is_active":user.Is_active,
                 "session_id": session.session_key,  # session_id שנוצר ידנית
+                "is_superviser": user.Is_superviser  
+
             }, status=200)
             
              # הוספת העוגייה של ה-Session (רק **פעם אחת!**)
