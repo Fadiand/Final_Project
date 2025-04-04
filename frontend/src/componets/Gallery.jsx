@@ -6,12 +6,13 @@ const UploadOptions = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
   const handleAttachFiles = () => {
     fileInputRef.current.click();
   };
-  
+
   const handleFilesChange = async (e) => {
     const files = Array.from(e.target.files);
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/gif"];
@@ -32,17 +33,27 @@ const UploadOptions = () => {
         body: formData,
         credentials: "include",
       });
+      if (response.status === 401) {
+        {/* alert("You must be logged in to upload images."); */}
+
+        navigate("/login");
+        return;
+      }
 
       if (response.ok) {
-        alert("File upload successful!");
+        {/* alert("File upload successful!"); */}
+        
         fetchUploadedImages();
       } else {
         const errorData = await response.json();
-        alert(`File upload failed: ${errorData.error || "Unknown error"}`);
+        {/*  alert(`File upload failed: ${errorData.error || "Unknown error"}`); */}
+
       }
     } catch (error) {
       console.error("Error uploading files:", error);
-      alert("Error uploading files. Please try again.");
+      {/* alert("Error uploading files. Please try again."); */}
+
+      
     } finally {
       setIsLoading(false);
     }
@@ -60,16 +71,53 @@ const UploadOptions = () => {
         setUploadedImages(data.images);
       } else {
         const errorData = await response.json();
-        alert(`Failed to fetch images: ${errorData.error || "Unknown error"}`);
+        {/*  alert(`Failed to fetch images: ${errorData.error || "Unknown error"}`);*/}
+
+       
       }
     } catch (error) {
       console.error("Error fetching images:", error);
-      alert("Error fetching images. Please try again.");
+      {/* alert("Error fetching images. Please try again."); */}
+
+      
     } finally {
       setIsLoading(false);
     }
   };
 
+  const deleteImage = async (imageId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/gallery/delete-image/${imageId}/`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+         {/* alert(`✅ Image ${imageId} deleted successfully`); */}
+        
+        setUploadedImages((prevImages) => prevImages.filter((img) => img.id !== imageId));
+      } else {
+        const errorData = await response.json();
+        {/*alert(`Error deleting image: ${errorData.error || "Unknown error"}`);*/}
+
+      }
+    } catch (error) {
+      console.error(" Error deleting image:", error);
+      alert(" Error deleting image. Please try again.");
+    }
+  };
+
+  const deleteSelectedImages = async () => {
+    const imagesToDelete = uploadedImages.filter((img) => selectedImages.includes(`http://127.0.0.1:8000${img.image}`));
+    for (const img of imagesToDelete) {
+      await deleteImage(img.id);
+    }
+    setSelectedImages([]);
+    setShowConfirm(false);
+  };
 
   const toggleImageSelection = (imageUrl) => {
     setSelectedImages((prev) =>
@@ -85,10 +133,9 @@ const UploadOptions = () => {
     navigate("/model_test", { state: { imageUrls: selectedImages } });
   };
 
-  // ✅ בחירת כל התמונות בלחיצה אחת
   const handleSelectAll = () => {
     if (selectedImages.length === uploadedImages.length) {
-      setSelectedImages([]); // אם הכל נבחר -> בטל בחירה
+      setSelectedImages([]);
     } else {
       const allImages = uploadedImages.map((img) => `http://127.0.0.1:8000${img.image}`);
       setSelectedImages(allImages);
@@ -140,8 +187,18 @@ const UploadOptions = () => {
               cursor: "pointer",
               backgroundColor: "#f0f0f0",
               color: "#0a2540",
-              }}>
+            }}>
               {selectedImages.length === uploadedImages.length ? "Deselect All" : "Select All"}
+            </button>
+            <button className="delete-selected-button" onClick={() => setShowConfirm(true)} disabled={selectedImages.length === 0} style={{
+              borderRadius: "5px",
+              padding: "5px",
+              cursor: selectedImages.length === 0 ? "not-allowed" : "pointer",
+              backgroundColor: "#ff4d4f",
+              color: "white",
+              marginLeft: "10px",
+            }}>
+              Delete Selected
             </button>
           </div>
           <div className="image-gallery">
@@ -179,6 +236,16 @@ const UploadOptions = () => {
             ? `Classify ${selectedImages.length} Selected ${selectedImages.length === 1 ? "Image" : "Images"}`
             : "Select images to classify"}
         </button>
+      )}
+
+      {showConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>Are you sure you want to delete the selected images?</p>
+            <button onClick={deleteSelectedImages} style={{ marginRight: "10px" }}>Yes</button>
+            <button onClick={() => setShowConfirm(false)}>Cancel</button>
+          </div>
+        </div>
       )}
     </div>
   );

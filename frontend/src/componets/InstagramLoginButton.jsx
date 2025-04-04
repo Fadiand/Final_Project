@@ -1,20 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function InstagramLoginButton() {
-    const handleInstagramLogin = () => {
-        const clientId = "YOUR_INSTAGRAM_CLIENT_ID"; // ה-Client ID שלך
-        const redirectUri = "http://127.0.0.1:8000/instagram/callback/"; // נתיב ה-Callback שלך
-        const scope = "user_profile,user_media"; // הרשאות
-        const instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+function InstagramHashtagClassifier() {
+  const [hashtag, setHashtag] = useState("");
+  const [fetchedImages, setFetchedImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-        // IGAAIoTJ6vZAJ5BZAFAzNnpiOHBZANy0zUG40YXFBOFNLZAkhPeWZA1ZA0E3RVFVUTVkOGZArTm9raTRVN2M1RWxTUGR2WUoxWXRUbUxSSTlsS05UZAnd0V0xCb0xjdEcxYUFzUjhFYjNIeG5SOW5ydHI1emlyOXZABUU12Y1R3alVaTGFrQQZDZD
-        // הפניה לכתובת של אינסטגרם
-        window.open(instagramAuthUrl, "_blank", "width=500,height=600");
-    };
+  const handleSearchClick = async () => {
+    if (!hashtag.trim()) {
+      alert("Please enter a hashtag");
+      return;
+    }
 
-    return <>
-        <button className="instagram-login-button " onClick={handleInstagramLogin}>Log in to your Instagram to create a photo library</button>
-           </>
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/instagram/public-images/?tag=${hashtag}`
+      );
+      const data = await response.json();
+      setFetchedImages(data.images || []);
+    } catch (error) {
+      console.error("❌ Failed to fetch images:", error);
+      alert("Failed to fetch images.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClassifyAll = () => {
+    if (fetchedImages.length === 0) {
+      alert("No images to classify.");
+      return;
+    }
+
+    navigate("/model_test", {
+      state: { imageUrls: fetchedImages },
+    });
+  };
+
+  return (
+    <div className="ig">
+  <div className="ig-box">
+    <h2>Instagram Hashtag Classifier</h2>
+
+    <input
+      type="text"
+      placeholder="Enter hashtag"
+      value={hashtag}
+      onChange={(e) => setHashtag(e.target.value)}
+    />
+
+    <button onClick={handleSearchClick}>Search</button>
+
+    {loading && <p style={{ color: "#fff" }}>Loading...</p>}
+
+    {fetchedImages.length > 0 && (
+      <button onClick={handleClassifyAll}>Classify All</button>
+    )}
+  </div>
+
+  {fetchedImages.length > 0 && (
+    <div className="image-gallery">
+      {fetchedImages.map((img, idx) => (
+        <img key={idx} src={img} alt={`Image ${idx}`} />
+      ))}
+    </div>
+  )}
+</div>
+
+  );
 }
 
-export default InstagramLoginButton;
+export default InstagramHashtagClassifier;

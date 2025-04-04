@@ -35,7 +35,7 @@ function Admin() {
     if (error) return <p style={{ color: "red" }}> Error ❌: {error}</p>;
 
     return (
-        <div>
+        <div className="admin-container">
             <h1> User management ⚙️ </h1>
 
             {/* טבלת משתמשים */}

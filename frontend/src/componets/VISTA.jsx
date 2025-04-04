@@ -21,7 +21,6 @@ function VISTA() {
 
       {/* אזור התוכן המרכזי */}
       <div className="hero-section">
-        <div className="logo-badge">V</div>
         <h1 className="hero-title">
           Welcome to <span>VISTA</span>
         </h1>

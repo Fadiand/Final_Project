@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import logo from "../images/logo.png";
+import logo from "../images/Logo_pic.png";
 import { useUser } from "./UserContext"; // חיבור ל-UserContext
 
 
@@ -87,6 +87,15 @@ export default function NavBar() {
             Model Test
           </NavLink>
         </li>
+        
+        <li className="navbar-item">
+          <NavLink
+            to="/Hastag_ig"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Instagram Classifier
+          </NavLink>
+        </li>
         <li className="navbar-item">
           <NavLink
             to="/contact"
@@ -95,6 +104,9 @@ export default function NavBar() {
             Contact
           </NavLink>
         </li>
+        
+        
+
         
         {user && user.is_superviser && (
         <li className="navbar-item">
