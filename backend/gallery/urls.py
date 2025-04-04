@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import upload_images, get_images, classify_image, delete_image  
+from .views import upload_images, get_images, classify_image, delete_image 
 
 
 

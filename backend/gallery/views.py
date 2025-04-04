@@ -10,7 +10,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.sessions.backends.db import SessionStore
 
 from signup_app.models import User
-from django.views.decorators.csrf import csrf_exempt
 
 import tensorflow as tf
 import numpy as np
@@ -21,6 +20,12 @@ import os
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
+
+from rest_framework.decorators import api_view, permission_classes
+import requests
+from io import BytesIO
+
+
 
 # ✅ הגדרת הנתיב למודל
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
@@ -78,7 +83,6 @@ def classify_image(request):
     return JsonResponse({"error": "שלח תמונה בפורמט POST"}, status=400)
 
 
-
 # 🔹 פונקציה לזיהוי משתמש דרך ה-Session וה-Cookies
 def get_user_from_session(request):
     session_key = request.COOKIES.get('sessionid')
@@ -119,6 +123,7 @@ def upload_images(request):
         print(f"✅ Uploading images for user: {user.username} ({user.email})")
     else:
         print("❌ No user found in session. Uploading images anonymously.")
+        return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
 
     files = request.FILES.getlist('images')
     if not files:
@@ -153,7 +158,7 @@ def upload_images(request):
     return Response({'uploaded_images': saved_images}, status=status.HTTP_201_CREATED)
 
 
-# 🔹 **View לשליפת תמונות**
+
 @csrf_exempt  
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -167,23 +172,20 @@ def get_images(request):
         print(f"✅ Fetching images for user: {user.username} ({user.email})")
         images = Image_user.objects.filter(user=user)
     else:
-        print("❌ No user found in session. Fetching all images.")  
-        images = Image_user.objects.all()
+        print(" No user found in session. Fetching all images.")  
+        images = []
 
     serializer = ImageUserSerializer(images, many=True)
     return Response({'images': serializer.data}, status=status.HTTP_200_OK)
 
 
-
-
 @api_view(['DELETE'])
 @permission_classes([AllowAny]) 
 def delete_image(request, image_id):
-    # ✅ קבלת המשתמש מתוך ה-Session המותאם אישית שלך
     user = get_user_from_session(request)
     
     if not user:
-        print("❌ Authentication failed: Invalid session")
+        print(" Authentication failed: Invalid session")
         return Response({"error": "Authentication failed: Invalid session"}, status=status.HTTP_403_FORBIDDEN)
 
     try:

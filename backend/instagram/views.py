@@ -1,58 +1,44 @@
-import instaloader
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import requests
+from bs4 import BeautifulSoup
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
 
-@csrf_exempt
-def fetch_public_instagram_images(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            username = data.get("username")
 
-            if not username:
-                return JsonResponse({"error": "Username is required"}, status=400)
+import random
 
-            # יצירת אובייקט Instaloader
-            L = instaloader.Instaloader()
+@api_view(['GET'])
+@permission_classes([AllowAny]) 
+def hashtag_search(request):
+    tag = request.GET.get('tag')
+    if not tag:
+        return Response({'error': 'Missing hashtag'}, status=status.HTTP_400_BAD_REQUEST)
 
-            try:
-                # טעינת הפרופיל מאינסטגרם
-                profile = instaloader.Profile.from_username(L.context, username)
-            except instaloader.exceptions.ProfileNotExistsException:
-                return JsonResponse({"error": "Profile does not exist"}, status=404)
+    search_url = f"https://www.google.com/search?tbm=isch&q=site:instagram.com+%23{tag}"
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
 
-            # בדיקה אם הפרופיל פרטי
-            if profile.is_private:
-                return JsonResponse({"error": "This profile is private"}, status=403)
+    try:
+        response = requests.get(search_url, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-            images = []
-            post_count = 0  # מגבלה על מספר התמונות שנחזיר
+        image_elements = soup.find_all("img")
+        image_urls = []
 
-            # לולאה על הפוסטים של המשתמש (עד 5 פוסטים)
-            for post in profile.get_posts():
-                if post_count >= 5:  # מגבלת 5 תמונות
-                    break
+        for img in image_elements:
+            src = img.get("src")
+            if src and src.startswith("http"):
+                image_urls.append(src)
 
-                images.append({
-                    "image_url": post.url,  # URL של התמונה
-                    "post_id": post.shortcode,  # מזהה הפוסט (לייחודיות)
-                    "credit": f"Photo by @{profile.username} on Instagram (ID: {post.shortcode})"
-                })
-
-                post_count += 1
-
-            # בדיקה אם אין פוסטים בכלל
-            if not images:
-                return JsonResponse({"message": "No images found for this user"}, status=200)
-
-            return JsonResponse({"username": profile.username, "images": images}, status=200)
-
-        except instaloader.exceptions.ProfileNotExistsException:
-            return JsonResponse({"error": "Profile does not exist"}, status=404)
-        except instaloader.exceptions.ConnectionException:
-            return JsonResponse({"error": "Failed to connect to Instagram"}, status=500)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
-
-    return JsonResponse({"error": "Invalid request method"}, status=405)
+        # ✅ ערבוב לפני חיתוך
+        random.shuffle(image_urls)
+        return Response({'images': image_urls[:14]})
+    
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

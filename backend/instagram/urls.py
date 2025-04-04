@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
-from .views import fetch_public_instagram_images
+from .views import hashtag_search
 
 urlpatterns = [
-    path('public-images/', fetch_public_instagram_images, name='fetch_public_instagram_images'),
+    path('public-images/', hashtag_search, name='hashtag_search'),
+
 ]
