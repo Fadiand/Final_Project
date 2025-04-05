@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleLoginButton from "./GoogleLoginButton";
+import FacebookLoginButton from "./FacebookLogin";
 import { useUser } from "./UserContext";
 
 function LogIn() {
@@ -125,6 +126,9 @@ function LogIn() {
             </button>
             <span className="Login-form-input-span" onClick={changepath}>
               <GoogleLoginButton />
+            </span>
+            <span className="Login-form-input-span" onClick={changepath}>
+              <FacebookLoginButton/>
             </span>
             <span>
               Don't have an account?{" "}
