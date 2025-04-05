@@ -147,7 +147,7 @@ class LoginView(View):
                 httponly=False,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
                 secure=False,  # אין HTTPS, אז False
                 samesite="Lax"  # ביטול SameSite לחלוטין
-)
+                )
             return response
             
         except Exception as e:
