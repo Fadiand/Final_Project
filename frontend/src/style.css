@@ -139,7 +139,7 @@ body {
 }
 
 .navbar-button.signup {
-  background: linear-gradient(45deg, #752828, #4ecdc4);
+  background: linear-gradient(45deg, #14244b, #63bab5);
   color: white;
   position: relative;
   z-index: 1;
@@ -153,7 +153,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, #4ecdc4, #ff6b6b);
+  background: linear-gradient(45deg, #63bab5, #14244b);
   border-radius: 25px;
   opacity: 0;
   z-index: -1;
@@ -752,6 +752,26 @@ body {
 .Login-form-input {
   margin-bottom: 20px;
 }
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.login-divider hr {
+  flex: 1;
+  height: 1.5px;
+  background-color: #3a3a3a; 
+  border: none;
+}
+
+.login-divider-text {
+  font-weight: 700;
+}
+
 
 .Login-form-input label {
   display: block;
@@ -1496,7 +1516,6 @@ body {
   }
 }
 
-/* Elegant footer */
 .footer-bar {
   position: absolute;
   bottom: 1.5rem;
@@ -1596,15 +1615,66 @@ body {
 
 /*עיצוב דף גלריההה!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 :root {
-  --primary-color: #1a237e;
-  --primary-light: #534bae;
-  --primary-dark: #000051;
-  --secondary-color: #3f51b5;
+  --primary-color: #0f0f1a;
+  --primary-light: #1a1a2e;
+  --secondary-color: #3b82f6; 
   --text-light: #ffffff;
-  --text-dark: #121212;
-  --background-light: #f5f5f5;
-  --background-dark: #121212;
-  --border-color: #e0e0e0;
+  --text-dark: #0f0f1a;
+  --background-dark: #0f0f1a;
+  --border-color: #3b82f6; 
+}
+
+
+.upload-options {
+  background:linear-gradient( #1c2130, #202c3b);
+  min-height: 100vh;
+  padding: 40px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* החלק הזה יוצר את הקווים האלכסוניים שאנחנו רואים על המסך */
+.upload-options::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 119, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 255, 251, 0.03) 1px, transparent 1px);
+  background-size: 100px 40px;
+  z-index: 0;
+}
+
+/* יצירת הילה בפינה הימנית כלומר אובייקט חיצוני */
+.upload-options::after {
+  content: "";
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  top: -250px;
+  right: -250px;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.37) 0%, rgba(0, 183, 255, 0.392) 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: pulse 15s infinite alternate;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
 }
 
 
@@ -1612,17 +1682,73 @@ body {
   max-width: 900px;
   margin: 40px auto;
   padding: 40px;
-  background: var(--text-light);
+  background: rgba(15, 15, 26, 0.8);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 157, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 179, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* יצירת אפקט של הבורדר בתחילת הרכיב שזה מתחיל שקוף ואז צבע ואז שקוף */
+.upload-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(119, 0, 255, 0.467), transparent);
+  animation: border-flow 4s linear infinite;
+  z-index: -1;
+}
+
+/*אותו דבר אבל זה קורה בסוף הרכיב*/
+.upload-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(119, 0, 255, 0.467), transparent);
+  animation: border-flow 4s linear infinite reverse;
+  z-index: -1;
+}
+
+@keyframes border-flow {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
 }
 
 .upload-title {
   font-size: 32px;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--text-light);
   text-align: center;
   margin-bottom: 40px;
+  text-shadow: 0 0 8px rgba(0, 200, 255, 0.5);
+  position: relative;
+  width: 100%;
+}
+
+/*יצירת קו מתחת לכותרת אז גם פה יצרנו אובייקט*/
+.upload-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: var(--secondary-color);
+  box-shadow: 0 0 10px var(--secondary-color);
 }
 
 .upload-section {
@@ -1631,35 +1757,58 @@ body {
 
 .section-title {
   font-size: 24px;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   font-weight: 600;
   margin-bottom: 20px;
+  text-shadow: 0 0 5px rgba(0, 204, 255, 0.3);
 }
 
 .upload-box {
-  border: 2px dashed var(--primary-light);
+  border: 2px dashed var(--secondary-color);
   border-radius: 16px;
   padding: 40px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  background: rgba(26, 26, 46, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-box::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 162, 255, 0.142) 0%, rgba(72, 0, 255, 0.088) 50%, transparent 80%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.upload-box:hover::before {
+  opacity: 1;
 }
 
 .upload-box:hover {
-  border-color: var(--primary-color);
-  background-color: var(--background-light);
+  border-color: var(--secondary-color);
+  background: rgba(26, 26, 46, 0.8);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 255, 157, 0.2);
 }
 
 .upload-icon {
   width: 64px;
   height: 64px;
   margin-bottom: 20px;
-  color: var(--primary-color);
+  color: var(--secondary-color);
+  filter: drop-shadow(0 0 5px rgba(0, 255, 157, 0.3));
 }
 
 .upload-text {
   font-size: 20px;
-  color: var(--primary-color);
+  color: var(--text-light);
   display: block;
   margin-bottom: 10px;
 }
@@ -1679,15 +1828,17 @@ body {
   align-items: center;
   justify-content: center;
   padding: 40px;
+  color: white;
 }
 
 .spinner {
-  border: 4px solid var(--background-light);
-  border-top: 4px solid var(--primary-color);
+  border: 4px solid rgba(27, 140, 181, 0.1);
+  border-top: 4px solid var(--secondary-color);
   border-radius: 50%;
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
+  box-shadow: 0 0 10px rgba(0, 208, 255, 0.2);
 }
 
 @keyframes spin {
@@ -1700,25 +1851,61 @@ body {
 }
 
 .image-gallery-container {
-  background: var(--background-light);
+  background: rgba(26, 26, 46, 0.5);
   border-radius: 16px;
   padding: 30px;
   margin-top: 40px;
+  border: 1px solid rgba(0, 132, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 179, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gallery container effect */
+.image-gallery-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 221, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 191, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: -1;
 }
 
 .gallery-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 20px;
+  gap: 25px;
+  padding-right: 20px;
 }
 
 .selected-count {
   font-size: 16px;
   color: var(--secondary-color);
-  margin-right: 100px;
-  padding-right: 55px;
-  
+  padding: 8px 16px;
+  background: rgba(26, 26, 46, 0.6);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 255, 238, 0.2);
+  box-shadow: 0 0 10px rgba(0, 213, 255, 0.1);
+  margin: 0;
+}
+
+.gallery-header h3 {
+  margin-right: auto;
+}
+
+
+.select-all-button {
+  margin-left: 8px;
+}
+
+.delete-selected-button {
+  margin-left: 8px;
 }
 
 .image-gallery {
@@ -1733,12 +1920,14 @@ body {
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 2px solid transparent;
 }
 
 .image-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 157, 255, 0.2);
+  border-color: rgba(0, 195, 255, 0.5);
 }
 
 .gallery-image {
@@ -1746,31 +1935,34 @@ body {
   height: 200px;
   object-fit: cover;
 }
-.gallery-header p{
-  margin-right: 20px;
+.selected-count p {
+  margin-left: 90px;
 }
 
 .image-item.selected {
-  border: 3px solid var(--primary-color);
+  border: 3px solid var(--secondary-color);
+  box-shadow: 0 0 0 2px var(--secondary-color), 0 6px 15px rgba(0, 0, 0, 0.25);
 }
 
+/*עיצוב של התמונות שאנחנו מעלים*/
 .selection-indicator {
   position: absolute;
   top: 10px;
   right: 10px;
   width: 24px;
   height: 24px;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
 }
 
 .selection-indicator svg {
   width: 16px;
   height: 16px;
-  color: var(--text-light);
+  color: var(--text-dark);
 }
 
 .no-images {
@@ -1783,7 +1975,8 @@ body {
   width: 80px;
   height: 80px;
   margin-bottom: 20px;
-  color: var(--primary-light);
+  color: var(--secondary-color);
+  filter: drop-shadow(0 0 5px rgba(0, 247, 255, 0.3));
 }
 
 .classify-button {
@@ -1791,25 +1984,66 @@ body {
   width: 100%;
   padding: 16px;
   margin-top: 40px;
-  background: var(--primary-color);
+  background-color: transparent;
   color: var(--text-light);
-  border: none;
+  border: 2px solid var(--secondary-color);
   border-radius: 8px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/*הצבע שיש על התכפתור בפנים */
+.classify-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--secondary-color) 0%, transparent 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.classify-button:hover:not(.disabled)::before {
+  opacity: 0.2;
+}
+
+.classify-button::after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 300px;
+  background: rgba(47, 125, 185, 0.312);
+  top: -100px;
+  left: 0;
+  transform: rotate(45deg);
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: -1;
+}
+
+.classify-button:hover:not(.disabled)::after {
+  left: 120%;
 }
 
 .classify-button:hover:not(.disabled) {
-  background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 238, 255, 0.3);
+  text-shadow: 0 0 5px rgba(0, 149, 255, 0.5);
+  border-color: var(--secondary-color);
 }
 
 .classify-button.disabled {
-  background: var(--border-color);
+  background: rgba(26, 26, 46, 0.5);
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 @media (max-width: 768px) {
@@ -1836,229 +2070,368 @@ body {
 
 
 
+.select-all-button {
+  background-color: transparent;
+  border: 1px solid var(--secondary-color);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  background-Color: #acb1b8;
+  color: black;
+}
 
-/*עיצוב רכיב about!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
-.about-section {
-  background-color:linear-gradient(90deg, #134074, #8da9c4);;
-  color: #13315c;
-  min-height: 100vh;
-  padding: 5rem 2rem;
-  font-family: "Montserrat", "Segoe UI", sans-serif;
+.select-all-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 166, 255, 0.3);
+}
+
+.select-all-button:hover::before {
+  opacity: 0.2;
+}
+
+.delete-selected-button {
+  background-color: transparent;
+  color: #ff3a5e;
+  border: 1px solid #ff3a5e;
+  margin-left: 10px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+}
+
+.delete-selected-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal-overlay {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 15, 26, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: rgba(26, 26, 46, 0.9);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 191, 255, 0.1);
+  border: 1px solid rgba(0, 128, 255, 0.3);
   position: relative;
   overflow: hidden;
 }
 
 
-.about-section::after {
+
+.modal-content p {
+  color: var(--text-light);
+}
+
+.modal-content button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-content button:first-of-type {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #3a6eff;
+  margin-right: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-content button:first-of-type::before {
   content: "";
   position: absolute;
-  top: 10%;
-  right: 5%;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: #134074;
-  opacity: 0.05;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #3a6eff;
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.modal-content button:first-of-type:hover {
+  transform: translateY(-2px);
+}
+
+.modal-content button:first-of-type:hover::before {
+  opacity: 0.2;
+}
+
+
+/*עיצוב הכתפתור של ה cancel שאני לוחץ על הכפתור מחיקה*/
+.modal-content button:last-of-type {
+  background-color: transparent;
+  color: var(--text-light);
+  border: 1px solid #ff3a5e;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-content button:last-of-type::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: red;
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.modal-content button:last-of-type:hover {
+  transform: translateY(-2px);
+}
+
+.modal-content button:last-of-type:hover::before {
+  opacity: 0.2;
+}
+
+
+
+
+/*עיצוב רכיב about!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+:root {
+  --color-bg-dark: #111827;
+  --color-bg-card: #1a202c;
+  --color-blue-accent: #3b82f6;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-button: #4f46e5;
+  --color-button-hover: #4338ca;
+}
+
+.about-section {
+  background: linear-gradient(135deg, #111827 0%, #162036 30%, #1b3f5f 100%);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  position: relative;
+  overflow: hidden;
 }
 
 .about-content {
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  background-color: var(--color-bg-card);
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .about-title {
-  color: #134074;
   font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary);
+  font-weight: 700;
   text-align: center;
-  position: relative;
-  padding-bottom: 1.5rem;
 }
 
-.about-title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 3px;
-  background: linear-gradient(90deg, #134074, #8da9c4);
-  border-radius: 3px;
+.about-title strong {
+  color: var(--color-blue-accent);
 }
 
 .about-intro {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #13315c;
-  margin-bottom: 3.5rem;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  color: var(--color-text-secondary);
   text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.about-intro strong {
-  color: #134074;
-  font-weight: 700;
+.about-intro strong,
+.about-details strong,
+.about-performance strong {
+  color: var(--color-blue-accent);
+  font-weight: 600;
 }
 
 .about-intro em {
-  font-style: italic;
+  font-style: normal;
+  color: var(--color-blue-accent);
 }
 
 .about-details,
 .about-performance,
 .about-highlights {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 2.5rem;
-  margin-bottom: 2.5rem;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
-  box-shadow: 0 10px 30px rgba(19, 49, 92, 0.07);
-  border: 1px solid rgba(11, 96, 175, 0.1);
-  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
 }
 
 .about-details.highlighted,
 .about-performance.highlighted,
 .about-highlights.highlighted {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(19, 49, 92, 0.1);
-  border-color: rgba(141, 169, 196, 0.3);
-  background-color: rgba(238, 244, 237, 0.5);
+  background-color: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
 }
 
-
-.about-details.highlighted::before,
-.about-performance.highlighted::before,
-.about-highlights.highlighted::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(19, 64, 116, 0.03), rgba(141, 169, 196, 0.03));
-  z-index: -1;
-}
-
-/* Section headings */
 .about-details h2,
 .about-performance h2,
 .about-highlights h2 {
-  color: #134074;
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  position: relative;
-  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
 }
 
-/* Add decorative underline to headings */
-.about-details h2::after,
-.about-performance h2::after,
-.about-highlights h2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background: linear-gradient(90deg, #134074, #8da9c4);
-  border-radius: 3px;
-}
-
-/* Paragraph text */
 .about-details p,
 .about-performance p {
-  color: #13315c;
-  line-height: 1.7;
-  margin-bottom: 1rem;
-}
-
-.about-details strong,
-.about-performance strong {
-  color: #134074;
-  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
 }
 
 .about-highlights ul {
-  list-style-type: none;
-  padding-left: 0;
-  margin-top: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .about-highlights li {
-  position: relative;
-  padding-left: 2rem;
-  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
   line-height: 1.6;
-  color: #13315c;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
 }
 
 .about-highlights li::before {
-  content: "";
+  content: "•";
   position: absolute;
   left: 0;
-  top: 0.5rem;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #134074, #8da9c4);
+  color: var(--color-blue-accent);
+  font-size: 1.2rem;
 }
 
 .about-summary {
-  background: linear-gradient(135deg, #134074, #13315c);
-  color: white;
-  padding: 2.5rem;
-  border-radius: 16px;
-  text-align: center;
-  margin-top: 4rem;
-  box-shadow: 0 15px 35px rgba(19, 49, 92, 0.15);
-  position: relative;
-  overflow: hidden;
   font-size: 1.2rem;
-  line-height: 1.7;
-  font-weight: 500;
+  line-height: 1.6;
+  margin-top: 2.5rem;
+  text-align: center;
+  color: var(--color-text-secondary);
 }
 
-/* Add subtle radial gradient to summary */
-.about-summary::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(141, 169, 196, 0.1) 0%, rgba(19, 64, 116, 0) 70%);
-  z-index: 0;
+/* Add button styling similar to the image */
+.about-section button {
+  background-color: var(--color-button);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
+.about-section button:hover {
+  background-color: var(--color-button-hover);
+}
+
+
+.about-section::before {
+  top: 15%;
+  left: 5%;
+}
+
+.about-section::after {
+  bottom: 15%;
+  right: 5%;
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-  .about-section {
-    padding: 4rem 1.5rem;
-  }
-
-  .about-title {
-    font-size: 2.5rem;
-  }
-
-  .about-details,
-  .about-performance,
-  .about-highlights {
-    padding: 2rem;
-  }
-
+@media (max-width: 1200px) {
+  .about-section::before,
   .about-section::after {
     display: none;
   }
 }
 
+@media (max-width: 768px) {
+  .about-content {
+    padding: 2rem;
+  }
+  
+  .about-title {
+    font-size: 2.5rem;
+  }
+  
+  .about-intro {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-section {
+    padding: 2rem 1rem;
+  }
+  
+  .about-content {
+    padding: 1.5rem;
+  }
+  
+  .about-title {
+    font-size: 2rem;
+  }
+  
+  .about-details,
+  .about-performance,
+  .about-highlights {
+    padding: 1.5rem;
+  }
+}
+
+/* Clean scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
 
 
 /*Admin styleee!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/

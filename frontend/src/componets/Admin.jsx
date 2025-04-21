@@ -11,7 +11,7 @@ function Admin() {
 
     useEffect(() => {
         // טעינת הנתונים מהשרת
-        fetch("http://127.0.0.1:8000/api/admin-data/", {
+        fetch("http://localhost:8000/api/admin-data/", {
             method: "GET",
             credentials: "include", // כדי שה-Session ישלח עם הבקשה
         })

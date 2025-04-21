@@ -11,6 +11,39 @@ from connectgmail.models import gmail_users  # המודל של משתמשי Goog
 from connectgmail.models import gmail_users
 from gallery.models import Image_user
 from django.contrib.sessions.backends.db import SessionStore
+from connectfacebook.models import facebook_users
+from django.core.mail import send_mail
+
+from django.conf import settings  # ודא שיש את זה למעלה
+
+def send_welcome_email_if_first_login(user):
+    print(f"📩 checking email for {user.email}, first_login = {user.first_login}")
+    if user.first_login:
+        try:
+            send_mail(
+                subject='Welcome to Vista!',
+                message = (
+                            "Welcome aboard, explorer!\n\n"
+                            "You've just joined Vista - the only place where photos are judged harder than on Instagram.\n"
+                            "Is it tourism? Is it lunch? Well find out together!\n\n"
+                            "Thanks for hopping on - your travel adventure (or couch adventure) starts now!" ),
+
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+            print("✅ Welcome email sent.")
+        except Exception as e:
+            print("❌ Error sending welcome email:", e)
+        finally:
+            user.first_login = False
+            user.save(update_fields=['first_login'])
+            print(f"📝 Updated first_login to False for {user.email}")
+    else:
+        print(f"🚫 Not first login for {user.email} – skipping email")
+
+
+
 
 class AdminDataView(View):
     def get(self, request, *args, **kwargs):
@@ -52,6 +85,7 @@ class SignUpView(View):
                 password=make_password(password),
             )
             user.save()
+            send_welcome_email_if_first_login(user)
 
             # יצירת session_id ידני
             session = SessionStore()
@@ -118,6 +152,8 @@ class LoginView(View):
                 return JsonResponse({"error": "Invalid credentials."}, status=401)
             
             
+            send_welcome_email_if_first_login(user)   
+            
             # יצירת session_id ידני
             session = SessionStore()
             session['user_id'] = user.id
@@ -160,37 +196,36 @@ class LogOut(View):
         try:
             data = json.loads(request.body)
             username = data.get("username")
-            email = data.get("email")  # תמיכה בהתנתקות לפי אימייל
+            email = data.get("email")
 
-            if not username and not email:  # אם לא התקבל לא username ולא email
+            if not username and not email:
                 return JsonResponse({"message": "Username or email required"}, status=400)
 
-            # בדיקת משתמש רגיל (אם username קיים)
-            user = User.objects.filter(username=username).first() if username else None
-            # בדיקת משתמש Google (אם email קיים)
-            google_user = gmail_users.objects.filter(email=email).first() if email else None
+            user = None
+            if email:
+                user = User.objects.filter(email=email).first()
+            elif username:
+                user = User.objects.filter(username=username).first()
 
-            if not (user or google_user):  # כאן שיניתי ל-`or` כדי להספיק שמשתמש אחד יימצא
-                return JsonResponse({"message": "User not found in the database, you need to create it first"}, status=404)
+            if not user:
+                return JsonResponse({"message": "User not found"}, status=404)
 
-            # סימון המשתמש כלא פעיל
-            if user:
-                user.Is_active = False
-                user.save()
+            # הפוך אותו ל־לא פעיל
+            user.Is_active = False
+            user.save()
 
-            if google_user:
-                google_user.Is_active = False
-                google_user.save()
+            print(f"🔴 User {user.username} marked as inactive")
 
-            # מחיקת כל נתוני ה-Session
+            # מחיקת סשן
             request.session.flush()
 
-            # יצירת תגובה עם מחיקת העוגיה
-            response = JsonResponse({"message": "Logout successful. Session deleted and user deactivated."}, status=200)
-            response.delete_cookie('sessionid')  # מחיקת העוגיה מהלקוח
-
+            response = JsonResponse({
+                "message": "Logout successful. Session deleted and user deactivated.",
+                "is_active": False
+            })
+            response.delete_cookie("sessionid")
             return response
 
         except Exception as e:
-            print(f"An error occurred: {e}")
-            return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+            print(f"❌ Logout error: {e}")
+            return JsonResponse({"error": str(e)}, status=500)

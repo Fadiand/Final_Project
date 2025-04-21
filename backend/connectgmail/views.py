@@ -13,75 +13,87 @@ from django.contrib.sessions.backends.db import SessionStore
 
 def home(request):
     return HttpResponse("Hello, World!")
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from signup_app.models import User
+from django.contrib.sessions.backends.db import SessionStore
+from google.oauth2 import id_token
+from google.auth.transport.requests import Request
+import json
+from decouple import config
+from signup_app.views import send_welcome_email_if_first_login
 
+ 
 @csrf_exempt
 def google_auth(request):
     if request.method == 'POST':
         try:
-            # קבלת הנתונים מהבקשה
             data = json.loads(request.body)
             token = data.get('token')
+            print("Received token from React:", token)
 
-            # הדפסת הנתונים שהתקבלו (לטובת בדיקה בטרמינל)
-            print("Received data from React:", data)
-
-            # אימות הטוקן
             idinfo = id_token.verify_oauth2_token(
                 token, Request(), config('GOOGLE_CLIENT_ID')
             )
 
-            # הפקת נתונים מהטוקן
             email = idinfo.get('email', 'Unknown')
             name = idinfo.get('name', 'Unknown')
+            picture = idinfo.get('picture', '')
 
-            # שמירת הנתונים במודל gmail
-            gmail_entry, created = gmail.objects.get_or_create(
+            print(f"Google user: {name} ({email})")
+
+            # חיפוש או יצירת משתמש בטבלת User הראשית
+            user, created = User.objects.get_or_create(
                 email=email,
-                defaults={'name': name}
+                defaults={
+                    'username': name,
+                    'auth_provider': 'google',
+                    'Is_active': True,
+                    'password': '',  # אין סיסמה בגוגל
+                }
             )
+
             if not created:
-                # אם הרשומה כבר קיימת, עדכן את השם
-                gmail_entry.name = name
-                gmail_entry.Is_active = True
-                gmail_entry.save()
+                # עדכון שם המשתמש אם כבר קיים
+                user.username = name
+                user.Is_active = True
+                user.save()
+            
+            send_welcome_email_if_first_login(user)
+    
 
-            # יצירת Session חדש
-            session = SessionStore()  # הגדרת אובייקט session
-            session['user_id'] = gmail_entry.id
-            session['email'] = gmail_entry.email
-            session['is_active'] = gmail_entry.Is_active
-            session.set_expiry(3600)  # Session יפוג תוך שעה (3600 שניות)
-            session.save()  # שמירה מפורשת של הסשן
+            # יצירת סשן
+            session = SessionStore()
+            session['user_id'] = user.id
+            session['email'] = user.email
+            session.set_expiry(3600)  # שעה
+            session.save()
 
-            session_id = session.session_key  # קבלת מזהה ה-Session
+            session_id = session.session_key
 
-            # הדפסת מידע לטרמינל
-            print(f"User authenticated: {gmail_entry.name}, {gmail_entry.email}, session_id: {session_id}")
+            print(f"✅ Google login successful: {user.username} | session_id: {session_id}")
 
-            # יצירת response עם הגדרת Cookie ל-Session
             response = JsonResponse({
                 'message': 'Login successful',
-                'email': email,
-                'name': name,
-                'session_id': session_id  # שליחת session_id ל-Frontend
+                'email': user.email,
+                'username': user.username,
+                'session_id': session_id,
             })
-            
+
             response.set_cookie('sessionid', session_id, httponly=True, samesite='Lax')
 
             return response
-            
+
         except ValueError as e:
-            print("Invalid token:", e)
+            print("❌ Invalid token:", e)
             return JsonResponse({'error': 'Invalid token'}, status=400)
         except Exception as e:
-            print("An error occurred:", e)
+            print("❌ An error occurred:", e)
             return JsonResponse({'error': str(e)}, status=500)
 
     elif request.method == 'GET':
-        # החזרת מידע לדוגמה (או מידע מהדאטהבייס אם צריך)
-        users = list(gmail.objects.values())
+        users = list(User.objects.filter(auth_provider='google').values())
         return JsonResponse({'users': users})
 
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-    

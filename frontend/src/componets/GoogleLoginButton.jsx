@@ -1,11 +1,11 @@
 import React from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { useUser } from "./UserContext"; // שימוש ב-UserContext
-import { useNavigate } from "react-router-dom"; // ניווט לנתיב חדש
+import { useUser } from "./UserContext"; 
+import { useNavigate } from "react-router-dom"; 
 
 const GoogleLoginButton = () => {
-  const { setUser } = useUser(); // שימוש בפונקציה setUser מתוך ה-Context
-  const navigate = useNavigate(); // לשימוש בניווט
+  const { setUser } = useUser(); 
+  const navigate = useNavigate(); 
 
   const handleSuccess = (credentialResponse) => {
     console.log("Login Success:", credentialResponse);

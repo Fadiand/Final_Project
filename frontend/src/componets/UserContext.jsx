@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
     // פונקציה להתחברות
     const login = async (username, password) => {
         try {
-            const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+            const response = await axios.post("http://localhost:8000/api/login/", {
                 username,
                 password,
             });
@@ -44,7 +44,7 @@ export const UserProvider = ({ children }) => {
     // פונקציה להתנתקות
     const logout = async () => {
         try {
-            await axios.post("http://127.0.0.1:8000/api/auth/logout/"); // קריאה לשרת להתנתקות
+            await axios.post("http://localhost:8000/api/auth/logout/"); // קריאה לשרת להתנתקות
             setUser(null); // איפוס ה-Context
             localStorage.removeItem("user"); // מחיקת המידע מ-localStorage
         } catch (error) {

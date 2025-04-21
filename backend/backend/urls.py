@@ -32,7 +32,7 @@ urlpatterns = [
     path('', include('signup_app.urls')),  # חיבור האפליקציה הראשית
     path('instagram/', include('instagram.urls')),  
     path('gallery/', include('gallery.urls')),  # הוספת נתיבי הגלריה
-
+    path('facebook/', include('connectfacebook.urls')),
 
 ]
 

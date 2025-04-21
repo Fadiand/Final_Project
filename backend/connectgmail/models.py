@@ -12,3 +12,4 @@ class gmail_users(models.Model):
     
      def _str_(self):
         return f"User_Name : {self.name} ,  Email: {self.email} , Is_active : {self.Is_active}, Is_superviser : {self.Is_superviser} "
+

@@ -27,7 +27,7 @@ function LogIn() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/login/", {
+      const response = await fetch("http://localhost:8000/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,6 +97,7 @@ function LogIn() {
       <div className="LogIn_Container">
         <form className="LogIn_Form" onSubmit={handleSubmit}>
           <h2>Log In</h2>
+          
           <div className="Login-form-input">
             <label htmlFor="username">Username</label>
             <input
@@ -124,6 +125,13 @@ function LogIn() {
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Log In"}
             </button>
+              <div className="login-divider">
+              <hr />
+              <span className="login-divider-text">or</span>
+              <hr />
+            </div>
+
+
             <span className="Login-form-input-span" onClick={changepath}>
               <GoogleLoginButton />
             </span>

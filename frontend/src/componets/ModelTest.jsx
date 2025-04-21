@@ -45,7 +45,7 @@ function ModelTest() {
           const formData = new FormData()
           formData.append("image", await fetch(imageUrl).then((res) => res.blob()))
 
-          const response = await fetch("http://127.0.0.1:8000/gallery/classify-image/", {
+          const response = await fetch("http://localhost:8000/gallery/classify-image/", {
             method: "POST",
             body: formData,
             credentials: "include", // Send session ID to server

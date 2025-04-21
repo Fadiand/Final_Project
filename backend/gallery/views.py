@@ -24,6 +24,10 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.decorators import api_view, permission_classes
 import requests
 from io import BytesIO
+from connectfacebook.models import facebook_users  
+from connectgmail.models import gmail_users
+
+
 
 
 
@@ -100,14 +104,30 @@ def get_user_from_session(request):
         print("🔴 No user_id found in session data (Anonymous User)")
         return None
 
+    # נסה קודם במשתמש הרגיל (Signup רגיל)
     try:
         user = User.objects.get(id=user_id)
-        print(f"✅ User found: {user.username} ({user.email}), Is_active: {user.Is_active}")  
+        print(f"✅ User found in User: {user.username} ({user.email})")
         return user
     except User.DoesNotExist:
-        print("🔴 User not found in database")
-        return None
-    
+        pass
+
+    try:
+        user = gmail_users.objects.get(id=user_id)
+        print(f"✅ User found in gmail_users: {user.name} ({user.email})")
+        return user
+    except gmail_users.DoesNotExist:
+        pass
+
+    try:
+        user = facebook_users.objects.get(id=user_id)
+        print(f"✅ User found in facebook_users: {user.name} ({user.email})")
+        return user
+    except facebook_users.DoesNotExist:
+        pass
+
+    print("🔴 User not found in any table")
+    return None
 
 # 🔹 **View להעלאת תמונות**
 @csrf_exempt  

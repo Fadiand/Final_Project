@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaRegTrashAlt } from "react-icons/fa";
+
 
 const UploadOptions = () => {
   const fileInputRef = useRef(null);
@@ -28,7 +30,7 @@ const UploadOptions = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch("http://127.0.0.1:8000/gallery/upload-images/", {
+      const response = await fetch("http://localhost:8000/gallery/upload-images/", {
         method: "POST",
         body: formData,
         credentials: "include",
@@ -62,7 +64,7 @@ const UploadOptions = () => {
   const fetchUploadedImages = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://127.0.0.1:8000/gallery/get-images/", {
+      const response = await fetch("http://localhost:8000/gallery/get-images/", {
         credentials: "include",
       });
 
@@ -87,7 +89,7 @@ const UploadOptions = () => {
 
   const deleteImage = async (imageId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/gallery/delete-image/${imageId}/`, {
+      const response = await fetch(`http://localhost:8000/gallery/delete-image/${imageId}/`, {
         method: "DELETE",
         credentials: "include",
         headers: {
@@ -111,7 +113,7 @@ const UploadOptions = () => {
   };
 
   const deleteSelectedImages = async () => {
-    const imagesToDelete = uploadedImages.filter((img) => selectedImages.includes(`http://127.0.0.1:8000${img.image}`));
+    const imagesToDelete = uploadedImages.filter((img) => selectedImages.includes(`http://localhost:8000${img.image}`));
     for (const img of imagesToDelete) {
       await deleteImage(img.id);
     }
@@ -137,7 +139,7 @@ const UploadOptions = () => {
     if (selectedImages.length === uploadedImages.length) {
       setSelectedImages([]);
     } else {
-      const allImages = uploadedImages.map((img) => `http://127.0.0.1:8000${img.image}`);
+      const allImages = uploadedImages.map((img) => `http://localhost:8000${img.image}`);
       setSelectedImages(allImages);
     }
   };
@@ -147,6 +149,7 @@ const UploadOptions = () => {
   }, []);
 
   return (
+    <div className="upload-options">
     <div className="upload-container">
       <h2 className="upload-title">Image Gallery</h2>
       <div className="upload-section">
@@ -181,13 +184,7 @@ const UploadOptions = () => {
           <div className="gallery-header">
             <h3 className="section-title">Your Images</h3>
             <p className="selected-count">{selectedImages.length} selected</p>
-            <button className="select-all-button" onClick={handleSelectAll} style={{
-              borderRadius: "5px",
-              padding: "5px",
-              cursor: "pointer",
-              backgroundColor: "#f0f0f0",
-              color: "#0a2540",
-            }}>
+            <button className="select-all-button" onClick={handleSelectAll}>
               {selectedImages.length === uploadedImages.length ? "Deselect All" : "Select All"}
             </button>
             <button className="delete-selected-button" onClick={() => setShowConfirm(true)} disabled={selectedImages.length === 0} style={{
@@ -198,12 +195,12 @@ const UploadOptions = () => {
               color: "white",
               marginLeft: "10px",
             }}>
-              Delete Selected
+              <FaRegTrashAlt />
             </button>
           </div>
           <div className="image-gallery">
             {uploadedImages.map((img, index) => {
-              const imageUrl = `http://127.0.0.1:8000${img.image}`;
+              const imageUrl = `http://localhost:8000${img.image}`;
               const isSelected = selectedImages.includes(imageUrl);
               return (
                 <div
@@ -247,7 +244,8 @@ const UploadOptions = () => {
           </div>
         </div>
       )}
-    </div>
+      </div>
+      </div>
   );
 };
 

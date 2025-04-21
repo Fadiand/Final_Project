@@ -1,7 +1,7 @@
-import React from 'react';
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../images/Logo_pic.png";
 import { useUser } from "./UserContext"; // חיבור ל-UserContext
+import React, { useMemo } from 'react';
 
 
 
@@ -9,13 +9,17 @@ export default function NavBar() {
   const { user, setUser } = useUser(); // קבלת המידע על המשתמש
   const navigate = useNavigate();
 
+ const displayName = useMemo(() => {
+  return user?.username || user?.name || user?.email?.split("@")[0] || "Guest";
+}, [user]);
+
   const handleLogout = async (e) => {
     e.preventDefault();
-  
+    
     try {
       const userData = JSON.parse(localStorage.getItem("user")); // מקבל את הנתונים מה-LocalStorage
   
-      const response = await fetch("http://127.0.0.1:8000/api/logout/", {
+      const response = await fetch("http://localhost:8000/api/logout/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,7 +127,7 @@ export default function NavBar() {
         <li className="navbar-item buttons">
           {user ? (
             <>
-              <span className="welcome-message">Hi, {user.username || "Guest"}</span>
+                <span className="welcome-message">Hi, {displayName}</span>
               <a
                 href="/"
                 onClick={handleLogout}

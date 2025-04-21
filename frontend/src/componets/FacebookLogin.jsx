@@ -1,22 +1,24 @@
 import { useEffect } from "react";
+import { useUser } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 const FacebookLoginButton = () => {
+  const { setUser } = useUser();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // הדפסה לבדיקה
     console.log("FB App ID:", process.env.REACT_APP_FACEBOOK_APP_ID);
 
-    // אתחול ה־SDK
     window.fbAsyncInit = function () {
       window.FB.init({
         appId: process.env.REACT_APP_FACEBOOK_APP_ID,
         cookie: true,
         xfbml: true,
-        version: "v17.0", // ← הכי בטוח עכשיו
+        version: "v17.0",
       });
       console.log("FB SDK initialized");
     };
 
-    // בדוק אם הסקריפט כבר קיים
     if (!document.getElementById("facebook-jssdk")) {
       const script = document.createElement("script");
       script.id = "facebook-jssdk";
@@ -36,7 +38,8 @@ const FacebookLoginButton = () => {
       (response) => {
         if (response.authResponse) {
           console.log("Login success!", response);
-          getFBProfile();
+          const accessToken = response.authResponse.accessToken;
+          getFBProfileAndSendToBackend(accessToken);
         } else {
           console.log("User cancelled login or did not fully authorize.");
         }
@@ -45,11 +48,56 @@ const FacebookLoginButton = () => {
     );
   };
 
-  const getFBProfile = () => {
-    window.FB.api("/me", { fields: "name,email,picture" }, function (profile) {
+  const getFBProfileAndSendToBackend = (accessToken) => {
+    window.FB.api("/me", { fields: "name,email,picture" }, async function (profile) {
       console.log("User Profile:", profile);
+  
+      try {
+        const res = await fetch("http://localhost:8000/facebook/facebook-auth/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            access_token: accessToken,
+          }),
+        });
+  
+        const data = await res.json();
+        console.log("Response from Django:", data);
+  
+        if (res.ok) {
+          const userData = {
+            username: data.username,
+            email: data.email,
+            session_id: data.session_id,
+            is_active: data.is_active, 
+            isFacebook: true,
+            picture: profile.picture?.data?.url || "",
+          };
+  
+          // שמירה ב־Context
+          setUser(userData);
+  
+          // שמירה ב־localStorage
+          localStorage.setItem("user", JSON.stringify(userData));
+  
+          console.log("User saved in localStorage:", localStorage.getItem("user"));
+  
+          // מעבר למסך הבית
+          navigate("/");
+        } else {
+          console.error("Server error:", data);
+          alert("Facebook login failed. Please try again.");
+        }
+      } catch (err) {
+        console.error("Failed to send Facebook token to backend:", err);
+        alert("Facebook login failed. Please try again.");
+      }
     });
   };
+  
 
   return (
     <button
@@ -61,6 +109,7 @@ const FacebookLoginButton = () => {
         border: "none",
         borderRadius: "5px",
         marginTop: "10px",
+        fontWeight: "bold",
       }}
     >
       Login With Facebook

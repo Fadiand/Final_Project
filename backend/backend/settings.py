@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'connectgmail',
     'gallery',
     'signup_app',
+    'connectfacebook',
     
 
     
@@ -278,6 +279,15 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # זמן חיי ה-Session בימים (כאן זה 3 ימים)
 SESSION_COOKIE_AGE = 3 * 24 * 60 * 60
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 LOGIN_REDIRECT_URL = '/'

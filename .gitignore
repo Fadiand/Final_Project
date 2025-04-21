@@ -45,4 +45,5 @@ uploads/
 **/__pycache__/
 >>>>>>> master
 
+# התעלמות מכל התיקייה של המודל
 vista-model/
