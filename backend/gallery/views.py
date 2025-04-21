@@ -33,7 +33,7 @@ from connectgmail.models import gmail_users
 
 # ✅ הגדרת הנתיב למודל
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
-MODEL_PATH = os.path.join(BASE_DIR, "../vista-model/classification/predict_image_demonstration/view_model_round_3.h5")
+MODEL_PATH = os.path.join(BASE_DIR, "/Users/nirbar/Desktop/VISTA project/Final_Project/vista-model/classification/view_model_round_3.h5")
 print(f"🔹 Trying to load model from: {MODEL_PATH}")  
 
 # ✅ טעינת המודל
