@@ -28,9 +28,6 @@ from connectfacebook.models import facebook_users
 from connectgmail.models import gmail_users
 
 
-
-
-
 # ✅ הגדרת הנתיב למודל
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
 MODEL_PATH = os.path.join(BASE_DIR, "/Users/nirbar/Desktop/VISTA project/Final_Project/vista-model/classification/view_model_round_3.h5")
@@ -60,10 +57,9 @@ def classify_image(request):
             image_array = np.array(image)  
             image_array = np.expand_dims(image_array, axis=0)  
 
-            # ✅ בדיקה שהתמונה מעובדת נכון
+            
             print(f"🔹 תמונה עובדה בהצלחה: צורה {image_array.shape}")
-
-            # 🔹 הרצת התמונה דרך המודל
+           
             prediction = model.predict(image_array)[0]  
             predicted_class = np.argmax(prediction)  
 

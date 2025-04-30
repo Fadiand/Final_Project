@@ -72,12 +72,14 @@ def google_auth(request):
             session_id = session.session_key
 
             print(f"✅ Google login successful: {user.username} | session_id: {session_id}")
+            print(f"👤 is_superviser for {user.username}: {user.Is_superviser}")
 
             response = JsonResponse({
                 'message': 'Login successful',
                 'email': user.email,
                 'username': user.username,
                 'session_id': session_id,
+                'Is_superviser': user.Is_superviser,
             })
 
             response.set_cookie('sessionid', session_id, httponly=True, samesite='Lax')

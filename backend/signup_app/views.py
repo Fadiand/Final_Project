@@ -98,13 +98,15 @@ class SignUpView(View):
             if not session.session_key:  # בדיקה שה-Session נוצר בהצלחה
                 return JsonResponse({"error": "Failed to create session."}, status=500)
 
+            print(f"👤 is_superviser for {user.username}: {user.Is_superviser}")
+
             # יצירת התגובה
             response = JsonResponse({
                 "id": user.id,
                 "username": user.username,
                 "email": user.email,
                 "session_id": session.session_key,  # session_id שנוצר ידנית
-                 "is_superviser": user.Is_superviser  
+                "is_superviser": user.Is_superviser  
 
             }, status=201)
 
@@ -164,6 +166,7 @@ class LoginView(View):
             
             user.Is_active = True
             user.save() # חשוב!!!!!!!!!!!!!!!!!!!!!!!!
+            print(f"👤 is_superviser for {user.username}: {user.Is_superviser}")
 
             response = JsonResponse({
                 "message": "Login successful!",
