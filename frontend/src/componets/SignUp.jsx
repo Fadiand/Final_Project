@@ -108,33 +108,13 @@ function SignUp() {
 
   return (
     <>
-      {/* רקע */}
-      <ul className="background">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
+  {/* רקע עם ריבועים */}
+<section className="background-grid">
+  {Array.from({ length: 400 }).map((_, i) => (
+    <span key={i}></span>
+  ))}
+</section>
+
 
       {/* טופס */}
       <div className="signup-container">

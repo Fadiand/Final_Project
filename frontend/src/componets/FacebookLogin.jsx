@@ -77,10 +77,9 @@ const FacebookLoginButton = () => {
             picture: profile.picture?.data?.url || "",
           };
   
-          // שמירה ב־Context
+          
           setUser(userData);
   
-          // שמירה ב־localStorage
           localStorage.setItem("user", JSON.stringify(userData));
   
           console.log("User saved in localStorage:", localStorage.getItem("user"));
@@ -97,7 +96,6 @@ const FacebookLoginButton = () => {
       }
     });
   };
-  
 
   return (
     <button

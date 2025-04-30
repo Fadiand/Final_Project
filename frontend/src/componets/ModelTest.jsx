@@ -28,8 +28,7 @@ function ModelTest() {
     setClassifiedImages({ tourist: [], nonTourist: [] })
     localStorage.removeItem(`touristImages_${sessionId}`)
     localStorage.removeItem(`nonTouristImages_${sessionId}`)
-    setResults([])
-    alert("✅ כל התמונות שלך נמחקו!")
+    setResults([])   
   }
 
   // Classify images when URLs change
@@ -179,3 +178,4 @@ function ModelTest() {
 }
 
 export default ModelTest
+
