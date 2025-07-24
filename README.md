@@ -19,10 +19,10 @@ The system includes a React frontend, Django backend, TensorFlow model, and inte
 This project consists of three main components:
 
 1. **Backend**:  
-   Deployed on **Render**, the backend is built with Django and Django REST Framework. It handles user authentication (Google login), image uploads, model classification, and feedback submission.
+   the backend is built with Django and Django REST Framework. It handles user authentication (Google login), image uploads, model classification, and feedback submission.
 
 2. **Frontend**:  
-   A React application (built with Vite + Chakra UI) deployed on **Netlify**. It allows users to interact with the classification model, upload or fetch images, play a game, and generate animated trip trailers.
+   A React application. It allows users to interact with the classification model and upload or fetch images
 
 3. **Machine Learning Model**:  
    A TensorFlow-based VGG19 model trained on Instagram city datasets (InstaCities100K + custom city-specific images). The model predicts whether an image is tourism-related with a confidence score.
