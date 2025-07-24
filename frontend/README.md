@@ -11,7 +11,7 @@ It allows users to upload and classify images, fetch Instagram images by hashtag
 - src/images/ – Image assets (logo, icons, etc.)
 - App.js, index.js – App entry points
 - .env.local – Environment variables (see below)
-
+```
 ------------------------------------------------------------
 
 ## ⚙️ Environment Variables (.env.local)
