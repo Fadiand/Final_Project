@@ -1,4 +1,3 @@
-```
 # 📸 VISTA Frontend – React App (CRA)
 
 This folder contains the frontend of the **VISTA** project, built with **Create React App (CRA)**.  
@@ -8,18 +7,20 @@ It allows users to upload and classify images, fetch Instagram images by hashtag
 
 ## 📁 Folder Overview
 
-- src/components/ – Main components (Login, Gallery, ModelTest, etc.)
-- src/images/ – Image assets (logo, icons, etc.)
-- App.js, index.js – App entry points
-- .env.local – Environment variables (see below)
+- `src/components/` – Main components (Login, Gallery, ModelTest, etc.)
+- `src/images/` – Image assets (logo, icons, etc.)
+- `App.js`, `index.js` – App entry points
+- `.env.local` – Environment variables (see below)
 
 ------------------------------------------------------------
 
 ## ⚙️ Environment Variables (.env.local)
 
+```
 REACT_APP_GOOGLE_CLIENT_ID=your-google-client-id  
 REACT_APP_FACEBOOK_APP_ID=your-facebook-app-id  
 REACT_APP_API_BASE_URL=http://localhost:8000
+```
 
 ------------------------------------------------------------
 
@@ -27,26 +28,32 @@ REACT_APP_API_BASE_URL=http://localhost:8000
 
 1. Clone the repository:
 
-   git clone https://github.com/your-username/vista.git  
-   cd vista/frontend
+```
+git clone https://github.com/your-username/vista.git  
+cd vista/frontend
+```
 
 2. Install dependencies:
 
-   npm install
+```
+npm install
+```
 
 3. Start the development server:
 
-   npm start
+```
+npm start
+```
 
-Visit: http://localhost:3000
+Visit: [http://localhost:3000](http://localhost:3000)
 
 ------------------------------------------------------------
 
 ## 📜 Available Scripts
 
-npm start       → Run app in development mode  
-npm run build   → Build app for production (output to build/)  
-npm test        → Run test suite (if implemented)
+- `npm start` – Run app in development mode  
+- `npm run build` – Build app for production (output to `build/`)  
+- `npm test` – Run test suite (if implemented)
 
 ------------------------------------------------------------
 
@@ -73,7 +80,6 @@ npm test        → Run test suite (if implemented)
 
 ## ✍️ Author
 
-Fadi Andrawis  
+**Fadi Andrawis**  
 B.Sc. Computer Science, 2025  
 Sami Shamoon College of Engineering (SCE)
-```
