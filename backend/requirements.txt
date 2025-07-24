@@ -27,10 +27,4 @@ six==1.17.0
 sqlparse==0.5.3
 tzdata==2024.2
 urllib3==2.3.0
-Django==5.1.4
-django-cors-headers
-django-rest-framework
-dj-rest-auth
-djangorestframework-simplejwt
-django-allauth
-python-decouple
+gunicorn
