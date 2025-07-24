@@ -1,11 +1,11 @@
-# 📸 VISTA Frontend – React App (CRA)
+# VISTA Frontend – React App (CRA)
 
 This folder contains the frontend of the **VISTA** project, built with **Create React App (CRA)**.  
 It allows users to upload and classify images, fetch Instagram images by hashtag, submit feedback, log in via Google or Facebook, and view classification results.
 
 ------------------------------------------------------------
 
-## 📁 Folder Overview
+## Folder Overview
 
 - `src/components/` – Main components (Login, Gallery, ModelTest, etc.)
 - `src/images/` – Image assets (logo, icons, etc.)
@@ -14,12 +14,11 @@ It allows users to upload and classify images, fetch Instagram images by hashtag
 
 ------------------------------------------------------------
 
-## ⚙️ Environment Variables (.env.local)
+##  Environment Variables (.env.local)
 
 ```
 REACT_APP_GOOGLE_CLIENT_ID=your-google-client-id  
 REACT_APP_FACEBOOK_APP_ID=your-facebook-app-id  
-REACT_APP_API_BASE_URL=http://localhost:8000
 ```
 
 ------------------------------------------------------------
@@ -49,7 +48,7 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ------------------------------------------------------------
 
-## 📜 Available Scripts
+##  Available Scripts
 
 - `npm start` – Run app in development mode  
 - `npm run build` – Build app for production (output to `build/`)  
@@ -57,18 +56,17 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ------------------------------------------------------------
 
-## 🌟 Features
+##  Features
 
 - Upload and classify images using a deep learning model (VGG19)
 - Login via Google and Facebook
 - Fetch and classify Instagram images using Apify
-- Play a "Guess the Tourism" game
 - Submit feedback to improve model accuracy
 - View classification confidence score
 
 ------------------------------------------------------------
 
-## 🧠 Tech Stack
+## Tech Stack
 
 - React (CRA)  
 - React Router DOM  
