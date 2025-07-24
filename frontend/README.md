@@ -75,9 +75,3 @@ Visit: [http://localhost:3000](http://localhost:3000)
 - Standard CSS
 
 ------------------------------------------------------------
-
-## ✍️ Author
-
-**Fadi Andrawis**  
-B.Sc. Computer Science, 2025  
-Sami Shamoon College of Engineering (SCE)
