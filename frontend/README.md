@@ -1,4 +1,3 @@
-```
 # 📸 VISTA Frontend – React App (CRA)
 
 This folder contains the frontend of the **VISTA** project, built with **Create React App (CRA)**.  
@@ -70,10 +69,8 @@ npm test        → Run test suite (if implemented)
 - Standard CSS
 
 ------------------------------------------------------------
-```
 ## ✍️ Author
 
 Fadi Andrawis  
 B.Sc. Computer Science, 2025  
 Sami Shamoon College of Engineering (SCE)
-```
