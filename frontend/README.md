@@ -3,7 +3,7 @@
 
 This folder contains the frontend of the **VISTA** project, built with **Create React App (CRA)**.  
 It allows users to upload and classify images, fetch Instagram images by hashtag, submit feedback, log in via Google or Facebook, and view classification results.
-
+```
 ------------------------------------------------------------
 
 ## 📁 Folder Overview
@@ -70,7 +70,7 @@ npm test        → Run test suite (if implemented)
 - Standard CSS
 
 ------------------------------------------------------------
-
+```
 ## ✍️ Author
 
 Fadi Andrawis  
