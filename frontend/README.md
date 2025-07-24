@@ -23,7 +23,7 @@ REACT_APP_FACEBOOK_APP_ID=your-facebook-app-id
 
 ------------------------------------------------------------
 
-## 🛠️ Getting Started Locally
+##  Getting Started Locally
 
 1. Clone the repository:
 
