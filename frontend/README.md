@@ -1,7 +1,9 @@
+```
 # 📸 VISTA Frontend – React App (CRA)
 
 This folder contains the frontend of the **VISTA** project, built with **Create React App (CRA)**.  
 It allows users to upload and classify images, fetch Instagram images by hashtag, submit feedback, log in via Google or Facebook, and view classification results.
+
 ------------------------------------------------------------
 
 ## 📁 Folder Overview
@@ -10,7 +12,7 @@ It allows users to upload and classify images, fetch Instagram images by hashtag
 - src/images/ – Image assets (logo, icons, etc.)
 - App.js, index.js – App entry points
 - .env.local – Environment variables (see below)
-```
+
 ------------------------------------------------------------
 
 ## ⚙️ Environment Variables (.env.local)
@@ -68,8 +70,10 @@ npm test        → Run test suite (if implemented)
 - Standard CSS
 
 ------------------------------------------------------------
+
 ## ✍️ Author
 
 Fadi Andrawis  
 B.Sc. Computer Science, 2025  
 Sami Shamoon College of Engineering (SCE)
+```
