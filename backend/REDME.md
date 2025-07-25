@@ -73,3 +73,9 @@ API runs on: [http://localhost:8000](http://localhost:8000)
 - POST /api/instagram/ – Fetch Instagram images by hashtag  
 
 ---
+
+
+## Credits
+
+- Instagram hashtag scraping powered by [Apify](https://apify.com/)
+
