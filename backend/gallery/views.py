@@ -33,18 +33,28 @@ from connectgmail.models import gmail_users
 
 # ✅ הגדרת הנתיב למודל
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
-MODEL_PATH = os.path.join(BASE_DIR, "../vista-model/classification/predict_image_demonstration/view_model_round_3.h5")
-print(f"🔹 Trying to load model from: {MODEL_PATH}")  
+ 
 
-# ✅ טעינת המודל
-model = tf.keras.models.load_model(MODEL_PATH)
-print("✅ Model loaded successfully!")
+model = None  # משתנה גלובלי
+
+def get_model():
+    global model
+    if model is None:
+        print("🔹 Loading model on demand...")
+        model_path = os.path.join(BASE_DIR, "../vista-model/classification/predict_image_demonstration/view_model_round_3.h5")
+        model = tf.keras.models.load_model(model_path)
+        print("✅ Model loaded!")
+    return model
+
 
 
 @csrf_exempt
 def classify_image(request):
+    
     if request.method == "POST" and request.FILES.get("image"):
         try:
+            model = get_model()
+
             # 🔹 זיהוי המשתמש
             user = get_user_from_session(request)
             user_info = f"{user.username} ({user.email})" if user else "Anonymous"
