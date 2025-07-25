@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# VISTA Frontend – React App (CRA)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This folder contains the frontend of the **VISTA** project, built with **Create React App (CRA)**.  
+It allows users to upload and classify images, fetch Instagram images by hashtag, submit feedback, log in via Google or Facebook, and view classification results.
 
-## Available Scripts
+------------------------------------------------------------
 
-In the project directory, you can run:
+## Folder Overview
 
-### `npm start`
+- `src/components/` – Main components (Login, Gallery, ModelTest, etc.)
+- `src/images/` – Image assets (logo, icons, etc.)
+- `App.js`, `index.js` – App entry points
+- `.env.local` – Environment variables (see below)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+------------------------------------------------------------
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+##  Environment Variables (.env.local)
 
-### `npm test`
+```
+REACT_APP_GOOGLE_CLIENT_ID=your-google-client-id  
+REACT_APP_FACEBOOK_APP_ID=your-facebook-app-id  
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+------------------------------------------------------------
 
-### `npm run build`
+##  Getting Started Locally
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+git clone https://github.com/your-username/vista.git  
+cd vista/frontend
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies:
 
-### `npm run eject`
+```
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Start the development server:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Visit: [http://localhost:3000](http://localhost:3000)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+------------------------------------------------------------
 
-## Learn More
+##  Available Scripts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `npm start` – Run app in development mode  
+- `npm run build` – Build app for production (output to `build/`)  
+- `npm test` – Run test suite (if implemented)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+------------------------------------------------------------
 
-### Code Splitting
+##  Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Upload and classify images using a deep learning model (VGG19)
+- Login via Google and Facebook
+- Fetch and classify Instagram images using Apify
+- Submit feedback to improve model accuracy
+- View classification confidence score
 
-### Analyzing the Bundle Size
+------------------------------------------------------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Tech Stack
 
-### Making a Progressive Web App
+- React (CRA)  
+- React Router DOM  
+- Axios  
+- Google Identity / Facebook SDK  
+- Standard CSS
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+------------------------------------------------------------
