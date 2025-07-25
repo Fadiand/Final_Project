@@ -1,4 +1,4 @@
-# 🔙 VISTA Backend – Django Project
+# VISTA Backend – Django Project
 
 This folder contains the backend of the **VISTA** project, built using **Django**.  
 It provides the API for image upload/classification, Instagram scraping, user authentication via Google/Facebook, and feedback submission.
@@ -19,28 +19,25 @@ It provides the API for image upload/classification, Instagram scraping, user au
 
 ---
 
-## ⚙️ Environment Variables (.env)
+## Environment Variables (.env)
 
-Create a .env file in the root of the backend/ folder and include the following variables:
-
-#Instagram Scraper
+```env
+# Instagram Scraper
 INSTAGRAM_SESSIONID=your-instagram-session-id
 APIFY_API_TOKEN=your-apify-token
 
-#Email Settings (for sending feedback or notifications)
+# Email Settings (for sending feedback or notifications)
 EMAIL_HOST_USER=your-email@example.com
 EMAIL_HOST_PASSWORD=your-email-password
 
-#Facebook OAuth
+# Facebook OAuth
 FACEBOOK_KEY=your-facebook-app-id
 FACEBOOK_SECRET=your-facebook-app-secret
 
-#Google OAuth
+# Google OAuth
 GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
-
->  These values are loaded in settings.py using os.environ.get("VAR_NAME")  
-> ⚠ Never push .env to GitHub – make sure it's in .gitignore
+```
 
 
 ##  Running Locally
