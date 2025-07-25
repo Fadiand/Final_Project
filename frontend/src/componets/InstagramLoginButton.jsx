@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function InstagramHashtagClassifier() {
   const [hashtag, setHashtag] = useState("");
   const [fetchedImages, setFetchedImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    try {
+      const session = savedUser ? JSON.parse(savedUser).session_id : null;
+      setSessionId(session);
+    } catch {
+      setSessionId(null);
+    }
+  }, []);
 
   const handleSearchClick = async () => {
     if (!hashtag.trim()) {
@@ -49,6 +60,29 @@ function InstagramHashtagClassifier() {
       state: { imageUrls: fetchedImages.map((img) => img.proxy) },
     });
   };
+
+  if (!sessionId) {
+    return (
+      <div style={{ textAlign: "center", padding: "50px" }}>
+        <h2> Please log in to use the Instagram Classifier</h2>
+        <button
+          onClick={() => navigate("/login")}
+          style={{
+            padding: "10px 20px",
+            marginTop: "20px",
+            fontSize: "16px",
+            backgroundColor: "#0095f6",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer"
+          }}
+        >
+          Go to Login
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="ig" style={{ 

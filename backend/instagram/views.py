@@ -110,7 +110,7 @@ def fetch_instagram_images(request):
             run_input = {
                 "hashtags": [hashtag],
                 "resultsType": "posts", 
-                "resultsLimit": 1,
+                "resultsLimit": 10,
             }
 
             run = client.actor("apify/instagram-hashtag-scraper").call(run_input=run_input)

@@ -1,24 +1,23 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import logo from "../images/Logo_pic.png";
+import logo from "../images/Logo.png";
 import { useUser } from "./UserContext"; // חיבור ל-UserContext
 import React, { useMemo } from 'react';
-
-
+import LogOut from "./buttons/LogOut";
 
 export default function NavBar() {
   const { user, setUser } = useUser(); // קבלת המידע על המשתמש
   const navigate = useNavigate();
 
- const displayName = useMemo(() => {
-  return user?.username || user?.name || user?.email?.split("@")[0] || "Guest";
-}, [user]);
+  const displayName = useMemo(() => {
+    return user?.username || user?.name || user?.email?.split("@")[0] || "Guest";
+  }, [user]);
+  
+  console.log("Is_superviser:", user?.Is_superviser);
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    
+  const handleAnimationEnd = async () => {
     try {
       const userData = JSON.parse(localStorage.getItem("user")); // מקבל את הנתונים מה-LocalStorage
-  
+
       const response = await fetch("http://localhost:8000/api/logout/", {
         method: "POST",
         headers: {
@@ -26,15 +25,15 @@ export default function NavBar() {
         },
         credentials: "include", // שולח את ה-Cookies לשרת
         body: JSON.stringify({
-          username: userData.username || null, // שולח username אם קיים
-          email: userData.email || null, // שולח email אם קיים
+          username: userData?.username || null,
+          email: userData?.email || null,
         }),
       });
-  
+
       if (response.ok) {
         setUser(null);
         localStorage.removeItem("user");
-        navigate("/");
+        navigate("/"); // רק אחרי שהכל נגמר
       } else {
         const errorData = await response.json();
         console.error("Logout failed:", errorData.error);
@@ -45,8 +44,7 @@ export default function NavBar() {
       alert("An error occurred. Please try again.");
     }
   };
-  
-  
+
   return (
     <nav className="navbar-container">
       <ul className="navbar">
@@ -108,34 +106,24 @@ export default function NavBar() {
             Contact
           </NavLink>
         </li>
-        
-        
 
-        
         {user && user.is_superviser && (
-        <li className="navbar-item">
-        <NavLink
-          to="/admin-dashboard"
-          className={({ isActive }) => (isActive ? "active" : "")}
-           >
-           Admin
-          </NavLink>
+          <li className="navbar-item">
+            <NavLink
+              to="/admin-dashboard"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Admin
+            </NavLink>
           </li>
-          )}
+        )}
 
         {/* כפתורים */}
         <li className="navbar-item buttons">
           {user ? (
             <>
-                <span className="welcome-message">Hi, {displayName}</span>
-              <a
-                href="/"
-                onClick={handleLogout}
-
-                className="navbar-logout"
-              >
-                Logout
-              </a>
+              <span className="welcome-message">Hi, {displayName}</span>
+              <LogOut onAnimationEnd={handleAnimationEnd} />
             </>
           ) : (
             <>
@@ -157,5 +145,4 @@ export default function NavBar() {
       </ul>
     </nav>
   );
-
 }

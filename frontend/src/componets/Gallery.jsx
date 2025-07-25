@@ -132,9 +132,17 @@ const UploadOptions = () => {
       alert("Please select at least one image to classify.");
       return;
     }
-    navigate("/model_test", { state: { imageUrls: selectedImages } });
+  
+    const imagesToClassify = uploadedImages
+      .filter((img) => selectedImages.includes(`http://localhost:8000${img.image}`))
+      .map((img) => ({
+        id: img.id,
+        imageUrl: `http://localhost:8000${img.image}`,
+      }));
+  
+    navigate("/model_test", { state: { imagesToClassify } });
   };
-
+  
   const handleSelectAll = () => {
     if (selectedImages.length === uploadedImages.length) {
       setSelectedImages([]);

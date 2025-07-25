@@ -8,6 +8,7 @@ from .serializers import ImageUserSerializer
 import zipfile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.sessions.backends.db import SessionStore
+from urllib.parse import urlparse
 
 from signup_app.models import User
 
@@ -26,7 +27,6 @@ import requests
 from io import BytesIO
 from connectfacebook.models import facebook_users  
 from connectgmail.models import gmail_users
-
 
 
 
@@ -228,3 +228,40 @@ def delete_image(request, image_id):
 
     except Exception as e:
         return Response({'error': f'Failed to delete image: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+from urllib.parse import urlparse
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def submit_feedback(request):
+    try:
+        user = get_user_from_session(request)
+        if not user:
+            return Response({"error": "Authentication failed"}, status=status.HTTP_403_FORBIDDEN)
+
+        data = request.data
+        print("🟡 RAW FEEDBACK DATA:", data)
+
+        image_url = data.get("image_url")
+        feedback = data.get("feedback")
+        print("🟢 image_url:", image_url)
+        print("🟢 feedback:", feedback)
+
+        if not image_url or feedback not in ["like", "dislike"]:
+            return Response({"error": "Missing or invalid parameters"}, status=status.HTTP_400_BAD_REQUEST)
+
+        relative_path = urlparse(image_url).path.replace("/media/", "")
+        print("🔵 relative_path:", relative_path)
+
+        image = Image_user.objects.filter(user=user, image=relative_path).first()
+        if not image:
+            return Response({"error": "Image not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        image.feedback = feedback
+        image.save()
+
+        return Response({"success": True, "message": f"Feedback '{feedback}' saved for image {image.id}"}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

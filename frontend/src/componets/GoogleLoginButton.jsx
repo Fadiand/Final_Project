@@ -80,7 +80,14 @@ const GoogleLoginButton = () => {
             padding: "10px 20px",
             cursor: "pointer",
             transition: "transform 0.2s",
+            
           }}
+          width="199"
+          shape="pill"
+          text="signin_with"
+          theme="outline"
+          locale="en"
+          useOneTap={true}
         />
       </div>
     </GoogleOAuthProvider>

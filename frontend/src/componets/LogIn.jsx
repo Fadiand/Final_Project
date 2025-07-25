@@ -66,7 +66,6 @@ function LogIn() {
   };
 
   const changepath = () => {
-    nav("/")
   }
 
   const nav = useNavigate();

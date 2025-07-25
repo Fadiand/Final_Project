@@ -8,6 +8,12 @@ class Image_user(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)  # חותמת זמן אוטומטית
     classification = models.CharField(max_length=20, choices=[("תיירות", "תיירות"), ("לא תיירות", "לא תיירות")], null=True)
     confidence = models.FloatField(null=True, blank=True)  # שמירת רמת הביטחון בסיווג
+    feedback = models.CharField(
+    max_length=10,
+    choices=[("like", "Like"), ("dislike", "Dislike")],
+    null=True,
+    blank=True
+)
 
     def __str__(self):
         return f"{self.user.username if self.user else 'Anonymous'} - {self.classification} - {self.image.name}"

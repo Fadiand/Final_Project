@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import CitationBlock from "./CitationBlock";
 function About() {
   const [highlightedSection, setHighlightedSection] = useState(null);
 
@@ -61,6 +61,9 @@ function About() {
             <li>Simplifies the travel planning process by curating relevant information.</li>
           </ul>
         </div>
+        
+        <CitationBlock />
+
         <p className="about-summary">
           With VISTA tourists can navigate Instagram’s overwhelming content and find authentic, valuable insights that enhance their travel experience.
         </p>
