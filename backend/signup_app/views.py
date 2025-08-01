@@ -113,9 +113,9 @@ class SignUpView(View):
                 key='sessionid',
                 value=session.session_key,
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
-                httponly=False,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
-                secure=False,  # אין HTTPS, אז False
-                samesite="Lax"  # ביטול SameSite לחלוטין
+                httponly=True  ,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
+                secure=True  ,  # אין HTTPS, אז False
+                samesite="None"  # ביטול SameSite לחלוטין
 )
 
             print(f"User created: {user.username}, {user.email}, session_id: {session.session_key}")
@@ -180,9 +180,9 @@ class LoginView(View):
                 key='sessionid',
                 value=session.session_key,
                 max_age=3 * 24 * 60 * 60,  # חיי עוגייה - 3 ימים
-                httponly=False,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
-                secure=False,  # אין HTTPS, אז False
-                samesite="Lax"  # ביטול SameSite לחלוטין
+                httponly=True  ,  # הפוך ל-False אם אתה רוצה לבדוק ב-JS
+                secure=True  ,  # אין HTTPS, אז False
+                samesite="None"  # ביטול SameSite לחלוטין
                 )
             return response
             

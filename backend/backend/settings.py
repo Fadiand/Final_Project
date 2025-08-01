@@ -271,9 +271,9 @@ CORS_ALLOW_CREDENTIALS = True  # מאפשר credentials
 CORS_ORIGIN_ALLOW_ALL = False  # חסום את כל המקורות כברירת מחדל
 
 # נוודא שהעוגיות יישלחו גם ב-HTTP רגיל
-SESSION_COOKIE_SECURE = False  # אם אתה ב-HTTPS שנה את זה ל-True
+SESSION_COOKIE_SECURE = True  # אם אתה ב-HTTPS שנה את זה ל-True
 SESSION_COOKIE_HTTPONLY = True  # הגנה על העוגיה מגישה דרך JavaScript
-SESSION_COOKIE_SAMESITE = 'Lax'  # כדי שהעוגיה לא תיחסם ע"י דפדפנים (אם עדיין לא עובד נסה 'None')
+SESSION_COOKIE_SAMESITE = 'None'  # כדי שהעוגיה לא תיחסם ע"י דפדפנים (אם עדיין לא עובד נסה 'None')
 
 # נוודא שה-Session לא נמחק כאשר הדפדפן נסגר
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -281,6 +281,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # זמן חיי ה-Session בימים (כאן זה 3 ימים)
 SESSION_COOKIE_AGE = 3 * 24 * 60 * 60
 
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
