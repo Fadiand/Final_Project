@@ -33,7 +33,6 @@ httpcore==1.0.7
 httpx==0.28.1
 idna==3.10
 instaloader==4.14
-keras==3.8.0
 libclang==18.1.1
 Markdown==3.7
 markdown-it-py==3.0.0
@@ -42,7 +41,7 @@ mdurl==0.1.2
 ml-dtypes==0.4.1
 more-itertools==10.6.0
 namex==0.0.8
-numpy==2.0.2
+numpy==1.26.4
 oauthlib==3.2.2
 opt_einsum==3.4.0
 optree==0.14.0
