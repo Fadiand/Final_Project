@@ -36,9 +36,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, "../vista-model/classification/predict_image_demonstration/view_model_round_3.h5")
 print(f"🔹 Trying to load model from: {MODEL_PATH}")  
 
-# ✅ טעינת המודל
-model = tf.keras.models.load_model(MODEL_PATH)
-print("✅ Model loaded successfully!")
+# מחוץ לפונקציה – אתחול משתנה מטמון
+model = None
+
+def load_model_once():
+    global model
+    if model is None:
+        print("🔄 Loading model...")
+        model = tf.keras.models.load_model(MODEL_PATH)
+        print("✅ Model loaded!")
+    return model
 
 
 @csrf_exempt
@@ -56,35 +63,38 @@ def classify_image(request):
 
             # 🔹 המרת הקובץ לתמונה בפורמט RGB
             image = Image.open(image_file).convert("RGB")
-            image = image.resize((224, 224))  
-            image_array = np.array(image)  
-            image_array = np.expand_dims(image_array, axis=0)  
+            image = image.resize((224, 224))
+            image_array = np.array(image)
+            image_array = np.expand_dims(image_array, axis=0)
 
             # ✅ בדיקה שהתמונה מעובדת נכון
             print(f"🔹 תמונה עובדה בהצלחה: צורה {image_array.shape}")
 
-            # 🔹 הרצת התמונה דרך המודל
-            prediction = model.predict(image_array)[0]  
-            predicted_class = np.argmax(prediction)  
+            # ✅ טעינת המודל פעם אחת בלבד
+            model_loaded = load_model_once()
+            prediction = model_loaded.predict(image_array)[0]
+            predicted_class = np.argmax(prediction)
 
             # 🔹 הגדרת תוצאה
             classification = "תיירות" if predicted_class == 1 else "לא תיירות"
-            confidence = float(prediction[predicted_class])  
+            confidence = float(prediction[predicted_class])
 
             # ✅ הדפסת תוצאת המודל לטרמינל
             print(f"🟢 תוצאה: {classification}, ביטחון: {confidence:.4f}")
 
             return JsonResponse({
-                "user": user_info,  # ✅ מחזיר את המשתמש (אם מזוהה)
+                "user": user_info,
                 "classification": classification,
                 "confidence": confidence,
-                "raw_output": prediction.tolist()  
+                "raw_output": prediction.tolist()
             })
 
         except Exception as e:
+            print(f"❌ שגיאה: {str(e)}")
             return JsonResponse({"error": str(e)}, status=400)
 
     return JsonResponse({"error": "שלח תמונה בפורמט POST"}, status=400)
+
 
 
 # 🔹 פונקציה לזיהוי משתמש דרך ה-Session וה-Cookies
