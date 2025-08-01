@@ -21,7 +21,7 @@ django-rest-framework==0.1.0
 djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
 flatbuffers==25.2.10
-gast==0.6.0
+gast<=0.4.0
 git-filter-repo==2.47.0
 google-auth==2.37.0
 google-pasta==0.2.0
