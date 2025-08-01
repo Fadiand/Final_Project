@@ -28,3 +28,6 @@ tzdata==2024.2
 urllib3==2.3.0
 gunicorn==23.0.0
 beautifulsoup4==4.12.3
+apify-client==1.6.0
+tensorflow-cpu==2.15.0
+

@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-l0apg_hs809w*k+a5_f7hjm#2a&mmg0d0p_zouo6y$kt4kf%=j
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['21ac-207-232-14-60.ngrok-free.app', '127.0.0.1', 'localhost', '.ngrok-free.app','6667-2a06-c701-9b59-5f00-2c05-9dd2.ngrok-free.app', ]
+ALLOWED_HOSTS = ['21ac-207-232-14-60.ngrok-free.app', '127.0.0.1', 'localhost', '.ngrok-free.app','6667-2a06-c701-9b59-5f00-2c05-9dd2.ngrok-free.app','final-project-ggdo.onrender.com',    '688907604219758a867839a8--silly-daifuku-ed7821.netlify.app', ]
 
 
 # Application definition
