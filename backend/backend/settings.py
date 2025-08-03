@@ -137,15 +137,17 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.common.CommonMiddleware',
+
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 ]
+
 
 
 ROOT_URLCONF = 'backend.urls'
@@ -271,15 +273,18 @@ CORS_ALLOW_CREDENTIALS = True  # מאפשר credentials
 CORS_ORIGIN_ALLOW_ALL = False  # חסום את כל המקורות כברירת מחדל
 
 # נוודא שהעוגיות יישלחו גם ב-HTTP רגיל
-SESSION_COOKIE_SECURE = False  # אם אתה ב-HTTPS שנה את זה ל-True
+SESSION_COOKIE_SECURE = True  # אם אתה ב-HTTPS שנה את זה ל-True
 SESSION_COOKIE_HTTPONLY = True  # הגנה על העוגיה מגישה דרך JavaScript
-SESSION_COOKIE_SAMESITE = 'Lax'  # כדי שהעוגיה לא תיחסם ע"י דפדפנים (אם עדיין לא עובד נסה 'None')
+SESSION_COOKIE_SAMESITE = 'None'  # כדי שהעוגיה לא תיחסם ע"י דפדפנים (אם עדיין לא עובד נסה 'None')
 
 # נוודא שה-Session לא נמחק כאשר הדפדפן נסגר
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # זמן חיי ה-Session בימים (כאן זה 3 ימים)
 SESSION_COOKIE_AGE = 3 * 24 * 60 * 60
+
+CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SECURE = True
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
